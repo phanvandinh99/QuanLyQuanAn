@@ -1,0 +1,56 @@
+﻿@using QuanLyNhaHang.Models
+@model NguyenLieu
+@{
+    ViewBag.Title = "XemChiTiet";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+<div class="container">
+    <div class="page-title-container">
+        <div class="row g-0">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5">
+        <h2 class="small-title">Thông Tin Chi Tiết Sản Phẩm</h2>
+        <div class="card mb-2">
+            <div class="row g-0 card-body">
+                <div class="col">
+                    <div class="ps-4">
+                        <div class="row mb-1">
+                            <div class="col">
+                                <div class="heading text-primary mb-1">Mã: @Model.MaNguyenLieu</div>
+                                <div class="mb-3">Tên Nguyên Liệu: @Model.TenNguyenLieu</div>
+                                @if (Model.MaLNL_id == 4)
+                                {
+                                    <div class="mb-3">Số Lượng: @Model.SoLuongHienCon Chai</div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">Số Lượng: @Model.SoLuongHienCon kg</div>
+                                }
+                                <div class="mb-3">Ghi Chú: @Model.GhiChu</div>
+                                @if (Model.GiaNhapCuoi != 0)
+                                {
+                                    <div class="mb-3">Giá Nhập Cuối: @string.Format("{0:0,0}", Model.GiaNhapCuoi) vnđ</div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">Giá Nhập Cuối:  0 vnđ</div>
+                                }
+                                <div class="mb-3">Loại Nguyên Liệu: @Model.LoaiNguyenLieu.TenLNL</div>
+                            </div>
+                            <div>
+                                <a href="/NhanVienKho/NguyenLieu/ListNguyenLieu" class="btn btn-danger">Trở Về</a>
+                                <a href="/NhanVienKho/NguyenLieu/CapNhat?iMaNguyenLieu=@Model.MaNguyenLieu" class="btn btn-primary">Cập Nhật</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

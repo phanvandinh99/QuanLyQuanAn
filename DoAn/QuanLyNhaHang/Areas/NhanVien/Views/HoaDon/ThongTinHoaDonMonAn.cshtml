@@ -1,0 +1,484 @@
+﻿@using QuanLyNhaHang.Models
+@model HoaDon
+@{
+    ViewBag.Title = "Thông Tin Hóa Đơn";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+<!-- #region Danh sách khác -->
+@{
+    IEnumerable<LoaiMonAn> listLoaiMonAn = (IEnumerable<LoaiMonAn>)ViewBag.LoaiMonAn;
+    IEnumerable<MonAn> listMonAn = (IEnumerable<MonAn>)ViewBag.DanhSachMonAn;
+    IEnumerable<ChiTietHoaDon> listMonAnKhachChon = (IEnumerable<ChiTietHoaDon>)ViewBag.MonAnKhachChon;
+    IEnumerable<Ban> listBan = (IEnumerable<Ban>)ViewBag.Ban;
+}
+
+<!-- #endregion -->
+<div class="container" id="DanhSachMonAn">
+    <div class="page-title-container">
+        <div class="row">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Thông Tin Hóa Đơn</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg order-1 order-lg-0">
+            <h2 class="small-title">Món Đã Gọi</h2>
+            <div class="mb-5">
+                <!-- #region Hiển Thị Danh Sách Món Đã Gọi -->
+                @if (ViewBag.SoLuongMonAn != 0)
+                {
+                    <span style="color:red; text-align:center;display:block;">@ViewBag.ThongBao</span>
+                    foreach (var item in listMonAnKhachChon)
+                    {
+                        <div class="card mb-2">
+                            <div class="row g-0 sh-18 sh-md-14">
+                                <div class="col-auto">
+                                    <img src="~/Assets/img/AnhMonAn/@item.MonAn.HinhAnh" style="height:112px" class="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="@item.MonAn.TenMonAn">
+                                </div>
+                                <div class="col position-relative h-100">
+                                    <div class="card-body">
+                                        <div class="row h-100">
+                                            <div class="col-12 col-md-6 mb-2 mb-md-0 d-flex align-items-center">
+                                                <div class="pt-0 pb-0 pe-2">
+                                                    <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn_id" target="_blank">
+                                                        <div class="h6 mb-0 clamp-line" data-line="1" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1;">
+                                                            @item.MonAn.TenMonAn
+                                                        </div>
+                                                    </a>
+                                                    <div class="text-muted text-small">@item.MonAn.LoaiMonAn.TenLMA</div>
+                                                    <div class="mb-0 sw-19">@string.Format("{0:0,0}", item.MonAn.DonGia) vnđ</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 col-md-3 pe-0 d-flex align-items-center">
+                                                @using (Html.BeginForm("CapNhatSoLuong", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @iMaMonAn = item.MaMonAn_id, @strURL = Request.Url.ToString() }))
+                                                {
+                                                    <div class="input-group" data-trigger="spinner">
+                                                        <input value="@item.SoLuongMua" type="number" min="0" style="width: 50px; border: 1px solid #ed6789; text-align: center" name="txtSoLuongMua" />
+                                                        &nbsp;
+                                                        <input class="btn btn-primary" type="submit" value="cập nhật">
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="col-6 col-md-3 d-flex justify-content-end justify-content-md-start align-items-center">
+                                                <div class="h6 mb-0">@string.Format("{0:0,0}", item.ThanhTien) vnđ</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @using (Html.BeginForm("XoaMonAn", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @iMaMonAn = item.MaMonAn_id, @strURL = Request.Url.ToString() }))
+                                    {
+                                        <button class="btn btn-sm btn-icon btn-icon-only btn btn-foreground-alternate position-absolute t-2 e-2" type="submit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-error-hexagon"><path d="M9 2.57735C9.6188 2.22008 10.3812 2.22008 11 2.57735L15.9282 5.42265C16.547 5.77992 16.9282 6.44017 16.9282 7.1547V12.8453C16.9282 13.5598 16.547 14.2201 15.9282 14.5774L11 17.4226C10.3812 17.7799 9.6188 17.7799 9 17.4226L4.0718 14.5774C3.45299 14.2201 3.0718 13.5598 3.0718 12.8453V7.1547C3.0718 6.44017 3.45299 5.77992 4.0718 5.42265L9 2.57735Z"></path><path d="M8 12 12.0001 7.99994M8 7.99994 12.0001 12"></path></svg>
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <span>Khách chưa chọn món</span>
+                }
+                <!-- #endregion -->
+            </div>
+        </div>
+        <!-- #region Hiển Thị Hóa Đơn -->
+        <div class="col-12 col-lg-auto order-0 order-lg-1">
+            <h2 class="small-title">Hóa Đơn Khách Hàng</h2>
+            <!-- #region Khách Hàng -->
+            @if (ViewBag.SoLuongMonAn != 0)
+            {
+                <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
+                    <div class="card-body">
+
+                        @using (Html.BeginForm("CapNhatTenKhachHang", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @strURL = Request.Url.ToString() }))
+                        {
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Khách Hàng</label>
+                                    <input type="text" class="form-control mask-currency" placeholder="@Model.TenKhachHang" name="txtTenKhachhang">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Số Điện Thoại</label>
+                                    <input type="number" min="0" class="form-control mask-currency" value="@Model.SDTKhachHang" name="txtSoDienThoai">
+                                </div>
+                            </div>
+
+                            <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
+                                <span>Cập Nhật</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                            </button>
+                        }
+                        <br />
+                    </div>
+                </div>
+            }
+            <!-- #endregion -->
+            <!-- #region Hóa đơn -->
+            <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
+                <div class="card-body">
+                    @if (ViewBag.SoLuongMonAn != 0)
+                    {
+                        using (Html.BeginForm("ThanhToan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
+                        {
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
+                                </div>
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Giờ Vào: @string.Format("{0:hh:mm:ss tt}", Model.NgayTao)</p>
+                                </div>
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
+                                </div>
+                                @if (Model.Ban.Vip == 1)
+                                {
+                                    <div class="mb-2">
+                                        <label class="text-alternate text-muted mb-1">Phí Phòng Vip (%)</label>
+                                        <input type="number" min="0" max="100" class="form-control mask-currency" value="10" readonly="readonly">
+                                    </div>
+                                }
+                                @if (Model.TongHoaDon >= 5)
+                                {
+                                    <div class="mb-2">
+                                        <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
+                                        <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mb-2">
+                                        <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
+                                        <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang" readonly="readonly">
+                                    </div>
+                                }
+
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Giảm Giá (vnđ)</label>
+                                    <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGias">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Giảm Giá (%)</label>
+                                    <input type="number" min="0" max="100" class="form-control mask-currency" value="0" name="txtGiamGiaPhanTram" id="txtGiamGiaPhanTram">
+                                </div>
+
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
+                                    <div class="cta-2">
+                                        <span>
+                                            <input style="display:none" id="TongTienMonAn" value="@ViewBag.TongTienMonAn" />
+                                            <span id="TongTienMonAn" class="text-alternate text-muted cta-2">@string.Format("{0:0,0}", ViewBag.TongTienMonAn) vnđ</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
+                                <span>THANH TOÁN</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                            </button>
+                        }
+                        <br />
+                        <div class="mb-4">
+                            <div class="mb-2" style="text-align:justify">
+                                <button type="button" class="btn btn-outline-primary" style="display:inline; float:left" onclick="kiemtra()">Kiểm Tra</button>
+                                &nbsp;@*<a class="btn btn-outline-danger">In</a>*@
+                                <a class="btn btn-outline-primary" href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@Model.MaHoaDon" target="_blank">Chi Tiết</a>
+                                <button type="button" onclick="printDiv('print')" class="btn btn-outline-primary" style="margin-top:5px">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-print"><path d="M6.44444 15 5.52949 15C4.13332 15 3.43524 15 2.9322 14.6657 2.71437 14.5209 2.52706 14.3348 2.38087 14.1179 2.04325 13.6171 2.03869 12.919 2.02956 11.5229L2.02302 10.5229C2.01379 9.1101 2.00917 8.40371 2.34565 7.89566 2.49128 7.67577 2.67897 7.48685 2.8979 7.33979 3.40374 7 4.11015 7 5.52295 7L14.477 7C15.8899 7 16.5963 7 17.1021 7.33979 17.321 7.48685 17.5087 7.67577 17.6543 7.89566 17.9908 8.40371 17.9862 9.1101 17.977 10.5229L17.9704 11.5229C17.9613 12.919 17.9568 13.6171 17.6191 14.1179 17.4729 14.3348 17.2856 14.5209 17.0678 14.6657 16.5648 15 15.8667 15 14.4705 15L13.5556 15M15 7 15 3.75C15 3.04777 15 2.69665 14.8315 2.44443 14.7585 2.33524 14.6648 2.24149 14.5556 2.16853 14.3033 2 13.9522 2 13.25 2L6.75 2C6.04777 2 5.69665 2 5.44443 2.16853 5.33524 2.24149 5.24149 2.33524 5.16853 2.44443 5 2.69665 5 3.04777 5 3.75L5 7"></path><path d="M12.25 13C12.9522 13 13.3033 13 13.5556 13.1685C13.6648 13.2415 13.7585 13.3352 13.8315 13.4444C14 13.6967 14 14.0478 14 14.75L14 16.25C14 16.9522 14 17.3033 13.8315 17.5556C13.7585 17.6648 13.6648 17.7585 13.5556 17.8315C13.3033 18 12.9522 18 12.25 18L7.75 18C7.04777 18 6.69665 18 6.44443 17.8315C6.33524 17.7585 6.24149 17.6648 6.16853 17.5556C6 17.3033 6 16.9522 6 16.25L6 14.75C6 14.0478 6 13.6967 6.16853 13.4444C6.24149 13.3352 6.33524 13.2415 6.44443 13.1685C6.69665 13 7.04777 13 7.75 13L12.25 13Z"></path><path d="M7 10H6H5"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan | @Model.Ban.SoGhe Ghế</p>
+                                <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
+                            </div>
+                            <div class="mb-2">
+                                <p class="text-alternate text-muted mb-1">Ngày Vào: @Model.NgayTao</p>
+                            </div>
+                            <div class="mb-2">
+                                <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
+                            </div>
+                            <div class="mb-2">
+                                <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
+                                <div class="cta-2">
+                                    <span>
+                                        <span class="text-alternate text-muted cta-2">@string.Format("{0:0,0}", ViewBag.TongTienMonAn) vnđ</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        using (Html.BeginForm("HuyHoaDon", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
+                        {
+                            <button class="btn btn-icon btn-icon-end btn-danger w-100" type="submit">
+                                <span>Hủy</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                            </button>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
+                @using (Html.BeginForm("ChuyenBan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
+                {
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label class="text-alternate text-muted mb-1" style="text-align:center">Bàn @Model.Ban.TenBan | @Model.Ban.SoGhe ghế</label>
+                                <select class="form-select" name="Ban">
+                                    @foreach (var item in listBan)
+                                    {
+                                        if (item.TinhTrang == 1) //đã có người
+                                        {
+                                            <option style="color: red" value="@item.MaBan">Bàn @item.TenBan | @item.Tang.TenTang | @item.SoGhe ghế</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.MaBan" style="color:black">Bàn @item.TenBan | @item.Tang.TenTang | @item.SoGhe ghế</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
+                            <span>Chuyển Bàn</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                        </button>
+                        <br />
+                    </div>
+                }
+            </div>
+            <!-- #endregion -->
+        </div>
+
+        <!-- #endregion -->
+    </div>
+    <div class="row g-2 row-cols-2 row-cols-md-3 row-cols-xl-6" style="display:none">
+        <!-- #region Danh Mục Món Ăn -->
+        @foreach (var item in listLoaiMonAn)
+        {
+            <div class="col sh-19">
+                <div class="card h-100 hover-border-primary">
+                    <a class="card-body text-center" href="Storefront.Categories.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-pepper text-primary">
+                            <path d="M13 11.3333C13 15.0152 11.125 18 10 18C8.875 18 7 15.0152 7 11.3333C7 7.65144 7.29167 6 10 6C12.7083 6 13 7.65144 13 11.3333Z"></path>
+                            <path d="M11 17.5C12.4471 17.4093 16.1356 16.6825 16.7696 13.3675 17.4035 10.0525 18.6096 7.29223 14.9118 6.58509 13.5768 6.3298 13.119 6.7133 12.4304 7.00002M9 17.5C7.5529 17.4093 3.86436 16.6825 3.23041 13.3675 2.59647 10.0525 1.39044 7.29223 5.08821 6.58509 6.42318 6.3298 6.881 6.7133 7.56958 7.00002"></path>
+                            <path d="M10 6L9.37873 3.51493C9.15615 2.62459 8.35618 2 7.43845 2H7"></path>
+                        </svg>
+                        <p class="heading mt-3 text-body">@item.TenLMA</p>
+                        <div class="text-extra-small fw-medium text-muted"></div>
+                    </a>
+                </div>
+            </div>
+        }
+        <!-- #endregion -->
+    </div><br />
+    <!-- #region Tìm Kiếm -->
+    <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+            <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                <input class="form-control search" placeholder="Tìm Kiếm">
+                <span class="search-magnifier-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-search"><circle cx="9" cy="9" r="7"></circle><path d="M14 14L17.5 17.5"></path></svg>
+                </span>
+                <span class="search-delete-icon d-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-close"><path d="M5 5 15 15M15 5 5 15"></path></svg>
+                </span>
+            </div>
+        </div>
+        <!-- #region Danh sách món ăn -->
+        <div style="text-align:center; display:block;" class="row">
+            <div>
+                <a class="btn btn-outline-primary" style="margin-top:10px" href="/NhanVien/HoaDon/ThongTinHoaDon?iMaBan=@Model.MaBan_id">Tất Cả [@ViewBag.TatCa]</a>
+                @foreach (var item in listLoaiMonAn)
+                {
+                    <a class="btn btn-outline-primary" style="margin-top:10px" href="/NhanVien/HoaDon/ThongTinHoaDonMonAn?iMaBan=@Model.MaBan_id&iMaHoaDon=@Model.MaHoaDon&iMaLMA=@item.MaLMA">@item.TenLMA [@item.TongSoLuong]</a>
+                }
+            </div>
+        </div>
+        <br />
+        <!-- #endregion -->
+        <div class="col-sm-12 col-md-7 col-lg-9 col-xxl-10 text-end mb-1" style="display:none">
+            <div class="d-inline-block">
+                <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-delay="0" title="" type="button" data-bs-original-title="Print">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-print"><path d="M6.44444 15 5.52949 15C4.13332 15 3.43524 15 2.9322 14.6657 2.71437 14.5209 2.52706 14.3348 2.38087 14.1179 2.04325 13.6171 2.03869 12.919 2.02956 11.5229L2.02302 10.5229C2.01379 9.1101 2.00917 8.40371 2.34565 7.89566 2.49128 7.67577 2.67897 7.48685 2.8979 7.33979 3.40374 7 4.11015 7 5.52295 7L14.477 7C15.8899 7 16.5963 7 17.1021 7.33979 17.321 7.48685 17.5087 7.67577 17.6543 7.89566 17.9908 8.40371 17.9862 9.1101 17.977 10.5229L17.9704 11.5229C17.9613 12.919 17.9568 13.6171 17.6191 14.1179 17.4729 14.3348 17.2856 14.5209 17.0678 14.6657 16.5648 15 15.8667 15 14.4705 15L13.5556 15M15 7 15 3.75C15 3.04777 15 2.69665 14.8315 2.44443 14.7585 2.33524 14.6648 2.24149 14.5556 2.16853 14.3033 2 13.9522 2 13.25 2L6.75 2C6.04777 2 5.69665 2 5.44443 2.16853 5.33524 2.24149 5.24149 2.33524 5.16853 2.44443 5 2.69665 5 3.04777 5 3.75L5 7"></path><path d="M12.25 13C12.9522 13 13.3033 13 13.5556 13.1685C13.6648 13.2415 13.7585 13.3352 13.8315 13.4444C14 13.6967 14 14.0478 14 14.75L14 16.25C14 16.9522 14 17.3033 13.8315 17.5556C13.7585 17.6648 13.6648 17.7585 13.5556 17.8315C13.3033 18 12.9522 18 12.25 18L7.75 18C7.04777 18 6.69665 18 6.44443 17.8315C6.33524 17.7585 6.24149 17.6648 6.16853 17.5556C6 17.3033 6 16.9522 6 16.25L6 14.75C6 14.0478 6 13.6967 6.16853 13.4444C6.24149 13.3352 6.33524 13.2415 6.44443 13.1685C6.69665 13 7.04777 13 7.75 13L12.25 13Z"></path><path d="M7 10H6H5"></path></svg>
+                </button>
+                <div class="d-inline-block">
+                    <button class="btn p-0" data-bs-toggle="dropdown" type="button" data-bs-offset="0,3">
+                        <span class="btn btn-icon btn-icon-only btn-foreground-alternate shadow dropdown" data-bs-delay="0" data-bs-placement="top" data-bs-toggle="tooltip" title="" data-bs-original-title="Export">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-download"><path d="M2 14V14.5C2 15.9045 2 16.6067 2.33706 17.1111C2.48298 17.3295 2.67048 17.517 2.88886 17.6629C3.39331 18 4.09554 18 5.5 18H14.5C15.9045 18 16.6067 18 17.1111 17.6629C17.3295 17.517 17.517 17.3295 17.6629 17.1111C18 16.6067 18 15.9045 18 14.5V14"></path><path d="M14 10 10.7071 13.2929C10.3166 13.6834 9.68342 13.6834 9.29289 13.2929L6 10M10 2 10 13"></path></svg>
+                        </span>
+                    </button>
+                    <div class="dropdown-menu shadow dropdown-menu-end">
+                        <button class="dropdown-item export-copy" type="button">Copy</button>
+                        <button class="dropdown-item export-excel" type="button">Excel</button>
+                        <button class="dropdown-item export-cvs" type="button">Cvs</button>
+                    </div>
+                </div>
+                <div class="dropdown-as-select d-inline-block" data-childselector="span">
+                    <button class="btn p-0 shadow" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bs-offset="0,3">
+                        <span class="btn btn-foreground-alternate dropdown-toggle" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-delay="0" title="" data-bs-original-title="Item Count">10 Items</span>
+                    </button>
+                    <div class="dropdown-menu shadow dropdown-menu-end">
+                        <a class="dropdown-item" href="#">5 Items</a>
+                        <a class="dropdown-item active" href="#">10 Items</a>
+                        <a class="dropdown-item" href="#">20 Items</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #endregion -->
+    <!-- #region Danh Sách Sản Phẩm Chọn -->
+    <div class="row g-2 row-cols-1 row-cols-md-2 row-cols-xl-2 row-cols-xxl-3 mb-5 list">
+        @foreach (var item in listMonAn)
+        {
+            <div class="col">
+                <div class="card">
+                    <div class="row g-0 sh-16 sh-sm-17">
+                        <div class="col-auto h-100 position-relative">
+                            <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" alt="@item.TenMonAn" class="card-img card-img-horizontal h-100 sw-11 sw-sm-16 sw-lg-20">
+                        </div>
+                        <div class="col p-0">
+                            <div class="card-body d-flex align-items-center h-100 py-3">
+                                <div class="mb-0 h6">
+                                    @using (Html.BeginForm("Order", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @iMaMonAn = item.MaMonAn, @strURL = Request.Url.ToString() }))
+                                    {
+                                        <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn" target="_blank">
+                                            <div class="clamp-line sh-3 lh-1-5 TenMonAn" data-line="1" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1;">@item.TenMonAn</div>
+                                        </a>
+                                        <div class="card-text mb-2 GiaBan">
+                                            <div> @string.Format("{0:0,0}", item.DonGia) vnđ</div>
+                                        </div>
+                                        <div class="d-inline-block">
+                                            <input value="1" type="number" min="1" style="width: 50px; border: 1px solid red; line-height: 32px; border-radius: 10px 0px 0px 10px; text-align:center" name="txtSoLuongThem" />&nbsp;
+                                            <input type="submit" style="cursor:pointer;float:right; border-radius: 0px 10px 10px 0px" value="Thêm" class="btn btn-outline-danger">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <!-- #region Phân Trang -->
+    <div class="w-100 d-flex justify-content-center"><nav><ul class="pagination"></ul></nav></div>
+    <!-- #endregion -->
+    <!-- #endregion -->
+</div>
+<!-- #region Phần hóa đơn in -->
+<!-- #region Hiển Thị Hóa Đơn -->
+<div class="col-12 col-lg-auto order-0 order-lg-1" id="print" style="display:none">
+    <div class="card mb-5 w-100 sw-lg-35">
+        <div class="card-body">
+            <div class="mb-4">
+                <div class="mb-2" style="text-align:center">
+                    <label class="text-alternate text-muted mb-1">HÓA ĐƠN</label><br />
+                    <label class="text-alternate text-muted mb-1">--------------o0o--------------</label>
+                </div>
+                <div class="mb-2">
+                    <p class="text-alternate text-muted mb-1">KH: @Model.TenKhachHang</p>
+                    <p class="text-alternate text-muted mb-1">SDT: @Model.SDTKhachHang</p>
+                    <p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan</p>
+                    <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
+                </div>
+                <div class="mb-2">
+                    <p class="text-alternate text-muted mb-1">Ngày Vào: @Model.NgayTao</p>
+                </div>
+                <div class="mb-2">
+                    <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
+                </div>
+
+                <div class="mb-2">
+                    <label style="text-align:center; display:block">___________________________</label>
+                    <b class="text-alternate text-muted mb-1">Thông tin món ăn </b> <b style="float:right">Thành tiền</b>
+                    @foreach (var item in listMonAnKhachChon)
+                    {
+                        <label class="text-alternate text-muted mb-1">@item.MonAn.TenMonAn (SL: @item.SoLuongMua) </label> <a style="float:right">@string.Format("{0:0,0}", item.ThanhTien)đ</a>
+                    }
+                    <div style="clear:both; display:block"></div>
+                    <label style="text-align:center; display:block">___________________________</label>
+                    <label class="text-alternate text-muted mb-1">Giảm Giá Thành Viên: </label> <a style="float:right"><span id="GiamGiaKHTN"></span></a> <br />
+                    <label class="text-alternate text-muted mb-1">Giảm Giá VND: </label> <a style="float:right"><span id="GiamGiaKH"></span></a> <br />
+                    <label class="text-alternate text-muted mb-1">Giảm Giá %: </label> <a style="float:right"><span id="GiamGiaPT"></span></a> <br />
+                    <label class="text-alternate text-muted mb-1">Tổng tiền: </label> <a style="float:right"><span id="TT"></span></a> <br />
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- #endregion -->
+<!-- #endregion -->
+
+
+
+
+
+<script type="text/javascript">
+    // xem nhanh tổng tiền
+    function kiemtra() {
+        var d = document.getElementById("txtGiamGiaKhachHang").value;
+        var a = document.getElementById("txtGiamGias").value;
+        var c = document.getElementById("txtGiamGiaPhanTram").value;
+        var b = document.getElementById("TongTienMonAn").value;
+
+        var kq = parseFloat(b - a - d) - parseFloat(b * c / 100);
+        kq = kq.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        console.log(kq);
+        alert("KHÁCH CẦN TRẢ: " + kq)
+    }
+
+
+    // Tính in hóa đơn
+    function TinhToan() {
+        var gam = document.getElementById("gam").value;
+        var a = 0.001
+        var kq = parseFloat(a) * parseFloat(gam)
+        if (!isNaN(kq)) {
+            document.getElementById("kg").value = kq;
+        }
+    }
+
+
+    // In hóa đơn
+    function printDiv(divName) {
+        var a = document.getElementById("txtGiamGias").value;
+        var c = document.getElementById("txtGiamGiaPhanTram").value;
+        var b = document.getElementById('TongTienMonAn').value;
+        var d = document.getElementById("txtGiamGiaKhachHang").value;
+        var kq = parseFloat(b - a - d) - parseFloat(b * c / 100);
+
+        document.getElementById('GiamGiaKHTN').innerHTML = d + " vnđ";// giá trị giảm giá kh
+        document.getElementById('GiamGiaKH').innerHTML = a + " vnđ";// giá trị giảm giá kh
+        document.getElementById('GiamGiaPT').innerHTML = c + " vnđ";// giá trị giảm giá %
+        document.getElementById('TT').innerHTML = kq + " vnđ";// giá trị giảm giá Tổng tiền
+
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
+    // Tìm kiếm nhanh món ăn
+    var options = {
+        valueNames: ['TenMonAn', 'GiaBan'],
+        page: 12,
+        pagination: true
+    };
+    var userList = new List('DanhSachMonAn', options);
+</script>

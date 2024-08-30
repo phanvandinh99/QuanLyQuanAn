@@ -1,0 +1,60 @@
+﻿@using QuanLyNhaHang.Models
+@model Ban
+@{
+    ViewBag.Title = "Cập Nhật Bàn";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<Tang> listTang = ViewBag.MaTang as IEnumerable<Tang>;
+}
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="page-title-container">
+            <div class="row">
+                <div class="col-auto mb-3 mb-md-0 me-auto">
+                    <div class="w-auto sw-md-30">
+                        <h1 class="mb-0 pb-0 display-4" id="title">Cập Nhật Bàn</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg order-1 order-lg-0" style="max-width:823px">
+                <h2 class="small-title">Thông Tin Bàn</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tên Bàn</label>
+                                    <input class="form-control" name="TenBan" value="@Model.TenBan" required>
+                                    <input type="hidden" class="form-control" name="MaBan" value="@Model.MaBan" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số Ghế</label>
+                                    <input class="form-control" type="number" min="1" max="100" name="SoGhe" value="@Model.SoGhe" required>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Loại Bàn</label>
+                                    @Html.DropDownListFor(x => x.Vip, new SelectListItem[]{
+                new SelectListItem() {Text = "Thường", Value="0"},
+                new SelectListItem() {Text = "Vip", Value="1"}}, new { @class = "form-select" })
+
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tầng</label>
+                                    @Html.DropDownListFor(x => x.MaTang_id, new SelectList(listTang, "MaTang", "TenTang"), new { @class = "form-select" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/NhanVien/Ban/DanhSachBan" class="btn btn-outline-danger">Trở Về</a>
+                <button class="btn btn-primary" type="submit">Cập Nhật</button>
+            </div>
+        </div>
+    </div>
+}

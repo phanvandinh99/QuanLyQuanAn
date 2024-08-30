@@ -1,0 +1,188 @@
+﻿@using QuanLyNhaHang.Models
+@model MonAn
+@{
+    ViewBag.Title = "Chi Tiết Món Ăn";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<MonAn> lstMonAnLienQuan = ViewBag.MonAnCungLoai as IEnumerable<MonAn>;
+    IEnumerable<ChiTietSanPham> chiTietMonAn = ViewBag.ChiTietMonAn as IEnumerable<ChiTietSanPham>;
+}
+
+<div class="container">
+    <div class="page-title-container">
+        <div class="row">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">CHI TIẾT MÓN ĂN</h1>
+                </div>
+            </div>
+            @*<div class="col-12 col-md-5 d-flex align-items-end justify-content-end">
+                <button type="button" class="btn btn-outline-primary btn-icon btn-icon-start w-100 w-md-auto">
+                    <i data-cs-icon="edit-square"></i>
+                    <span>Edit</span>
+                </button>
+                <div class="ms-1">
+                    <button type="button" class="btn btn-outline-primary btn-icon btn-icon-only" data-bs-offset="0,3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i data-cs-icon="more-horizontal"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <button class="dropdown-item" type="button">Move</button>
+                        <button class="dropdown-item" type="button">Unpublish</button>
+                        <button class="dropdown-item" type="button">Delete</button>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-xl-7">
+                            <div class="glide glide-gallery" id="glideStorefrontDetail">
+                                <div class="glide glide-large">
+                                    <div class="glide__track" data-glide-el="track">
+                                        <ul class="glide__slides gallery-glide-custom">
+                                            <li class="glide__slide p-0">
+                                                <a href="img/product/large/product-1.webp">
+                                                    <img alt="detail" src="~/Assets/img/AnhMonAn/@Model.HinhAnh" class="responsive border-0 rounded-md img-fluid mb-3 sh-35 sh-md-45 sh-xl-60 w-100">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-5 sh-xl-60 d-flex flex-column justify-content-between">
+                            <div>
+                                <a class="mb-1 d-inline-block text-small" href="#">Loại món ăn: @Model.LoaiMonAn.TenLMA</a>
+                                <h3 class="mb-4">@Model.TenMonAn</h3>
+                                <div class="h4">@string.Format("{0:0,0}", Model.DonGia) vnđ</div>
+                                <p>SL đã bán: @Model.SoLuongDaBan</p>
+                                <p>Ngày Cập nhật: @Model.NgayCapNhat</p>
+                                <p>Mô tả <br /> @Model.ThongTin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-xl-8 mb-5">
+            <h2 class="small-title">Thông tin khác</h2>
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h6>Mô tả thông tin món ăn: <b>@Model.TenMonAn</b></h6>
+                    <div class="mb-4">
+                        @Html.Raw(Model.MoTa)
+                    </div>
+                    <table class="table m-n2">
+                        <thead>
+                            <tr>
+                                <td scope="col" class="text-danger text-uppercase text-muted">Nguyên Liệu</td>
+                                <td scope="col" class="text-danger text-uppercase text-muted">Số lượng (kg)</td>
+                                <td scope="col" class="text-danger text-uppercase text-muted">Trừ</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in chiTietMonAn)
+                            {
+                                <tr>
+                                    <td>@item.NguyenLieu.TenNguyenLieu</td>
+                                    <td>@item.SoLuongDung</td>
+                                    @if (item.Tru == 1)
+                                    {
+                                        <td><i class="fas fas-check">-</i></td>
+                                    }
+                                    else
+                                    {
+                                        <td><i class="fas fas-check">x</i></td>
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h2 class="small-title">Bạn cần nắm</h2>
+            <div class="card">
+                <div class="card-body mb-n2">
+                    <div class="row g-0 mb-2">
+                        <div class="col-auto">
+                            <p class="sw-2 text-primary mb-2 fw-bold">1.</p>
+                        </div>
+                        <div class="col">
+                            <p class="text-primary ps-3 mb-2 fw-bold">
+                                Thông tin mô tả món ăn
+                            </p>
+                            <p class="text-body ps-3">
+                                Các thông tin món ăn chỉ là hình minh họa
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row g-0 mb-2">
+                        <div class="col-auto">
+                            <p class="sw-2 text-primary mb-2 fw-bold">2.</p>
+                        </div>
+                        <div class="col">
+                            <p class="text-primary ps-3 mb-2 fw-bold">Xử lý nguyên liệu</p>
+                            <p class="text-body ps-3">
+                                Món ăn chỉ liệt kê một vài nguyên liệu chính, bên cạnh đó, khi món ăn được order hệ thống sẽ đối chiếu số lượng sản phẩm trừ trong kho.
+                                Nếu nguyên liệu không đủ sẽ không cho thực hiện order cho khách hàng
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row g-0 mb-2">
+                        <div class="col-auto">
+                            <p class="sw-2 text-primary mb-2 fw-bold">3.</p>
+                        </div>
+                        <div class="col">
+                            <p class="text-primary ps-3 mb-2 fw-bold">Tỉ trọng nguyên liệu</p>
+                            <p class="text-body ps-3">
+                                Việc số lượng nguyên liệu thành phần trong món ăn chỉ mang tính tương đối. Một vài trường hợp sẽ có số lượng khác với thực tế để theo đúng yêu cầu từ phía khách hàng
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #region MÓN ĂN CÙNG LOẠI -->
+        <div class="col-12 col-xl-4">
+            <div class="row">
+                <div class="col-12 mb-5">
+                    <h2 class="small-title">Cùng loại món ăn (5)</h2>
+                    <div class="row g-2 row-cols-1 row-cols-md-2 row-cols-xl-1">
+                        @foreach (var item in lstMonAnLienQuan)
+                        {
+                            <div class="col">
+                                <div class="card">
+                                    <div class="row g-0 sh-16 sh-sm-17">
+                                        <div class="col-auto h-100 position-relative">
+                                            <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" alt="@item.TenMonAn" class="card-img card-img-horizontal h-100 sw-11 sw-sm-16 sw-lg-16">
+                                        </div>
+                                        <div class="col p-0">
+                                            <div class="card-body d-flex align-items-center h-100 py-3">
+                                                <div class="mb-0 h6">
+                                                    <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn" class="body-link stretched-link">
+                                                        <div class="clamp-line sh-3 lh-1-5" data-line="1">@item.TenMonAn</div>
+                                                    </a>
+                                                    <div class="card-text mb-2">
+                                                        <div>@string.Format("{0:0,0}", item.DonGia) vnđ</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #endregion -->
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿@using QuanLyNhaHang.Models
+@{
+    ViewBag.Title = "Thêm Bàn";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<Tang> listTang = ViewBag.MaTang as IEnumerable<Tang>;
+}
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="page-title-container">
+            <div class="row">
+                <div class="col-auto mb-3 mb-md-0 me-auto">
+                    <div class="w-auto sw-md-30">
+                        <h1 class="mb-0 pb-0 display-4" id="title">Thêm Mới Bàn Ăn</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg order-1 order-lg-0" style="max-width:823px">
+                <h2 class="small-title">Thông Tin Bàn</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tên Bàn</label>
+                                    <input class="form-control" name="TenBan" placeholder="Bàn 1" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số Ghế</label>
+                                    <input class="form-control" type="number" min="1" max="100" name="SoGhe" placeholder="6 ghế" required>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Loại Bàn</label>
+                                    <select class="form-select" name="Vip">
+                                        <option value="0">Thường</option>
+                                        <option value="1">Vip</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tầng</label>
+                                    <select class="form-select" name="MaTang_id">
+                                        @foreach (var item in listTang)
+                                        {
+                                            <option value="@item.MaTang">@item.TenTang</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/NhanVien/Ban/DanhSachBan" class="btn btn-outline-primary">Trở Về</a>
+                <button class="btn btn-danger" type="submit">Thêm Mới</button>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,108 @@
+﻿@using QuanLyNhaHang.Models;
+@model List<NguyenLieuXuat>
+@{
+    ViewBag.Title = "Chi Tiết Xuất Kho";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+@{
+    XuatKho xuatkho = ViewBag.XuatKho as XuatKho;
+}
+<div class="container">
+    <div class="page-title-container">
+        <div class="row g-0">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Phiếu Xuất</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5">
+        <h2 class="small-title">Thông Tin Chi Tiết Phiếu Xuất Kho</h2>
+        <div class="card mb-2">
+            <div class="row g-0 card-body">
+                <div class="col">
+                    <div class="ps-4">
+                        <div class="row mb-1">
+                            <div class="col">
+                                <div class="heading text-primary mb-1">Mã Xuất Kho: @xuatkho.MaXuatKho</div>
+                                <div class="mb-3">Ngày Xuất Kho: @xuatkho.NgayXuat</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #region Phần Nguyên liệu xuất -->
+    <div class="row g-0">
+        <div class="col-12 mb-5">
+            <div id="checkboxTable">
+                <div class="mb-4 mb-lg-3 bg-transparent no-shadow d-none d-lg-block">
+                    <div class="row g-0">
+                        @*<div class="col-auto sw-11 d-none d-lg-flex"></div>*@
+                        <div class="col">
+                            <div class="ps-5 pe-4 h-100">
+                                <div class="row g-0 h-100 align-content-center custom-sort">
+                                    <div class="col-lg-3 d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="name">Nguyên Liệu</div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex flex-column pe-1 justify-content-center">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="email">Số Lượng Xuất</div>
+                                    </div>
+                                    @*<div class="col-lg-3 d-flex flex-column pe-1 justify-content-center">
+                                            <div class="text-muted text-small cursor-pointer sort" data-sort="phone">Đơn Giá</div>
+                                        </div>
+                                        <div class="col-lg-3 d-flex flex-column pe-1 justify-content-center">
+                                            <div class="text-muted text-small cursor-pointer sort" data-sort="phone">Thành Tiền</div>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #region Hiển Thị Nguyên Liệu -->
+                @foreach (var item in Model)
+                {
+                    <div class="card mb-2 selected" style="width: 50%">
+                        <div class="row g-0 h-100 sh-lg-9 position-relative">
+                            <div class="col py-4 py-lg-0">
+                                <div class="ps-5 pe-4 h-100">
+                                    <div class="row g-0 h-100 align-content-center">
+                                        <a href="Products.Detail.html" class="col-11 col-lg-7 d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center">
+                                            @item.NguyenLieu.TenNguyenLieu
+                                            <div class="text-small text-muted text-truncate position">@item.MaNguyenLieu_id</div>
+                                        </a>
+                                        <div class="col-12 col-lg-3 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                            @if (item.NguyenLieu.MaLNL_id == 4)
+                                            {
+                                                <div class="lh-1 text-alternate">@item.SoLuongXuat Chai</div>
+                                            }
+                                            else if (item.MaNguyenLieu_id == 1)
+                                            {
+                                                <div class="lh-1 text-alternate">@item.SoLuongXuat Cái</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="lh-1 text-alternate">@item.SoLuongXuat kg</div>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!-- #endregion -->
+                <div>
+                    <a href="/NhanVienKho/XuatKho/DanhSachPhieuXuatKho" class="btn btn-danger">Trở Về</a>
+                    <a href="/NhanVienKho/NguyenLieu/CapNhat?iMaNguyenLieu" class="btn btn-primary">Cập Nhật</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- #endregion -->
+</div>
+

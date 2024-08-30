@@ -1,0 +1,43 @@
+﻿@model QuanLyNhaHang.Models.NguyenLieuXuat
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>NguyenLieuXuat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NguyenLieu.TenNguyenLieu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NguyenLieu.TenNguyenLieu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.XuatKho.MaXuatKho)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.XuatKho.MaXuatKho)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SoLuongXuat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SoLuongXuat)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

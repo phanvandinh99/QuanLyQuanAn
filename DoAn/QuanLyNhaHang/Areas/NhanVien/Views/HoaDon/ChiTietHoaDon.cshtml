@@ -1,0 +1,370 @@
+﻿@using QuanLyNhaHang.Models
+@model HoaDon
+@{
+    ViewBag.Title = "Chi Tiết Hóa Đơn";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<ChiTietHoaDon> listOrder = ViewBag.ListOrder as IEnumerable<ChiTietHoaDon>;
+    IEnumerable<LichSuGoiMon> listHistory = ViewBag.ListHistory as IEnumerable<LichSuGoiMon>;
+}
+<div class="container">
+    <!-- #region Phần Chi Tiết Món Ăn -->
+    <div class="page-title-container">
+        <div class="row">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết Hóa Đơn</h1>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 d-flex align-items-end justify-content-end">
+                <div class="dropdown-as-select w-100 w-md-auto">
+                    <button class="btn btn btn-outline-primary w-100 w-md-auto dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Status: Delivered</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="#">Status: Pending</a>
+                        <a class="dropdown-item" href="#">Status: Shipped</a>
+                        <a class="dropdown-item active" href="#">Điều Hướng</a>
+                    </div>
+                </div>
+                <div class="ms-1">
+                    <button type="button" class="btn btn-outline-primary btn-icon btn-icon-only" data-bs-offset="0,3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-submenu="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-more-horizontal"><path d="M9 10C9 9.44772 9.44772 9 10 9V9C10.5523 9 11 9.44772 11 10V10C11 10.5523 10.5523 11 10 11V11C9.44772 11 9 10.5523 9 10V10zM2 10C2 9.44772 2.44772 9 3 9V9C3.55228 9 4 9.44772 4 10V10C4 10.5523 3.55228 11 3 11V11C2.44772 11 2 10.5523 2 10V10zM16 10C16 9.44772 16.4477 9 17 9V9C17.5523 9 18 9.44772 18 10V10C18 10.5523 17.5523 11 17 11V11C16.4477 11 16 10.5523 16 10V10z"></path></svg>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <button class="dropdown-item" type="button">Edit</button>
+                        <button class="dropdown-item" type="button">View Invoice</button>
+                        <button class="dropdown-item" type="button">Track Package</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-4 gy-5">
+        <div class="col-12 col-xl-4 col-xxl-3">
+            <h2 class="small-title">Hóa Đơn</h2>
+            <div class="card mb-5">
+                <div class="card-body mb-n5">
+                    <div class="mb-5">
+                        <p class="text-small text-muted mb-2">THÔNG TIN HÓA ĐƠN <b style="color:red">@Model.MaHoaDon</b></p>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-user text-primary"><path d="M10.0179 8C10.9661 8 11.4402 8 11.8802 7.76629C12.1434 7.62648 12.4736 7.32023 12.6328 7.06826C12.8989 6.64708 12.9256 6.29324 12.9789 5.58557C13.0082 5.19763 13.0071 4.81594 12.9751 4.42106C12.9175 3.70801 12.8887 3.35148 12.6289 2.93726C12.4653 2.67644 12.1305 2.36765 11.8573 2.2256C11.4235 2 10.9533 2 10.0129 2V2C9.03627 2 8.54794 2 8.1082 2.23338C7.82774 2.38223 7.49696 2.6954 7.33302 2.96731C7.07596 3.39365 7.05506 3.77571 7.01326 4.53982C6.99635 4.84898 6.99567 5.15116 7.01092 5.45586C7.04931 6.22283 7.06851 6.60631 7.33198 7.03942C7.4922 7.30281 7.8169 7.61166 8.08797 7.75851C8.53371 8 9.02845 8 10.0179 8V8Z"></path><path d="M16.5 17.5L16.583 16.6152C16.7267 15.082 16.7986 14.3154 16.2254 13.2504C16.0456 12.9164 15.5292 12.2901 15.2356 12.0499C14.2994 11.2842 13.7598 11.231 12.6805 11.1245C11.9049 11.048 11.0142 11 10 11C8.98584 11 8.09511 11.048 7.31945 11.1245C6.24021 11.231 5.70059 11.2842 4.76443 12.0499C4.47077 12.2901 3.95441 12.9164 3.77462 13.2504C3.20144 14.3154 3.27331 15.082 3.41705 16.6152L3.5 17.5"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate align-middle">@Model.TenKhachHang</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-calendar text-primary"><path d="M14.5 4C15.9045 4 16.6067 4 17.1111 4.33706C17.3295 4.48298 17.517 4.67048 17.6629 4.88886C18 5.39331 18 6.09554 18 7.5L18 14.5C18 15.9045 18 16.6067 17.6629 17.1111C17.517 17.3295 17.3295 17.517 17.1111 17.6629C16.6067 18 15.9045 18 14.5 18L5.5 18C4.09554 18 3.39331 18 2.88886 17.6629C2.67048 17.517 2.48298 17.3295 2.33706 17.1111C2 16.6067 2 15.9045 2 14.5L2 7.5C2 6.09554 2 5.39331 2.33706 4.88886C2.48298 4.67048 2.67048 4.48298 2.88886 4.33706C3.39331 4 4.09554 4 5.5 4L14.5 4Z"></path><path d="M2 9H18M7 2 7 5.5M13 2 13 5.5M5 15H6"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate">Vào: @Model.NgayTao</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-calendar text-primary"><path d="M14.5 4C15.9045 4 16.6067 4 17.1111 4.33706C17.3295 4.48298 17.517 4.67048 17.6629 4.88886C18 5.39331 18 6.09554 18 7.5L18 14.5C18 15.9045 18 16.6067 17.6629 17.1111C17.517 17.3295 17.3295 17.517 17.1111 17.6629C16.6067 18 15.9045 18 14.5 18L5.5 18C4.09554 18 3.39331 18 2.88886 17.6629C2.67048 17.517 2.48298 17.3295 2.33706 17.1111C2 16.6067 2 15.9045 2 14.5L2 7.5C2 6.09554 2 5.39331 2.33706 4.88886C2.48298 4.67048 2.67048 4.48298 2.88886 4.33706C3.39331 4 4.09554 4 5.5 4L14.5 4Z"></path><path d="M2 9H18M7 2 7 5.5M13 2 13 5.5M5 15H6"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate">Ra: @Model.NgayThanhToan</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-clipboard text-primary"><path d="M6 3.88232V3.88232C5.06812 3.88232 4.60218 3.88232 4.23463 4.03457C3.74458 4.23755 3.35523 4.6269 3.15224 5.11696C3 5.4845 3 5.95044 3 6.88232V14.5C3 15.9044 3 16.6067 3.33706 17.1111C3.48298 17.3295 3.67048 17.517 3.88886 17.6629C4.39331 18 5.09554 18 6.5 18H13.5C14.9045 18 15.6067 18 16.1111 17.6629C16.3295 17.517 16.517 17.3295 16.6629 17.1111C17 16.6067 17 15.9044 17 14.5V6.88232C17 5.95044 17 5.4845 16.8478 5.11696C16.6448 4.6269 16.2554 4.23755 15.7654 4.03457C15.3978 3.88232 14.9319 3.88232 14 3.88232V3.88232"></path><path d="M6 3.41176C6 3.02851 6 2.83688 6.05184 2.68221C6.1515 2.38487 6.38487 2.1515 6.68221 2.05184C6.83688 2 7.02851 2 7.41176 2H12.5882C12.9715 2 13.1631 2 13.3178 2.05184C13.6151 2.1515 13.8485 2.38487 13.9482 2.68221C14 2.83688 14 3.02851 14 3.41176V3.41176C14 3.79502 14 3.98665 13.9482 4.14132C13.8485 4.43866 13.6151 4.67203 13.3178 4.77169C13.1631 4.82353 12.9715 4.82353 12.5882 4.82353H7.41177C7.02851 4.82353 6.83688 4.82353 6.68221 4.77169C6.38487 4.67203 6.1515 4.43866 6.05184 4.14132C6 3.98665 6 3.79502 6 3.41176V3.41176Z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate">Ghi Chú: @Model.GhiChu</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-coin text-primary"><circle cx="10" cy="10" r="8"></circle><path d="M8.76255 8.23745C9.25911 7.74089 9.50739 7.49261 9.80491 7.43343C9.93371 7.40781 10.0663 7.40781 10.1951 7.43343C10.4926 7.49262 10.7409 7.74089 11.2374 8.23745L11.7626 8.76261C12.2591 9.25916 12.5074 9.50744 12.5666 9.80495C12.5922 9.93375 12.5922 10.0663 12.5666 10.1951C12.5074 10.4927 12.2591 10.7409 11.7626 11.2375L11.2374 11.7626C10.7409 12.2592 10.4926 12.5074 10.1951 12.5666C10.0663 12.5922 9.93371 12.5922 9.80491 12.5666C9.50739 12.5074 9.25912 12.2592 8.76256 11.7626L8.23741 11.2375C7.74086 10.7409 7.49258 10.4926 7.4334 10.1951C7.40778 10.0663 7.40778 9.93373 7.4334 9.80494C7.49258 9.50742 7.74086 9.25914 8.23741 8.76259L8.76255 8.23745Z"></path></svg>
+                                </div>
+                            </div>
+
+                            @if (Model.TrangThai == 1)//chưa thanh toán
+                            {
+                                <div class="col text-alternate">Trạng Thái: Chưa thanh toán</div>
+                            }
+                            else
+                            {
+                                <div class="col text-alternate">Trạng Thái: Đã thanh toán</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <div>
+                            <p class="text-small text-muted mb-2">TỔNG TIỀN</p>
+                            <div class="row g-0 mb-2">
+                                <div class="col-auto">
+                                    <div class="sw-3 me-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-credit-card text-primary"><path d="M14.5 4C15.9045 4 16.6067 4 17.1111 4.33706C17.3295 4.48298 17.517 4.67048 17.6629 4.88886C18 5.39331 18 6.09554 18 7.5L18 12.5C18 13.9045 18 14.6067 17.6629 15.1111C17.517 15.3295 17.3295 15.517 17.1111 15.6629C16.6067 16 15.9045 16 14.5 16L5.5 16C4.09554 16 3.39331 16 2.88886 15.6629C2.67048 15.517 2.48298 15.3295 2.33706 15.1111C2 14.6067 2 13.9045 2 12.5L2 7.5C2 6.09554 2 5.39331 2.33706 4.88886C2.48298 4.67048 2.67048 4.48298 2.88886 4.33706C3.39331 4 4.09554 4 5.5 4L14.5 4Z"></path><path d="M5 7H14.5"></path><path d="M8 11.5C8 11.0341 8 10.8011 7.92388 10.6173C7.82239 10.3723 7.62771 10.1776 7.38268 10.0761C7.19891 10 6.96594 10 6.5 10V10C6.03406 10 5.80109 10 5.61732 10.0761C5.37229 10.1776 5.17761 10.3723 5.07612 10.6173C5 10.8011 5 11.0341 5 11.5V11.5C5 11.9659 5 12.1989 5.07612 12.3827C5.17761 12.6277 5.37229 12.8224 5.61732 12.9239C5.80109 13 6.03406 13 6.5 13V13C6.96594 13 7.19891 13 7.38268 12.9239C7.62771 12.8224 7.82239 12.6277 7.92388 12.3827C8 12.1989 8 11.9659 8 11.5V11.5Z"></path></svg>
+                                    </div>
+                                </div>
+                                @if (Model.TongTien == 0)
+                                {
+                                    <div class="col text-alternate">0 vnđ</div>
+                                }
+                                else
+                                {
+                                    <div class="col text-alternate">@string.Format("{0:0,0}", Model.TongTien) vnđ</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-5" style="display:none">
+                        <p class="text-small text-muted mb-2">NHÂN VIÊN </p>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-user text-primary"><path d="M10.0179 8C10.9661 8 11.4402 8 11.8802 7.76629C12.1434 7.62648 12.4736 7.32023 12.6328 7.06826C12.8989 6.64708 12.9256 6.29324 12.9789 5.58557C13.0082 5.19763 13.0071 4.81594 12.9751 4.42106C12.9175 3.70801 12.8887 3.35148 12.6289 2.93726C12.4653 2.67644 12.1305 2.36765 11.8573 2.2256C11.4235 2 10.9533 2 10.0129 2V2C9.03627 2 8.54794 2 8.1082 2.23338C7.82774 2.38223 7.49696 2.6954 7.33302 2.96731C7.07596 3.39365 7.05506 3.77571 7.01326 4.53982C6.99635 4.84898 6.99567 5.15116 7.01092 5.45586C7.04931 6.22283 7.06851 6.60631 7.33198 7.03942C7.4922 7.30281 7.8169 7.61166 8.08797 7.75851C8.53371 8 9.02845 8 10.0179 8V8Z"></path><path d="M16.5 17.5L16.583 16.6152C16.7267 15.082 16.7986 14.3154 16.2254 13.2504C16.0456 12.9164 15.5292 12.2901 15.2356 12.0499C14.2994 11.2842 13.7598 11.231 12.6805 11.1245C11.9049 11.048 11.0142 11 10 11C8.98584 11 8.09511 11.048 7.31945 11.1245C6.24021 11.231 5.70059 11.2842 4.76443 12.0499C4.47077 12.2901 3.95441 12.9164 3.77462 13.2504C3.20144 14.3154 3.27331 15.082 3.41705 16.6152L3.5 17.5"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate align-middle">Blaine Cottrell</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-pin text-primary"><path d="M3.5 8.49998C3.5 -0.191432 16.5 -0.191368 16.5 8.49998C16.5 12.6585 12.8256 15.9341 11.0021 17.3036C10.4026 17.7539 9.59777 17.754 8.99821 17.3037C7.17467 15.9342 3.5 12.6585 3.5 8.49998Z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate">4 Glamis Avenue, Strathmore Park, Wellington 6022, New Zealand</div>
+                        </div>
+                        <div class="row g-0 mb-2">
+                            <div class="col-auto">
+                                <div class="sw-3 me-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-phone text-primary"><path d="M2.36826 7.02416C2.12342 6.39146 2.25583 5.68011 2.67964 5.15035L4.20309 3.24603C5.07376 2.1577 6.76274 2.27131 7.47982 3.46644L8.7175 5.52926C8.89341 5.82244 8.90734 6.18516 8.75444 6.49097L8.10551 7.78883C8.03608 7.92769 7.99714 8.08102 8.00909 8.2358C8.15117 10.0757 9.92426 11.8487 11.7641 11.9908C11.9189 12.0028 12.0722 11.9638 12.2111 11.8944L13.5089 11.2455C13.8148 11.0926 14.1775 11.1065 14.4707 11.2824L16.5335 12.5201C17.7286 13.2372 17.8422 14.9262 16.7539 15.7968L14.8496 17.3203C14.3198 17.7441 13.6085 17.8765 12.9758 17.6317C7.87716 15.6586 4.34135 12.1228 2.36826 7.02416Z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="col text-alternate">+6443884455</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-8 col-xxl-9 mb-n5">
+            <!-- #region Thống kê -->
+            @*<h2 class="small-title">Thống Kê</h2>
+                <div class="mb-5">
+                    <div class="row g-2">
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="card sh-13 sh-lg-15 sh-xl-14">
+                                <div class="h-100 row g-0 card-body align-items-center py-3">
+                                    <div class="col-auto pe-3">
+                                        <div class="border border-primary sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-tag text-primary"><path d="M8.05025 2.5C8.66225 2.5 8.96824 2.5 9.25214 2.58612C9.37751 2.62415 9.49883 2.6744 9.61437 2.73616C9.87601 2.87601 10.0924 3.09238 10.5251 3.52513L16.0251 9.02514C17.0182 10.0182 17.5148 10.5148 17.6331 11.1098C17.6844 11.3674 17.6844 11.6326 17.6331 11.8902C17.5148 12.4852 17.0182 12.9818 16.0251 13.9749L13.9749 16.0251C12.9818 17.0182 12.4852 17.5148 11.8902 17.6331C11.6326 17.6844 11.3674 17.6844 11.1098 17.6331C10.5148 17.5148 10.0182 17.0182 9.02512 16.0251L3.52513 10.5251C3.09238 10.0924 2.87601 9.87601 2.73616 9.61437C2.6744 9.49883 2.62415 9.37751 2.58612 9.25214C2.5 8.96825 2.5 8.66225 2.5 8.05025L2.5 6C2.5 4.59554 2.5 3.89331 2.83706 3.38886C2.98298 3.17048 3.17048 2.98298 3.38886 2.83706C3.89331 2.5 4.59554 2.5 6 2.5L8.05025 2.5Z"></path><path d="M5.5 6C5.5 5.72386 5.72386 5.5 6 5.5V5.5C6.27614 5.5 6.5 5.72386 6.5 6V6C6.5 6.27614 6.27614 6.5 6 6.5V6.5C5.72386 6.5 5.5 6.27614 5.5 6V6Z"></path></svg>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex align-items-center lh-1-25">Order Id</div>
+                                        <div class="text-primary">2241</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="card sh-13 sh-lg-15 sh-xl-14">
+                                <div class="h-100 row g-0 card-body align-items-center py-3">
+                                    <div class="col-auto pe-3">
+                                        <div class="border border-primary sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-clipboard text-primary"><path d="M6 3.88232V3.88232C5.06812 3.88232 4.60218 3.88232 4.23463 4.03457C3.74458 4.23755 3.35523 4.6269 3.15224 5.11696C3 5.4845 3 5.95044 3 6.88232V14.5C3 15.9044 3 16.6067 3.33706 17.1111C3.48298 17.3295 3.67048 17.517 3.88886 17.6629C4.39331 18 5.09554 18 6.5 18H13.5C14.9045 18 15.6067 18 16.1111 17.6629C16.3295 17.517 16.517 17.3295 16.6629 17.1111C17 16.6067 17 15.9044 17 14.5V6.88232C17 5.95044 17 5.4845 16.8478 5.11696C16.6448 4.6269 16.2554 4.23755 15.7654 4.03457C15.3978 3.88232 14.9319 3.88232 14 3.88232V3.88232"></path><path d="M6 3.41176C6 3.02851 6 2.83688 6.05184 2.68221C6.1515 2.38487 6.38487 2.1515 6.68221 2.05184C6.83688 2 7.02851 2 7.41176 2H12.5882C12.9715 2 13.1631 2 13.3178 2.05184C13.6151 2.1515 13.8485 2.38487 13.9482 2.68221C14 2.83688 14 3.02851 14 3.41176V3.41176C14 3.79502 14 3.98665 13.9482 4.14132C13.8485 4.43866 13.6151 4.67203 13.3178 4.77169C13.1631 4.82353 12.9715 4.82353 12.5882 4.82353H7.41177C7.02851 4.82353 6.83688 4.82353 6.68221 4.77169C6.38487 4.67203 6.1515 4.43866 6.05184 4.14132C6 3.98665 6 3.79502 6 3.41176V3.41176Z"></path></svg>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex align-items-center lh-1-25">Order Status</div>
+                                        <div class="text-primary">Delivered</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="card sh-13 sh-lg-15 sh-xl-14">
+                                <div class="h-100 row g-0 card-body align-items-center py-3">
+                                    <div class="col-auto pe-3">
+                                        <div class="border border-primary sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-calendar text-primary"><path d="M14.5 4C15.9045 4 16.6067 4 17.1111 4.33706C17.3295 4.48298 17.517 4.67048 17.6629 4.88886C18 5.39331 18 6.09554 18 7.5L18 14.5C18 15.9045 18 16.6067 17.6629 17.1111C17.517 17.3295 17.3295 17.517 17.1111 17.6629C16.6067 18 15.9045 18 14.5 18L5.5 18C4.09554 18 3.39331 18 2.88886 17.6629C2.67048 17.517 2.48298 17.3295 2.33706 17.1111C2 16.6067 2 15.9045 2 14.5L2 7.5C2 6.09554 2 5.39331 2.33706 4.88886C2.48298 4.67048 2.67048 4.48298 2.88886 4.33706C3.39331 4 4.09554 4 5.5 4L14.5 4Z"></path><path d="M2 9H18M7 2 7 5.5M13 2 13 5.5M5 15H6"></path></svg>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex align-items-center lh-1-25">Delivery Date</div>
+                                        <div class="text-primary">17.11.2020</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6">
+                            <div class="card sh-13 sh-lg-15 sh-xl-14">
+                                <div class="h-100 row g-0 card-body align-items-center py-3">
+                                    <div class="col-auto pe-3">
+                                        <div class="border border-primary sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-shipping text-primary"><path d="M2 2H3.33333C4.38252 2 5.37049 2.49398 6 3.33333V3.33333C6.32456 3.76607 6.5 4.29241 6.5 4.83333V11.5C6.5 12.6046 7.39543 13.5 8.5 13.5H17"></path><path d="M7 17C7 16.4477 7.44772 16 8 16V16C8.55228 16 9 16.4477 9 17V17C9 17.5523 8.55228 18 8 18V18C7.44772 18 7 17.5523 7 17V17zM15 17C15 16.4477 15.4477 16 16 16V16C16.5523 16 17 16.4477 17 17V17C17 17.5523 16.5523 18 16 18V18C15.4477 18 15 17.5523 15 17V17zM15.25 4C15.9522 4 16.3033 4 16.5556 4.16853 16.6648 4.24149 16.7585 4.33524 16.8315 4.44443 17 4.69665 17 5.04777 17 5.75L17 9.25C17 9.95223 17 10.3033 16.8315 10.5556 16.7585 10.6648 16.6648 10.7585 16.5556 10.8315 16.3033 11 15.9522 11 15.25 11L10.75 11C10.0478 11 9.69665 11 9.44443 10.8315 9.33524 10.7585 9.24149 10.6648 9.16853 10.5556 9 10.3033 9 9.95223 9 9.25L9 5.75C9 5.04777 9 4.69665 9.16853 4.44443 9.24149 4.33524 9.33524 4.24149 9.44443 4.16853 9.69665 4 10.0478 4 10.75 4L15.25 4z"></path><path d="M13 4V7"></path></svg>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="d-flex align-items-center lh-1-25">Tracking Code</div>
+                                        <div class="text-primary">US4244290109</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <!-- #endregion -->
+            <h2 class="small-title">Món Ăn</h2>
+            <div class="card mb-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-5">
+                                @if (listOrder.Count() != 0)
+                                {
+                                    foreach (var item in listOrder)
+                                    {
+                                        <div class="row g-0 sh-9 mb-2">
+                                            <div class="col-auto">
+                                                <img src="~/Assets/img/AnhMonAn/@item.MonAn.HinhAnh" style="height:72px;width:92px; border-radius:1em" alt="@item.MonAn.TenMonAn">
+                                            </div>
+                                            <div class="col">
+                                                <div class="ps-4 pt-0 pb-0 pe-0 h-100">
+                                                    <div class="row g-0 h-100 align-items-start">
+                                                        <div class="col-12 d-flex flex-column mb-2">
+                                                            <div>@item.MonAn.TenMonAn</div>
+                                                            <div class="text-muted text-small">Loại: @item.MonAn.LoaiMonAn.TenLMA</div>
+                                                            <div class="text-muted text-small">Số Lượng: @item.SoLuongMua</div>
+                                                            <div class="text-muted text-black"><b style="float:right">@string.Format("{0:0,0}", item.ThanhTien) vnđ</b></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                }
+                            }
+                            </div>
+                            @*<div>
+                                <div class="row g-0 mb-2">
+                                    <div class="col-auto ms-auto ps-3 text-muted">Tổng Số Lượng: </div>
+                                    <div class="col-auto sw-13 text-end">
+                                        <span>
+                                            <span class="text-small text-muted">$</span>
+                                            285.25
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row g-0 mb-2">
+                                    <div class="col-auto ms-auto ps-3 text-muted">Thành Tiền:</div>
+                                    <div class="col-auto sw-13 text-end">
+                                        <span>
+                                            <span class="text-small text-muted">$</span>
+                                            12.50
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="small-title">Lịch Sử Gọi Món Của Khách Hàng</h2>
+            <div class="card mb-5">
+                <div class="card-body">
+                    @if (Model.NgayThanhToan != null)
+                    {
+                        <!-- #region Khách thanh toán -->
+                        <div class="row g-0">
+                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
+                                <div class="w-100 d-flex sh-1 position-relative justify-content-center">
+                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
+                                </div>
+                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
+                                    <div class="bg-gradient-light sw-1 sh-1 rounded-xl position-relative"></div>
+                                </div>
+                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
+                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
+                                </div>
+                            </div>
+                            <div class="col mb-4">
+                                <div class="h-100">
+                                    <div class="d-flex flex-column justify-content-start">
+                                        <div class="d-flex flex-column">
+                                            <a href="#" class="heading stretched-link">Thanh Toán</a>
+                                            <div class="text-alternate">@Model.NgayThanhToan</div>
+                                            <div class="text-muted mt-1">@Model.TenKhachHang đã thanh toán hóa đơn</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- #endregion -->
+                    }
+                    @foreach (var item in listHistory)
+                    {
+                        <div class="row g-0">
+                            <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
+                                <div class="w-100 d-flex sh-1"></div>
+                                <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
+                                    <div class="bg-gradient-light sw-1 sh-1 rounded-xl position-relative"></div>
+                                </div>
+                                <div class="w-100 d-flex h-100 justify-content-center position-relative">
+                                    <div class="line-w-1 bg-separator h-100 position-absolute"></div>
+                                </div>
+                            </div>
+                            <div class="col mb-4">
+                                <div class="h-100">
+                                    <div class="d-flex flex-column justify-content-start">
+                                        <div class="d-flex flex-column">
+                                            @if (item.ThoiGianTra == null) // gọi món
+                                            {
+                                                <a href="#" class="heading stretched-link">Thêm Món - [@item.MonAn.TenMonAn]</a>
+                                                <div class="text-alternate">Thời gian gọi: @string.Format("{0:dd/MM/yyyy}", item.ThoiGianGoi)</div>
+                                                <div class="text-muted mt-1">@Model.TenKhachHang đã gọi @item.SoLuongMua @item.MonAn.TenMonAn vào lúc: @string.Format("{0:hh:mm:ss tt}", item.ThoiGianGoi)</div>
+                                            }
+                                            else // trả món
+                                            {
+                                        <a href="#" class="heading stretched-link" style="color:red">Hủy Món - [@item.MonAn.TenMonAn]</a>
+                                        <div class="text-alternate">Thời gian trả: @string.Format("{0:dd/MM/yyyy}", item.ThoiGianTra)</div>
+                                                <div class="text-muted mt-1">@Model.TenKhachHang đã hủy @item.SoLuongTra @item.MonAn.TenMonAn vào lúc: @string.Format("{0:hh:mm:ss tt}", item.ThoiGianTra)</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- #region Khách ngồi vào bàn -->
+                    <div class="row g-0">
+                        <div class="col-auto sw-1 d-flex flex-column justify-content-center align-items-center position-relative me-4">
+                            <div class="w-100 d-flex sh-1 position-relative justify-content-center">
+                                <div class="line-w-1 bg-separator h-100 position-absolute"></div>
+                            </div>
+                            <div class="rounded-xl shadow d-flex flex-shrink-0 justify-content-center align-items-center">
+                                <div class="bg-gradient-light sw-1 sh-1 rounded-xl position-relative"></div>
+                            </div>
+                            <div class="w-100 d-flex h-100 justify-content-center position-relative">
+                                <div class="line-w-1 bg-separator h-100 position-absolute"></div>
+                            </div>
+                        </div>
+                        <div class="col mb-4">
+                            <div class="h-100">
+                                <div class="d-flex flex-column justify-content-start">
+                                    <div class="d-flex flex-column">
+                                        <a href="#" class="heading stretched-link">Đặt Bàn</a>
+                                        <div class="text-alternate">@Model.NgayTao</div>
+                                        <div class="text-muted mt-1">@Model.TenKhachHang đã ngồi vào bàn</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- #endregion -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- #endregion -->
+    </div>

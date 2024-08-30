@@ -1,0 +1,57 @@
+﻿@using QuanLyNhaHang.Models
+@model Ban
+@{
+    ViewBag.Title = "XemChiTiet";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+
+<div class="container">
+    <div class="page-title-container">
+        <div class="row g-0">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto sw-md-30">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết Bàn</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mb-5">
+        <h2 class="small-title">Thông Tin Chi Tiết Sản Phẩm</h2>
+        <div class="card mb-2">
+            <div class="row g-0 card-body">
+                <div class="col">
+                    <div class="ps-4">
+                        <div class="row mb-1">
+                            <div class="col">
+                                <div class="heading text-primary mb-1">Mã Bàn: @Model.MaBan</div>
+                                <div class="mb-3">Tên Bàn: @Model.TenBan</div>
+                                <div class="mb-3">Số Ghế: @Model.SoGhe</div>
+                                @if (Model.Vip == 1)
+                                {
+                                    <div class="mb-3">Loại Bàn: VIP</div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">Loại Bàn: Thường</div>
+                                }
+                                @if (Model.TinhTrang == 1)
+                                {
+                                    <div class="mb-3">Trạng Thái: Có Khách</div>
+                                }
+                                else
+                                {
+                                    <div class="mb-3">Trạng Thái: Thường</div>
+                                }
+                                <div class="mb-3">Vị Trí: @Model.Tang.TenTang</div>
+                            </div>
+                            <div>
+                                <a href="/NhanVien/Ban/DanhSachBan" class="btn btn-outline-danger">Trở Về</a>
+                                <a href="/NhanVien/Ban/CapNhat?iMaBan=@Model.MaBan" class="btn btn-primary">Cập Nhật</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

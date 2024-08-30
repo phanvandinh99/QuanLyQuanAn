@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Thêm Tầng";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="page-title-container">
+            <div class="row">
+                <div class="col-auto mb-3 mb-md-0 me-auto">
+                    <div class="w-auto sw-md-30">
+                        <h1 class="mb-0 pb-0 display-4" id="title">Thêm Mới Tầng</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg order-1 order-lg-0" style="max-width:823px">
+                <h2 class="small-title">Thông Tin Tầng</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tên Tầng</label>
+                                    <input class="form-control" name="TenTang" placeholder="Tầng 1" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/NhanVien/Tang/DanhSachTang" class="btn btn-outline-danger">Trở Về</a>
+                <button class="btn btn-primary" type="submit">Thêm Mới</button>
+            </div>
+        </div>
+    </div>
+}

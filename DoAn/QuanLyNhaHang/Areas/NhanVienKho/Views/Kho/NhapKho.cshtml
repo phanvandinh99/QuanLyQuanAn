@@ -1,0 +1,110 @@
+﻿@using QuanLyNhaHang.Models;
+@{
+    ViewBag.Title = "Nhập Kho";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+@{
+    IEnumerable<LoaiNguyenLieu> listLoaiNguyenLieu = ViewBag.ListNguyenLieu as IEnumerable<LoaiNguyenLieu>;
+    IEnumerable<NguyenLieu> listNguyenLieu = ViewBag.NguyenLieu as IEnumerable<NguyenLieu>;
+    IEnumerable<NhanVien> listNhanVien = ViewBag.NhanVien as IEnumerable<NhanVien>;
+    IEnumerable<NhaCC> listNhaCungCap = ViewBag.NhaCungCap as IEnumerable<NhaCC>;
+}
+<div class="container">
+    <div class="page-title-container">
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <h1 class="mb-0 pb-0 display-4" id="title">Nhập kho</h1>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center; display:block" class="row">
+        <div>
+            <a class="btn btn-outline-primary" href="/NhanVienKho/Kho/NhapKho">Tất Cả [@ViewBag.TatCa]</a>
+            @foreach (var item in listLoaiNguyenLieu)
+            {
+                <a class="btn btn-outline-primary" href="/NhanVienKho/Filter/LocNhapnguyenLieu?iMaLNL=@item.MaLNL">@item.TenLNL</a>
+            }
+        </div>
+    </div>
+    @using (Html.BeginForm("NhapKho", "Kho"))
+    {
+        <div class="row">
+            <div class="col-6 col-lg order-1 order-lg-0">
+                <h2 class="small-title">Thông Tin Phiếu Nhập</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Nhân Viên Kho</label>
+                                    <select class="form-select" name="TaiKhoanNV_id">
+                                        @foreach (var item in listNhanVien)
+                                        {
+                                            <option value="@item.TaiKhoanNV">@item.TenNhanVien</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Nhà Cung Cấp</label>
+                                    <select class="form-select" name="MaNCC_id">
+                                        @foreach (var item in listNhaCungCap)
+                                        {
+                                            <option value="@item.MaNCC">@item.TenNCC</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Ngày Nhập</label>
+                                    <input type="date" class="form-control mask-currency" name="NgayNhap">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="form-label">Tổng Tiền</label>
+                                    <input type="text" class="form-control mask-currency" value="0" required name="TongTien" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #region Phần Sản Phẩm Nhập -->
+                <table class="table ChiTietPhieuNhap">
+                    <tr class="trAppend" style="display:none">
+                        <td>
+                            <select class="ddlNguyenLieu form-select" name="">
+                                @foreach (var item in listNguyenLieu)
+                                {
+                                    <option value="@item.MaNguyenLieu">@item.TenNguyenLieu</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input name="" class="txtSoLuongNhap form-control">
+                        </td>
+                        <td>
+                            <input name="" class="txtGiaNhap form-control">
+                        </td>
+                        <td>
+                            <input name="" class="form-control" readonly>
+                        </td>
+                        <td>
+                            <input class="btnDelete" style="width:30px;height:30px" value="xóa">
+                        </td>
+                    </tr>
+                    <tr class="trFirstChild" data-id="-1">
+                        <td>Nguyên Liệu</td>
+                        <td>Số Lượng Nhập</td>
+                        <td>Giá Nhập</td>
+                        <td>Thành Tiền</td>
+                        <td></td>
+                    </tr>
+                </table>
+                <input type="button" value="+" class="btn btn-success" id="btnAdd">
+                <input type="submit" value="Nhập Hàng" class="btn btn-primary" id="btnNhapHang">
+                <!-- #endregion -->
+
+            </div>
+        </div>
+    }
+</div>
+<script src="~/Assets/js/AppendNhapKho.js"></script>

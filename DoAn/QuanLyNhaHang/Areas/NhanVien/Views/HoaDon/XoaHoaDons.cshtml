@@ -1,0 +1,52 @@
+﻿@model QuanLyNhaHang.Models.HoaDon
+
+@{
+    ViewBag.Title = "Xóa hóa đơn";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+
+<h3>Bạn muốn xóa hóa đơn này không?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dd>
+            Tên Bàn: @Html.DisplayFor(model => model.Ban.TenBan)
+        </dd>
+
+
+        <dd>
+            Tên Khách Hàng: @Html.DisplayFor(model => model.TenKhachHang)
+        </dd>
+
+
+        <dd>
+            Số ĐT: @Html.DisplayFor(model => model.SDTKhachHang)
+        </dd>
+        <dd>
+            Tổng Hóa Đơn: @Html.DisplayFor(model => model.TongHoaDon)
+        </dd>
+
+
+        <dd>
+            Ngày Giờ Vào Nhà Hàng: @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+
+        <dd>
+            Ngày Giờ Thanh Toán: @Html.DisplayFor(model => model.NgayThanhToan)
+        </dd>
+
+        <dd>
+            Tổng Tiền @string.Format("{0:0,0}", Model.TongTien) vnđ
+        </dd>
+
+        <dd>
+            Trạng Thái: Đã thanh toán
+        </dd>
+
+    </dl>
+
+    <div class="form-actions no-color">
+        <a href="/NhanVien/HoaDon/DanhSachHoaDon" class="btn btn-primary">Trở Về</a>
+        <a href="/NhanVien/HoaDon/XoaHoaDon?iMaHoaDon=@Model.MaHoaDon" class="btn btn-danger">Xóa Hóa Đơn</a>
+    </div>
+</div>

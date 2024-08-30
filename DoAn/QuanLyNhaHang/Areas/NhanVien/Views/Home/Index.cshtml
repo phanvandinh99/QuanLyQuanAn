@@ -1,0 +1,203 @@
+﻿@using QuanLyNhaHang.Models
+@{
+    ViewBag.Title = "Trang Chủ";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<MonAn> listMonAn = ViewBag.BanChay as IEnumerable<MonAn>;
+    IEnumerable<HoaDon> listHoaDon = ViewBag.HoaDon as IEnumerable<HoaDon>;
+}
+<div class="container">
+    <div class="page-title-container">
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <h1 class="mb-0 pb-0 display-4" id="title">Trang Chủ Nhân Viên Bán Hàng</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex">
+                <div class="dropdown-as-select me-3" data-setactive="false" data-childselector="span">
+                    <a class="pe-0 pt-0 align-top lh-1 dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                        <span class="small-title">Thống kê nhanh năm (@DateTime.Now.Year)</span>
+                    </a>
+                </div>
+            </div>
+            <div class="mb-5">
+                <div class="row g-2">
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="/NhanVien/HoaDon/DanhSachHoaDon">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-dollar text-primary"><circle cx="10" cy="10" r="8"></circle><path d="M8.2474 12.7882C9.21854 13.0238 10.3165 13.1347 11.255 12.7328C11.8747 12.4349 12.0341 11.9499 11.9943 11.3645C11.9508 10.4361 10.8492 10.0759 10.023 9.97886C9.37073 9.86455 8.53367 9.66016 8.15681 9.09552C7.83068 8.47891 8.00824 7.59903 8.73659 7.25954C9.4 6.95033 10.8166 6.87849 11.6536 7.25954"></path><path d="M10 5.5V7M10 13V14.5"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">TỔNG DOANH THU</div>
+                                    <div class="text-primary cta-4">@ViewBag.DoanhThu.ToString("#,##0") vnđ</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="~/NhanVien/HoaDon/DanhSachHoaDon">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-content text-primary"><path d="M3 5.5C3 4.09554 3 3.39331 3.33706 2.88886C3.48298 2.67048 3.67048 2.48298 3.88886 2.33706C4.39331 2 5.09554 2 6.5 2H13.5C14.9045 2 15.6067 2 16.1111 2.33706C16.3295 2.48298 16.517 2.67048 16.6629 2.88886C17 3.39331 17 4.09554 17 5.5V14.5C17 15.9045 17 16.6067 16.6629 17.1111C16.517 17.3295 16.3295 17.517 16.1111 17.6629C15.6067 18 14.9045 18 13.5 18H6.5C5.09554 18 4.39331 18 3.88886 17.6629C3.67048 17.517 3.48298 17.3295 3.33706 17.1111C3 16.6067 3 15.9045 3 14.5V5.5Z"></path><path d="M7 6.75C7 6.04777 7 5.69665 7.16853 5.44443C7.24149 5.33524 7.33524 5.24149 7.44443 5.16853C7.69665 5 8.04777 5 8.75 5H11.25C11.9522 5 12.3033 5 12.5556 5.16853C12.6648 5.24149 12.7585 5.33524 12.8315 5.44443C13 5.69665 13 6.04777 13 6.75V7.25C13 7.95223 13 8.30335 12.8315 8.55557C12.7585 8.66476 12.6648 8.75851 12.5556 8.83147C12.3033 9 11.9522 9 11.25 9H8.75C8.04777 9 7.69665 9 7.44443 8.83147C7.33524 8.75851 7.24149 8.66476 7.16853 8.55557C7 8.30335 7 7.95223 7 7.25V6.75Z"></path><path d="M7 12H13M7 15H13"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">SỐ HÓA ĐƠN</div>
+                                    <div class="text-primary cta-4">@ViewBag.SumHoaDon</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="/NhanVien/MonAn/DanhSachMonAn">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-server text-primary"><path d="M15 2H5C4.06812 2 3.60218 2 3.23463 2.15224 2.74458 2.35523 2.35523 2.74458 2.15224 3.23463 2 3.60218 2 4.06812 2 5 2 5.93188 2 6.39782 2.15224 6.76537 2.35523 7.25542 2.74458 7.64477 3.23463 7.84776 3.60218 8 4.06812 8 5 8H15C15.9319 8 16.3978 8 16.7654 7.84776 17.2554 7.64477 17.6448 7.25542 17.8478 6.76537 18 6.39782 18 5.93188 18 5 18 4.06812 18 3.60218 17.8478 3.23463 17.6448 2.74458 17.2554 2.35523 16.7654 2.15224 16.3978 2 15.9319 2 15 2zM15 12H5C4.06812 12 3.60218 12 3.23463 12.1522 2.74458 12.3552 2.35523 12.7446 2.15224 13.2346 2 13.6022 2 14.0681 2 15 2 15.9319 2 16.3978 2.15224 16.7654 2.35523 17.2554 2.74458 17.6448 3.23463 17.8478 3.60218 18 4.06812 18 5 18H15C15.9319 18 16.3978 18 16.7654 17.8478 17.2554 17.6448 17.6448 17.2554 17.8478 16.7654 18 16.3978 18 15.9319 18 15 18 14.0681 18 13.6022 17.8478 13.2346 17.6448 12.7446 17.2554 12.3552 16.7654 12.1522 16.3978 12 15.9319 12 15 12z"></path><path d="M13 5H15M13 15H15M7 8 7 12M13 8 13 12"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">SỐ MÓN ĂN</div>
+                                    <div class="text-primary cta-4">@ViewBag.SumMonAn</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="card h-100 hover-scale-up cursor-pointer">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-user text-primary"><path d="M10.0179 8C10.9661 8 11.4402 8 11.8802 7.76629C12.1434 7.62648 12.4736 7.32023 12.6328 7.06826C12.8989 6.64708 12.9256 6.29324 12.9789 5.58557C13.0082 5.19763 13.0071 4.81594 12.9751 4.42106C12.9175 3.70801 12.8887 3.35148 12.6289 2.93726C12.4653 2.67644 12.1305 2.36765 11.8573 2.2256C11.4235 2 10.9533 2 10.0129 2V2C9.03627 2 8.54794 2 8.1082 2.23338C7.82774 2.38223 7.49696 2.6954 7.33302 2.96731C7.07596 3.39365 7.05506 3.77571 7.01326 4.53982C6.99635 4.84898 6.99567 5.15116 7.01092 5.45586C7.04931 6.22283 7.06851 6.60631 7.33198 7.03942C7.4922 7.30281 7.8169 7.61166 8.08797 7.75851C8.53371 8 9.02845 8 10.0179 8V8Z"></path><path d="M16.5 17.5L16.583 16.6152C16.7267 15.082 16.7986 14.3154 16.2254 13.2504C16.0456 12.9164 15.5292 12.2901 15.2356 12.0499C14.2994 11.2842 13.7598 11.231 12.6805 11.1245C11.9049 11.048 11.0142 11 10 11C8.98584 11 8.09511 11.048 7.31945 11.1245C6.24021 11.231 5.70059 11.2842 4.76443 12.0499C4.47077 12.2901 3.95441 12.9164 3.77462 13.2504C3.20144 14.3154 3.27331 15.082 3.41705 16.6152L3.5 17.5"></path></svg>
+                                </div>
+                                <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">NHÂN VIÊN</div>
+                                <div class="text-primary cta-4">@ViewBag.SumNhanVien</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <div class="card h-100 hover-scale-up cursor-pointer">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-arrow-top-left text-primary"><path d="M7 12L2.35355 7.35355C2.15829 7.15829 2.15829 6.84171 2.35355 6.64645L7 2"></path><path d="M18 18V11C18 9.93913 17.5786 8.92172 16.8284 8.17157C16.0783 7.42143 15.0609 7 14 7H2.5"></path></svg>
+                                </div>
+                                <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">RETURNS</div>
+                                <div class="text-primary cta-4">2</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="/NhanVien/Home/Ban?iMaTang=1">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-building text-primary"><path d="M5 5.5C5 4.09554 5 3.39331 5.33706 2.88886C5.48298 2.67048 5.67048 2.48298 5.88886 2.33706C6.39331 2 7.09554 2 8.5 2H11.5C12.9045 2 13.6067 2 14.1111 2.33706C14.3295 2.48298 14.517 2.67048 14.6629 2.88886C15 3.39331 15 4.09554 15 5.5V14.5C15 15.9045 15 16.6067 14.6629 17.1111C14.517 17.3295 14.3295 17.517 14.1111 17.6629C13.6067 18 12.9045 18 11.5 18H8.5C7.09554 18 6.39331 18 5.88886 17.6629C5.67048 17.517 5.48298 17.3295 5.33706 17.1111C5 16.6067 5 15.9045 5 14.5V5.5Z"></path><path d="M12 18V15.75C12 15.0478 12 14.6967 11.8315 14.4444C11.7585 14.3352 11.6648 14.2415 11.5556 14.1685C11.3033 14 10.9522 14 10.25 14H9.75C9.04777 14 8.69665 14 8.44443 14.1685C8.33524 14.2415 8.24149 14.3352 8.16853 14.4444C8 14.6967 8 15.0478 8 15.75V18"></path><path d="M8 5H8.5M8 8H8.5M8 11H8.5M11.5 5H12M11.5 8H12M11.5 11H12"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">BÀN</div>
+                                    <div class="text-primary cta-4">@ViewBag.SumBan</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6 mb-5">
+            <h2 class="small-title">Hóa Đơn Gần Đây</h2>
+            <div class="mb-n2 scroll-out">
+                <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="6" style="height: 336px; margin-bottom: -8px;">
+                    <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
+                        <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                            <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
+                                <!-- #region Hóa Đơn Gần Đây -->
+                                @if (listHoaDon != null)
+                                {
+                                    foreach (var item in listHoaDon)
+                                    {
+                                        <div class="card mb-2 sh-15 sh-md-6">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100">
+                                                        <a href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@item.MaHoaDon" class="body-link stretched-link">@item.TenKhachHang</a>
+                                                    </div>
+                                                    <div class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start">
+                                                        @if (item.TrangThai == 0)
+                                                        {
+                                                            <svg xmlns="http://www.w3.org/2000/svg" style="color:black" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-check-square dark-text-darker me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Cập Nhật" aria-label="Cập Nhật"><path d="M17 5L10.6329 12.2032C10.2511 12.6351 9.58418 12.6556 9.17656 12.248L6.92857 10"></path><path d="M11 2L5.5 2C4.09554 2 3.39331 2 2.88886 2.33706C2.67048 2.48298 2.48298 2.67048 2.33706 2.88886C2 3.39331 2 4.09554 2 5.5L2 14.5C2 15.9045 2 16.6067 2.33706 17.1111C2.48298 17.3295 2.67048 17.517 2.88886 17.6629C3.39331 18 4.09554 18 5.5 18L14.5 18C15.9045 18 16.6067 18 17.1111 17.6629C17.3295 17.517 17.517 17.3295 17.6629 17.1111C18 16.6067 18 15.9045 18 14.5L18 11"></path></svg>
+                                                        }
+                                                        else
+                                                        {
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-error-hexagon"><path d="M9 2.57735C9.6188 2.22008 10.3812 2.22008 11 2.57735L15.9282 5.42265C16.547 5.77992 16.9282 6.44017 16.9282 7.1547V12.8453C16.9282 13.5598 16.547 14.2201 15.9282 14.5774L11 17.4226C10.3812 17.7799 9.6188 17.7799 9 17.4226L4.0718 14.5774C3.45299 14.2201 3.0718 13.5598 3.0718 12.8453V7.1547C3.0718 6.44017 3.45299 5.77992 4.0718 5.42265L9 2.57735Z"></path><path d="M8 12 12.0001 7.99994M8 7.99994 12.0001 12"></path></svg>
+                                                        }
+                                                    </div>
+                                                    <div class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate">
+
+                                                        @if (item.TrangThai == 0)
+                                                        {
+                                                            <span>@string.Format("{0:0,0}", item.TongTien) đ</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>-</span>
+                                                        }
+                                                    </div>
+                                                    <div class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate">@string.Format("{0:hh:mm:ss tt}", item.NgayTao)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                <!-- #endregion -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+                        <div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div>
+                    </div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 67.7419%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 mb-5">
+            <h2 class="small-title">Sản Phẩm Bán Chạy</h2>
+            <div class="scroll-out mb-n2">
+                <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="4" style="height: 352px; margin-bottom: -8px;">
+                    <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
+                        <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                            <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
+                                @foreach (var item in listMonAn)
+                                {
+                                    <!-- #region Sản Phẩm Bán Chạy -->
+                                    <div class="card mb-2">
+                                        <div class="row g-0 sh-14 sh-md-10">
+                                            <div class="col-auto">
+                                                <a href="Products.Detail.html">
+                                                    <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" style="height:80px" alt="alternate text" class="card-img card-img-horizontal sw-11">
+                                                </a>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card-body pt-0 pb-0 h-100">
+                                                    <div class="row g-0 h-100 align-content-center">
+                                                        <div class="col-12 col-md-8 d-flex align-items-center mb-2 mb-md-0">
+                                                            <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn">@item.TenMonAn</a>
+                                                        </div>
+                                                        <div class="col-12 col-md-2 d-flex align-items-center text-muted text-medium">@item.LoaiMonAn.TenLMA</div>
+                                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-md-end text-muted text-medium">@item.SoLuongDaBan</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- #endregion -->
+
+                                }
+                            </div>
+                        </div>
+                    </div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 81.4815%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

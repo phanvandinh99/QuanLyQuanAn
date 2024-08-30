@@ -1,0 +1,161 @@
+﻿@using QuanLyNhaHang.Models
+@model XuatKho
+@{
+    ViewBag.Title = "Phiếu Xuất Kho";
+    Layout = "~/Areas/NhanVienKho/Views/Shared/_LayoutNhanVienKho.cshtml";
+}
+@{
+
+    IEnumerable<NguyenLieu> listNguyenLieu = ViewBag.NguyenLieu as IEnumerable<NguyenLieu>;
+}
+<div class="container">
+    @using (Html.BeginForm("PhieuXuatKho", "XuatKho"))
+    {
+        <div class="page-title-container">
+            <div class="row">
+                <div class="col-auto mb-3 mb-md-0 me-auto">
+                    <div class="w-auto sw-md-30">
+                        <h1 class="mb-0 pb-0 display-4" id="title">Phiếu Xuất Kho</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8 col-6 order-1 order-lg-0">
+                <h2 class="small-title">Thông tin phiếu xuất</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Ngày Xuất</label>
+                                    <input class="form-control" type="date" name="NgayXuat">
+                                </div>
+                                @*<div class="col-md-6 mb-3">
+                                    <label class="form-label">Tổng Tiền</label>
+                                    <input class="form-control" value="0" name="TongTien" readonly="readonly">
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #region Phần Sản Phẩm Nhập -->
+        <table class="table ChiTietNguyenLieu">
+            <tr class="trAppend" style="display:none">
+                <td>
+                    <select class="ddlNguyenLieuDung form-select" name="">
+                        @foreach (var item in listNguyenLieu)
+                        {
+                            <option value="@item.MaNguyenLieu">@item.TenNguyenLieu</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input name="" class="txtSoLuongXuat form-control">
+                </td>
+                @*<td>
+                    <input name="" class="form-control" style="width:120px" value="0" readonly="readonly">
+                </td>
+                <td>
+                    <input name="" class="form-control" style="width:120px" value="0" readonly="readonly">
+                </td>*@
+                <td>
+                    <input class="btnXoa" style="width:30px;height:30px" value="xóa">
+                </td>
+            </tr>
+            <tr class="trFirstChild" data-id="-1">
+                <td>Nguyên Liệu Xuất</td>
+                <td>Số Lượng Xuất (kg)</td>
+                <td></td>
+            </tr>
+        </table>
+        <input type="button" value="+" class="btn btn-success" id="btnThemNguyenLieu">
+        <input type="submit" value="Xuất Kho" class="btn btn-primary" id="btnThemMoiMonAn">
+        <!-- #endregion -->
+    }
+</div>
+
+<script type="text/javascript">
+    function TinhToan() {
+        var gam = document.getElementById("gam").value;
+        var a = 0.001
+        var kq = parseFloat(a) * parseFloat(gam)
+        if (!isNaN(kq)) {
+            document.getElementById("kg").value = kq;
+        }
+    }
+    // Phần appen
+    $("#btnThemNguyenLieu").click(function () {
+        // lấy id của tr cuối cùng thuộc thẻ table có class = ChiTietphieuNhap
+        // Bước 4: Phương thức find là tìm đến thẻ nào đó: ở đây là thẻ tr (:last-child) là thẻ cuối cùng trong thẻ tblChiTietPhieuNhap
+        var id_cuoi = $(".ChiTietNguyenLieu").find("tr:last-child").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+        // Bước 1:Nội dung phía trong thẻ trAppend
+        var tdnoidung = $(".trAppend").html();
+        // Bước 2: Tạo 1 thẻ tr bao ngoài nội dung
+        var trnoidung = "<tr class=\"trAppended\" data-id=\"" + i + "\">" + tdnoidung + "</tr>";
+        // Bước 3: Lấy thẻ table append vào 1 tr
+        $(".ChiTietNguyenLieu").append(trnoidung);
+        loadIDNguyenLieu();
+    });
+
+    // Phương thức sử lý lấy thuộc tính attr từ thẻ tr gắn xuống chỉ xố phần tử các trong thuộc tính name của thẻ input
+    function loadIDNguyenLieu() {
+        $(".trAppended").each(function () {
+            var id = $(this).attr("data-id");
+            var nameMaNguyenLieu = "[" + id + "].MaNguyenLieu_id";
+            var nameSoLuongXuat = "[" + id + "].SoLuongXuat";
+            $(this).find(".ddlNguyenLieuDung").attr("name", nameMaNguyenLieu);
+            $(this).find(".txtSoLuongXuat").attr("name", nameSoLuongXuat);
+        });
+    }
+    // sử lý sự kiện xóa 1 dòng từ nút delete nằm bên trong thẻ tr
+    $("body").on("click", ".btnXoa", function () {
+        // Xóa phần tử cha phía ngoài
+        $(this).closest(".trAppended").remove();
+        CapNhatID();
+    });
+
+    function CapNhatID() {
+        //Lấy lại tr 1
+        var id_cuoi = $(".ChiTietNguyenLieu").find(".trFirstChild").attr("data-id");
+        i = parseInt(id_cuoi) + 1;
+
+        $(".trAppendSanPham").each(function () {
+            var id = i;
+            $(this).attr("data-id", i)
+            // cập nhật lại id (tr) khi xóa
+            var nameMaNguyenLieu = "[" + id + "].MaNguyenLieu_id";
+            var nameSoLuongXuat = "[" + id + "].SoLuongXuat";
+            $(this).find(".ddlNguyenLieuDung").attr("name", nameMaNguyenLieu); // gán name cho dropdowlist
+            $(this).find(".txtSoLuongXuat").attr("name", nameSoLuongXuat);
+            i++;
+        });
+    }
+    $("#btnThemMoiMonAn").click(function () {
+        if (KiemTraSoLuong() == false) {
+            return false;
+        }
+    })
+    // kiểm tra Số lượng xuất lớn hơn 0 và >0
+    function KiemTraSoLuong() {
+        var bl = true;
+        // duyệt vòng lặp each
+        $(".txtSoLuongXuat").each(function () {
+            var giatri = $(this).val();
+            if (parseFloat(giatri) < 0) {
+                alert("Số lượng xuất lớn hơn 0");
+                bl = false;
+                return bl;
+            }
+            if (isNaN(giatri) == true) {
+                alert("Số lượng xuất không hợp lệ !");
+                bl = false;
+                return bl;
+            }
+        });
+        return bl;
+    }
+</script>

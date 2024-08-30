@@ -1,0 +1,66 @@
+﻿@using QuanLyNhaHang.Models
+@model List<NhanVien>
+@{
+    ViewBag.Title = "Thêm Mới Nhân Viên";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+@{
+    IEnumerable<Quyen> listQuyen = ViewBag.Quyen as IEnumerable<Quyen>;
+}
+<div class="container">
+    <div class="page-title-container">
+        <div class="row g-0">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Thêm Mới Nhân Viên</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="mb-5">
+                <h2 class="small-title">Thông Tin Nhân Viên</h2>
+                <div class="card">
+                    <div class="card-body">
+                        @using (Html.BeginForm())
+                        {
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên Nhân Viên</label>
+                                <input type="text" class="form-control" required placeholder="Tên nhân viên..." name="TenNhanVien">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tài Khoản</label>
+                                <input type="text" class="form-control" required placeholder="Tài Khoản Đăng Nhập..." name="TaiKhoanNV">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Mật Khẩu</label>
+                                <input type="password" class="form-control" required placeholder="***" name="MatKhauNV">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ngày Sinh</label>
+                                <input type="date" class="form-control" required name="NgaySinh">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">SDT</label>
+                                <input type="tel" class="form-control" required placeholder="0123456789" pattern="[0-9]{10}" name="SoDienThoai">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Quyền</label>
+                                <select class="form-control" name="MaQuyen_id">
+                                    @foreach (var item in listQuyen)
+                                    {
+                                        <option value="@item.MaQuyen">@item.TenQuyen</option>
+                                    }
+                                </select>
+                            </div>
+                            <a href="/NhanVien/NhanVien/DSNhanVien" class="btn btn-outline-primary">Trở về</a>
+                            <button class="btn btn-danger">Thêm Mới</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

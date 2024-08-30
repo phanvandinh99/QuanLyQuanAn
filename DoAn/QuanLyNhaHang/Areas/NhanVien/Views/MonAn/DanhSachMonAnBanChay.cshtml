@@ -1,0 +1,118 @@
+﻿@using QuanLyNhaHang.Models
+@model IEnumerable<MonAn>
+@{
+    ViewBag.Title = "Top 10 Món Ăn Bán Chạy";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+
+<div class="container" id="DanhSachMonAn">
+    <div class="page-title-container">
+        <div class="row g-0">
+            <div class="col-auto mb-3 mb-md-0 me-auto">
+                <div class="w-auto">
+                    <h1 class="mb-0 pb-0 display-4" id="title">TOP 10 Món Ăn Bán Chạy</h1>
+                </div>
+            </div>
+            <div class="w-100 d-md-none"></div>
+            <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
+                <a href="/NhanVien/MonAn/ThemMonAn" class="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-plus"><path d="M10 17 10 3M3 10 17 10"></path></svg>
+                    <span>Thêm Mới</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-sm-12 col-md-5 col-lg-3 col-xxl-2 mb-1">
+            <div class="d-inline-block float-md-start me-1 mb-1 search-input-container w-100 shadow bg-foreground">
+                <input class="form-control search" placeholder="Tìm kiếm">
+                <span class="search-magnifier-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-search"><circle cx="9" cy="9" r="7"></circle><path d="M14 14L17.5 17.5"></path></svg>
+                </span>
+                <span class="search-delete-icon d-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-close"><path d="M5 5 15 15M15 5 5 15"></path></svg>
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <div class="row g-0">
+        <div class="col-12 mb-5">
+            <div id="checkboxTable">
+                <div class="mb-4 mb-lg-3 bg-transparent no-shadow d-none d-lg-block">
+                    <div class="row g-0">
+                        <div class="col-auto sw-11 d-none d-lg-flex"></div>
+                        <div class="col">
+                            <div class="ps-5 pe-4 h-100">
+                                <div class="row g-0 h-100 align-content-center custom-sort">
+                                    <div class="col-lg-3 d-flex flex-column mb-lg-0 pe-3 d-flex">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="TenMonAn">Tên Món Ăn</div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex flex-column pe-1 justify-content-center">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="DonGia">Đơn Giá</div>
+                                    </div>
+                                    <div class="col-lg-3 d-flex flex-column pe-1 justify-content-center">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="SoLuongDaBan">Đã Bán</div>
+                                    </div>
+                                    <div class="col-lg-2 d-flex flex-column pe-1 justify-content-center">
+                                        <div class="text-muted text-small cursor-pointer sort" data-sort="LoaiMonAn">Loại</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- #region Hiển Thị Danh Sách Món -->
+                <div class="list">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card mb-2">
+                            <div class="row g-0 h-100 sh-lg-9 position-relative">
+                                <a href="Products.Detail.html" class="col-auto position-relative">
+                                    <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" alt="product" style="height:72px!important" class="card-img card-img-horizontal sw-11 h-100">
+                                </a>
+                                <div class="col py-4 py-lg-0">
+                                    <div class="ps-5 pe-4 h-100">
+                                        <div class="row g-0 h-100 align-content-center">
+                                            <a href="Products.Detail.html" class="col-11 col-lg-3 d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center TenMonAn">
+                                                @item.TenMonAn
+                                                <div class="text-small text-muted text-truncate position MaMonAn">#@item.MaMonAn</div>
+                                            </a>
+                                            <div class="col-12 col-lg-3 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
+                                                <div class="lh-1 text-alternate DonGia">@string.Format("{0:0,0}", item.DonGia) vnđ</div>
+                                            </div>
+                                            <div class="col-12 col-lg-3 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-4">
+                                                <div class="lh-1 text-alternate SoLuongDaBan">@item.SoLuongDaBan</div>
+                                            </div>
+                                            <div class="col-12 col-lg-2 d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                                                <div class="lh-1 text-alternate LoaiMonAn">@item.LoaiMonAn.TenLMA</div>
+                                            </div>
+                                            <div class="col-1 col-lg-1 d-flex flex-column pe-1 mb-2 mb-lg-0 align-items-start justify-content-center order-5">
+                                                <div class="lh-1 text-alternate">
+                                                    <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-content text-primary me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Chi Tiết" aria-label="Newsletter"><path d="M3 5.5C3 4.09554 3 3.39331 3.33706 2.88886C3.48298 2.67048 3.67048 2.48298 3.88886 2.33706C4.39331 2 5.09554 2 6.5 2H13.5C14.9045 2 15.6067 2 16.1111 2.33706C16.3295 2.48298 16.517 2.67048 16.6629 2.88886C17 3.39331 17 4.09554 17 5.5V14.5C17 15.9045 17 16.6067 16.6629 17.1111C16.517 17.3295 16.3295 17.517 16.1111 17.6629C15.6067 18 14.9045 18 13.5 18H6.5C5.09554 18 4.39331 18 3.88886 17.6629C3.67048 17.517 3.48298 17.3295 3.33706 17.1111C3 16.6067 3 15.9045 3 14.5V5.5Z"></path><path d="M7 6.75C7 6.04777 7 5.69665 7.16853 5.44443C7.24149 5.33524 7.33524 5.24149 7.44443 5.16853C7.69665 5 8.04777 5 8.75 5H11.25C11.9522 5 12.3033 5 12.5556 5.16853C12.6648 5.24149 12.7585 5.33524 12.8315 5.44443C13 5.69665 13 6.04777 13 6.75V7.25C13 7.95223 13 8.30335 12.8315 8.55557C12.7585 8.66476 12.6648 8.75851 12.5556 8.83147C12.3033 9 11.9522 9 11.25 9H8.75C8.04777 9 7.69665 9 7.44443 8.83147C7.33524 8.75851 7.24149 8.66476 7.16853 8.55557C7 8.30335 7 7.95223 7 7.25V6.75Z"></path><path d="M7 12H13M7 15H13"></path></svg></a>
+                                                    <a href="/NhanVien/MonAn/XoaMonAn?iMaMonAn=@item.MaMonAn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-bin" data-bs-placement="bottom" style="color:red" data-bs-original-title="Xóa" aria-label="Xóa" title=""><path d="M4 5V14.5C4 15.9045 4 16.6067 4.33706 17.1111C4.48298 17.3295 4.67048 17.517 4.88886 17.6629C5.39331 18 6.09554 18 7.5 18H12.5C13.9045 18 14.6067 18 15.1111 17.6629C15.3295 17.517 15.517 17.3295 15.6629 17.1111C16 16.6067 16 15.9045 16 14.5V5"></path><path d="M14 5L13.9424 4.74074C13.6934 3.62043 13.569 3.06028 13.225 2.67266C13.0751 2.50368 12.8977 2.36133 12.7002 2.25164C12.2472 2 11.6734 2 10.5257 2L9.47427 2C8.32663 2 7.75281 2 7.29981 2.25164C7.10234 2.36133 6.92488 2.50368 6.77496 2.67266C6.43105 3.06028 6.30657 3.62044 6.05761 4.74074L6 5"></path><path d="M2 5H18M12 9V13M8 9V13"></path></svg></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- #endregion -->
+            </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center">
+            <ul class="pagination"></ul>
+        </div>
+    </div>
+</div>
+<!-- #region Script lọc -->
+<script type="text/javascript">
+    var options = {
+        valueNames: ['TenMonAn', 'MaDonHang', 'DonGia', 'SoLuongDaBan', 'LoaiMonAn'],
+    };
+    var userList = new List('DanhSachMonAn', options);
+</script>
+<!-- #endregion -->

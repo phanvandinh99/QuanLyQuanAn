@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Đăng Nhập</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.html">
+    <!-- Place favicon.ico in the root directory -->
+    <link rel="stylesheet" href="~/Assets/Login/css/vendor.css">
+    <link href="~/Assets/Login/css/app.css" rel="stylesheet" />
+    <link href="~/Assets/Login/css/vendor.css" rel="stylesheet" />
+    <!-- Theme initialization -->
+    <script>
+        var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+            {};
+        var themeName = themeSettings.themeName || '';
+        if (themeName) {
+            document.write('<link rel="stylesheet" id="theme-style" href="Assets/Login/css/app-' + themeName + '.css">');
+        }
+        else {
+            document.write('<link rel="stylesheet" id="theme-style" href="Assets/Login/css/app.css">');
+        }
+    </script>
+</head>
+<body>
+    <div class="auth">
+        <div class="auth-container">
+            <div class="card">
+                <header class="auth-header">
+                    <h1 class="auth-title">
+                        <div class="logo">
+                            <span class="l l1"></span>
+                            <span class="l l2"></span>
+                            <span class="l l3"></span>
+                            <span class="l l4"></span>
+                            <span class="l l5"></span>
+                        </div> Đăng Nhập
+                    </h1>
+                </header>
+                <div class="auth-content">
+                    <p class="text-center">THÔNG TIN ĐĂNG NHẬP</p>
+                    @using (Ajax.BeginForm("DangNhap", "DangNhap", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
+                    {
+                        <div class="form-group">
+                            <label for="username">Mã Doanh Nghiệp</label>
+                            <input type="text" class="form-control underlined" name="sTaiKhoan" id="sTaiKhoan" placeholder="Tên đăng nhập" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập</label>
+                            <input type="text" class="form-control underlined" name="sTaiKhoan" id="sTaiKhoan" placeholder="Tên đăng nhập" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" class="form-control underlined" name="sMatKhau" id="sMatKhau" placeholder="****" required>
+                        </div>
+                        <div class="ThongBao" id="ThongBao">
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-primary">Đăng Nhập</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Reference block for JS -->
+    <div class="ref" id="ref">
+        <div class="color-primary"></div>
+        <div class="chart">
+            <div class="color-primary"></div>
+            <div class="color-secondary"></div>
+        </div>
+    </div>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '../../www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-80463319-4', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script src="~/Assets/Login/js/vendor.js"></script>
+    <script src="~/Assets/Login/js/app.js"></script>
+</body>
+</html>

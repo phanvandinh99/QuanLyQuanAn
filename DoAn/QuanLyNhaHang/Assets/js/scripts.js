@@ -1,0 +1,6 @@
+﻿class Scripts {
+    constructor() { this._initCommon(), this._initPages() } _initCommon() { if ("undefined" != typeof Common) { new Common } } _initPages() {
+        if ("undefined" != typeof CustomersDetail) { new CustomersDetail } if ("undefined" != typeof CustomersList) { new CustomersList } if ("undefined" != typeof Dashboard) { new Dashboard } if ("undefined" != typeof Discount) { new Discount } if ("undefined" != typeof OrdersList) { new OrdersList } if ("undefined" != typeof ProductsDetail) { new ProductsDetail } if ("undefined" != typeof ProductsList) { new ProductsList } if ("undefined" != typeof SettingsGeneral) { new SettingsGeneral } if ("undefined" != typeof StorefrontCategories) { new StorefrontCategories } if ("undefined" != typeof StorefrontCheckout) { new StorefrontCheckout } if ("undefined" != typeof StorefrontDetail) { new StorefrontDetail } if ("undefined" != typeof StorefrontFilters) { new StorefrontFilters }
+        if ("undefined" != typeof StorefrontHome) { new StorefrontHome }
+    }
+} "undefined" != typeof Dropzone && (Dropzone.autoDiscover = !1);

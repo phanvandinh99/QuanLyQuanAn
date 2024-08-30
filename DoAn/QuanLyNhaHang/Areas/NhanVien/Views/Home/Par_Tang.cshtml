@@ -1,0 +1,11 @@
+﻿@using QuanLyNhaHang.Models
+@model IEnumerable<Tang>
+
+@foreach (var item in Model)
+{
+    <li>
+        <a href="/NhanVien/Home/Ban?iMaTang=@item.MaTang">
+            <span class="label">@item.TenTang</span>
+        </a>
+    </li>
+}
