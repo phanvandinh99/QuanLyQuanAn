@@ -31,10 +31,6 @@ namespace QuanLyNhaHang.Models
 
         public virtual HoanTra HoanTra { get; set; }
 
-        public virtual HoanTra HoanTra1 { get; set; }
-
         public virtual NguyenLieu NguyenLieu { get; set; }
-
-        public virtual NguyenLieu NguyenLieu1 { get; set; }
     }
 }

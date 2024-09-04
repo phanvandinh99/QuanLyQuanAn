@@ -27,10 +27,6 @@ namespace QuanLyNhaHang.Models
 
         public virtual MonAn MonAn { get; set; }
 
-        public virtual MonAn MonAn1 { get; set; }
-
         public virtual NguyenLieu NguyenLieu { get; set; }
-
-        public virtual NguyenLieu NguyenLieu1 { get; set; }
     }
 }

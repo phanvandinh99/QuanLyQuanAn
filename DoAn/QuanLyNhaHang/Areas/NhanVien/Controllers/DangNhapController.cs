@@ -48,6 +48,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                             ["TenNhanVien"] = nhanVien.TenNhanVien,
                             ["MaDoangNghiep"] = nhanVien.MaDoangNghiep_id.ToString(),
                             ["TenNhanVien"] = nhanVien.NgaySinh.ToString(),
+                            ["TaiKhoanNV"] = nhanVien.TaiKhoanNV,
                             ["MaQuyen_id"] = nhanVien.MaQuyen_id.ToString()
                         },
                         Expires = DateTime.Now.AddDays(7)

@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.Models
         public HoanTra()
         {
             NguyenLieuTra = new HashSet<NguyenLieuTra>();
-            NguyenLieuTra1 = new HashSet<NguyenLieuTra>();
         }
 
         [Key]
@@ -27,8 +26,5 @@ namespace QuanLyNhaHang.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieuTra> NguyenLieuTra { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NguyenLieuTra> NguyenLieuTra1 { get; set; }
     }
 }

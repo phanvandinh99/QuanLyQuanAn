@@ -1,4 +1,5 @@
-﻿using QuanLyNhaHang.Models;
+﻿using QuanLyNhaHang.Common;
+using QuanLyNhaHang.Models;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
+    [Auth]
     public class HomeController : Controller
     {
         private readonly DatabaseQuanLyNhaHang _db;

@@ -29,10 +29,6 @@ namespace QuanLyNhaHang.Models
 
         public virtual NguyenLieu NguyenLieu { get; set; }
 
-        public virtual NguyenLieu NguyenLieu1 { get; set; }
-
         public virtual PhieuNhap PhieuNhap { get; set; }
-
-        public virtual PhieuNhap PhieuNhap1 { get; set; }
     }
 }

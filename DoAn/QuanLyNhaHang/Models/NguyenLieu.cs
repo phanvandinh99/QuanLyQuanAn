@@ -13,11 +13,8 @@ namespace QuanLyNhaHang.Models
         public NguyenLieu()
         {
             ChiTietPhieuNhap = new HashSet<ChiTietPhieuNhap>();
-            ChiTietPhieuNhap1 = new HashSet<ChiTietPhieuNhap>();
             ChiTietSanPham = new HashSet<ChiTietSanPham>();
-            ChiTietSanPham1 = new HashSet<ChiTietSanPham>();
             NguyenLieuTra = new HashSet<NguyenLieuTra>();
-            NguyenLieuTra1 = new HashSet<NguyenLieuTra>();
             NguyenLieuXuat = new HashSet<NguyenLieuXuat>();
         }
 
@@ -43,23 +40,12 @@ namespace QuanLyNhaHang.Models
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap1 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietSanPham> ChiTietSanPham { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietSanPham> ChiTietSanPham1 { get; set; }
 
         public virtual LoaiNguyenLieu LoaiNguyenLieu { get; set; }
 
-        public virtual LoaiNguyenLieu LoaiNguyenLieu1 { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieuTra> NguyenLieuTra { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NguyenLieuTra> NguyenLieuTra1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieuXuat> NguyenLieuXuat { get; set; }

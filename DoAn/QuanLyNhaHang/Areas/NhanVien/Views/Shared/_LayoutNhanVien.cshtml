@@ -24,6 +24,22 @@
     <script src="~/Assets/js/ListJS/list.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @{
+        var cookie = Request.Cookies["UserLogin"];
+        int? iMaDoangNghiep = null;
+        string sTenNhanVien = "";
+        string sTaiKhoanNV = "";
+
+        if (cookie != null)
+        {
+            sTenNhanVien = cookie["TenNhanVien"];
+            sTaiKhoanNV = cookie["TaiKhoanNV"];
+        }
+
+        // Bạn có thể gán giá trị này vào ViewBag để sử dụng trong các view kế thừa
+        ViewBag.MaDoangNghiep = iMaDoangNghiep;
+        ViewBag.TaiKhoanNV = sTaiKhoanNV;
+    }
 </head>
 <body>
     <div id="root">
@@ -37,7 +53,7 @@
                 <div class="user-container d-flex">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profile" alt="profile" src="~/Assets/img/logo/iconEmployee.jpg">
-                        <div class="name">Restaurant</div>
+                        <div class="name">@ten</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-3 ms-0 me-0">
@@ -305,18 +321,18 @@
                             </ul>
                         </li>
                         @*<li>
-            <a href="Shipping.html">
-                <i data-cs-icon="shipping" class="icon" data-cs-size="18"></i>
-                <span class="label">Shipping</span>
-            </a>
-        </li>*@
+                                <a href="Shipping.html">
+                                    <i data-cs-icon="shipping" class="icon" data-cs-size="18"></i>
+                                    <span class="label">Shipping</span>
+                                </a>
+                            </li>*@
 
                         @*<li>
-            <a href="Settings.html">
-                <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
-                <span class="label">Đăn Xuất</span>
-            </a>
-        </li>*@
+                                <a href="Settings.html">
+                                    <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
+                                    <span class="label">Đăn Xuất</span>
+                                </a>
+                            </li>*@
                     </ul>
                     <!-- #endregion -->
                 </div>

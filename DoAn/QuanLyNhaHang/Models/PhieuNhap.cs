@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.Models
         public PhieuNhap()
         {
             ChiTietPhieuNhap = new HashSet<ChiTietPhieuNhap>();
-            ChiTietPhieuNhap1 = new HashSet<ChiTietPhieuNhap>();
         }
 
         [Key]
@@ -34,15 +33,8 @@ namespace QuanLyNhaHang.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap1 { get; set; }
-
         public virtual NhaCC NhaCC { get; set; }
 
-        public virtual NhaCC NhaCC1 { get; set; }
-
         public virtual NhanVien NhanVien { get; set; }
-
-        public virtual NhanVien NhanVien1 { get; set; }
     }
 }

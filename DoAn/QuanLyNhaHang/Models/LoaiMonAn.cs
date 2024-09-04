@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.Models
         public LoaiMonAn()
         {
             MonAn = new HashSet<MonAn>();
-            MonAn1 = new HashSet<MonAn>();
         }
 
         [Key]
@@ -29,8 +28,5 @@ namespace QuanLyNhaHang.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MonAn> MonAn { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MonAn> MonAn1 { get; set; }
     }
 }

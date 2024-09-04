@@ -10,7 +10,8 @@ namespace QuanLyNhaHang.Models
     public partial class DoanhNghiep
     {
         [Key]
-        public int MaDoanhNghiep { get; set; }
+        [StringLength(50)]
+        public string MaDoanhNghiep { get; set; }
 
         [Required]
         [StringLength(200)]

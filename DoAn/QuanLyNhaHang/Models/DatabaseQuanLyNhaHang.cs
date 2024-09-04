@@ -79,19 +79,9 @@ namespace QuanLyNhaHang.Models
                 .WithOptional(e => e.LoaiMonAn)
                 .HasForeignKey(e => e.MaLMA_id);
 
-            modelBuilder.Entity<LoaiMonAn>()
-                .HasMany(e => e.MonAn1)
-                .WithOptional(e => e.LoaiMonAn1)
-                .HasForeignKey(e => e.MaLMA_id);
-
             modelBuilder.Entity<LoaiNguyenLieu>()
                 .HasMany(e => e.NguyenLieu)
                 .WithOptional(e => e.LoaiNguyenLieu)
-                .HasForeignKey(e => e.MaLNL_id);
-
-            modelBuilder.Entity<LoaiNguyenLieu>()
-                .HasMany(e => e.NguyenLieu1)
-                .WithOptional(e => e.LoaiNguyenLieu1)
                 .HasForeignKey(e => e.MaLNL_id);
 
             modelBuilder.Entity<MonAn>()
@@ -103,12 +93,6 @@ namespace QuanLyNhaHang.Models
             modelBuilder.Entity<MonAn>()
                 .HasMany(e => e.ChiTietSanPham)
                 .WithRequired(e => e.MonAn)
-                .HasForeignKey(e => e.MaMonAn_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<MonAn>()
-                .HasMany(e => e.ChiTietSanPham1)
-                .WithRequired(e => e.MonAn1)
                 .HasForeignKey(e => e.MaMonAn_id)
                 .WillCascadeOnDelete(false);
 
@@ -130,20 +114,8 @@ namespace QuanLyNhaHang.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<NguyenLieu>()
-                .HasMany(e => e.ChiTietSanPham1)
-                .WithRequired(e => e.NguyenLieu1)
-                .HasForeignKey(e => e.MaNguyenLieu_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NguyenLieu>()
                 .HasMany(e => e.NguyenLieuTra)
                 .WithRequired(e => e.NguyenLieu)
-                .HasForeignKey(e => e.MaNguyenLieu_id)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NguyenLieu>()
-                .HasMany(e => e.NguyenLieuTra1)
-                .WithRequired(e => e.NguyenLieu1)
                 .HasForeignKey(e => e.MaNguyenLieu_id)
                 .WillCascadeOnDelete(false);
 
@@ -160,11 +132,6 @@ namespace QuanLyNhaHang.Models
             modelBuilder.Entity<NhaCC>()
                 .HasMany(e => e.PhieuNhap)
                 .WithOptional(e => e.NhaCC)
-                .HasForeignKey(e => e.MaNCC_id);
-
-            modelBuilder.Entity<NhaCC>()
-                .HasMany(e => e.PhieuNhap1)
-                .WithOptional(e => e.NhaCC1)
                 .HasForeignKey(e => e.MaNCC_id);
 
             modelBuilder.Entity<NhanVien>()
@@ -187,11 +154,6 @@ namespace QuanLyNhaHang.Models
             modelBuilder.Entity<NhomMonAn>()
                 .HasMany(e => e.MonAn)
                 .WithOptional(e => e.NhomMonAn)
-                .HasForeignKey(e => e.MaNMA_id);
-
-            modelBuilder.Entity<NhomMonAn>()
-                .HasMany(e => e.MonAn1)
-                .WithOptional(e => e.NhomMonAn1)
                 .HasForeignKey(e => e.MaNMA_id);
 
             modelBuilder.Entity<PhieuNhap>()

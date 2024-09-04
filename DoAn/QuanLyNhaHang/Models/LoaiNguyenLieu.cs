@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.Models
         public LoaiNguyenLieu()
         {
             NguyenLieu = new HashSet<NguyenLieu>();
-            NguyenLieu1 = new HashSet<NguyenLieu>();
         }
 
         [Key]
@@ -29,8 +28,5 @@ namespace QuanLyNhaHang.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieu> NguyenLieu { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<NguyenLieu> NguyenLieu1 { get; set; }
     }
 }

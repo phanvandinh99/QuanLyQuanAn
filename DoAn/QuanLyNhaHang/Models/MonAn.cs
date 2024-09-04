@@ -13,11 +13,8 @@ namespace QuanLyNhaHang.Models
         public MonAn()
         {
             ChiTietHoaDon = new HashSet<ChiTietHoaDon>();
-            ChiTietHoaDon1 = new HashSet<ChiTietHoaDon>();
             ChiTietSanPham = new HashSet<ChiTietSanPham>();
-            ChiTietSanPham1 = new HashSet<ChiTietSanPham>();
             LichSuGoiMon = new HashSet<LichSuGoiMon>();
-            LichSuGoiMon1 = new HashSet<LichSuGoiMon>();
         }
 
         [Key]
@@ -51,26 +48,13 @@ namespace QuanLyNhaHang.Models
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon1 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietSanPham> ChiTietSanPham { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietSanPham> ChiTietSanPham1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LichSuGoiMon> LichSuGoiMon { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LichSuGoiMon> LichSuGoiMon1 { get; set; }
-
         public virtual LoaiMonAn LoaiMonAn { get; set; }
 
-        public virtual LoaiMonAn LoaiMonAn1 { get; set; }
-
         public virtual NhomMonAn NhomMonAn { get; set; }
-
-        public virtual NhomMonAn NhomMonAn1 { get; set; }
     }
 }

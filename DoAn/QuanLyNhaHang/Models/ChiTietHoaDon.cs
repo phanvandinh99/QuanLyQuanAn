@@ -30,7 +30,5 @@ namespace QuanLyNhaHang.Models
         public virtual HoaDon HoaDon { get; set; }
 
         public virtual MonAn MonAn { get; set; }
-
-        public virtual MonAn MonAn1 { get; set; }
     }
 }
