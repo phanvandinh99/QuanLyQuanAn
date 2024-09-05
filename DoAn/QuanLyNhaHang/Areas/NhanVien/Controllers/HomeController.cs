@@ -1,10 +1,10 @@
-﻿using QuanLyNhaHang.Common;
-using QuanLyNhaHang.Models;
-using System;
-using System.Data.Entity;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Data.Entity;
+using QuanLyNhaHang.Common;
+using QuanLyNhaHang.Models;
+using System.Threading.Tasks;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
@@ -18,41 +18,41 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             _db = db;
         }
 
-        private int GetMaDoanhNghiepFromCookie()
+        private string GetMaDoanhNghiepFromCookie()
         {
             var cookie = Request.Cookies["UserLogin"];
-            if (cookie != null && int.TryParse(cookie["MaDoangNghiep"], out int iMaDoangNghiep))
+            if (cookie != null && cookie["MaDoangNghiep"] != null)
             {
-                return iMaDoangNghiep;
+                return cookie["MaDoangNghiep"];
             }
-            return 0;
+            return null;
         }
 
         //Tranh chủ nhân viên bán hàng
         public async Task<ActionResult> Index()
         {
-            int iMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.DoanhThu = await DoanhThuDonHang(iMaDoanhNghiep);
+            ViewBag.DoanhThu = await DoanhThuDonHang(sMaDoanhNghiep);
             ViewBag.SumHoaDon = await _db.HoaDon
-                                .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+                                .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                                 .CountAsync();
             ViewBag.SumMonAn = await _db.MonAn
-                               .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+                               .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                                .CountAsync();
             ViewBag.SumNhanVien = await _db.NhanVien
-                                  .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+                                  .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                                   .CountAsync();
-            ViewBag.SumBan = await _db.Ban.Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+            ViewBag.SumBan = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                              .CountAsync();
             // Món Ăn Bán Chạy
             ViewBag.BanChay = await _db.MonAn
-                              .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+                              .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                               .OrderByDescending(n => n.SoLuongDaBan)
                               .ToListAsync();
             // Hóa đơn
             ViewBag.HoaDon = await _db.HoaDon
-                             .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep
+                             .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep
                                     && n.NgayThanhToan.HasValue
                                     && n.NgayThanhToan.Value.Year == DateTime.Now.Year)
                              .OrderByDescending(n => n.NgayThanhToan)
@@ -61,10 +61,10 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             return View();
         }
 
-        public async Task<double> DoanhThuDonHang(int iMaDoanhNghiep)
+        public async Task<double> DoanhThuDonHang(string sMaDoanhNghiep)
         {
             double TongDoanhThu = await _db.HoaDon
-                                  .Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep
+                                  .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep
                                          && n.NgayThanhToan.HasValue
                                          && n.NgayThanhToan.Value.Year == DateTime.Now.Year)
                                   .SumAsync(n => (double?)n.TongTien) ?? 0;
@@ -75,13 +75,13 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         #region Hiển thị danh sách các bàn theo tầng khác nhau
         public async Task<ActionResult> Ban(int iMaTang)
         {
-            int iMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            var tenTang = await _db.Tang.SingleOrDefaultAsync(n => n.MaTang == iMaTang & n.MaDoangNghiep_id == iMaDoanhNghiep);
+            var tenTang = await _db.Tang.SingleOrDefaultAsync(n => n.MaTang == iMaTang & n.MaDoangNghiep_id == sMaDoanhNghiep);
             ViewBag.Tang = tenTang.TenTang;
 
             var listBan = await _db.Ban
-                          .Where(n => n.MaTang_id == iMaTang & n.MaDoangNghiep_id == iMaDoanhNghiep)
+                          .Where(n => n.MaTang_id == iMaTang & n.MaDoangNghiep_id == sMaDoanhNghiep)
                           .OrderBy(n => n.MaBan)
                           .ToListAsync();
 
@@ -90,9 +90,9 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
         public ActionResult Par_Tang()
         {
-            int iMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            var listTang = _db.Tang.Where(n => n.MaDoangNghiep_id == iMaDoanhNghiep)
+            var listTang = _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
                            .OrderBy(n => n.MaTang)
                            .ToList();
 

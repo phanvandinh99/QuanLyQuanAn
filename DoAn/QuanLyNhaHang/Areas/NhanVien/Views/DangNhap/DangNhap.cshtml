@@ -1,101 +1,4 @@
-﻿<!--<!doctype html>
-<html class="no-js" lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Đăng Nhập</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" href="apple-touch-icon.html">-->
-<!-- Place favicon.ico in the root directory -->
-<!--<link rel="stylesheet" href="~/Assets/Login/css/vendor.css">
-<link href="~/Assets/Login/css/app.css" rel="stylesheet" />
-<link href="~/Assets/Login/css/vendor.css" rel="stylesheet" />-->
-<!-- Theme initialization -->
-<!--<script>
-        var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
-            {};
-        var themeName = themeSettings.themeName || '';
-        if (themeName) {
-            document.write('<link rel="stylesheet" id="theme-style" href="Assets/Login/css/app-' + themeName + '.css">');
-        }
-        else {
-            document.write('<link rel="stylesheet" id="theme-style" href="Assets/Login/css/app.css">');
-        }
-    </script>
-</head>
-<body>
-    <div class="auth">
-        <div class="auth-container">
-            <div class="card">
-                <header class="auth-header">
-                    <h1 class="auth-title">
-                        <div class="logo">
-                            <span class="l l1"></span>
-                            <span class="l l2"></span>
-                            <span class="l l3"></span>
-                            <span class="l l4"></span>
-                            <span class="l l5"></span>
-                        </div> Đăng Nhập
-                    </h1>
-                </header>
-                <div class="auth-content">
-                    <p class="text-center">THÔNG TIN ĐĂNG NHẬP</p>
-                    @using (Ajax.BeginForm("DangNhap", "DangNhap", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }))
-                    {
-                        <div class="form-group">
-                            <label for="username">Mã Doanh Nghiệp</label>
-                            <input type="text" class="form-control underlined" name="sTaiKhoan" id="sTaiKhoan" placeholder="Tên đăng nhập" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="username">Tên đăng nhập</label>
-                            <input type="text" class="form-control underlined" name="sTaiKhoan" id="sTaiKhoan" placeholder="Tên đăng nhập" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Mật khẩu</label>
-                            <input type="password" class="form-control underlined" name="sMatKhau" id="sMatKhau" placeholder="****" required>
-                        </div>
-                        <div class="ThongBao" id="ThongBao">
-                            @Html.AntiForgeryToken()
-                            @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-block btn-primary">Đăng Nhập</button>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>-->
-<!-- Reference block for JS -->
-<!--<div class="ref" id="ref">
-        <div class="color-primary"></div>
-        <div class="chart">
-            <div class="color-primary"></div>
-            <div class="color-secondary"></div>
-        </div>
-    </div>
-    <script>
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '../../www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-80463319-4', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <script src="~/Assets/Login/js/vendor.js"></script>
-    <script src="~/Assets/Login/js/app.js"></script>
-</body>
-</html>-->
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -112,6 +15,10 @@
     <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/style.css">
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="~/Assets/Login/css/responsive.css">
+    <!-- Aler toat-->
+    <script src="~/Assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
 
 <body>
@@ -126,12 +33,12 @@
                 <div class="login-card login-dark">
                     <div>
                         <!--<div>
-                            <a class="logo text-start" href="index.html">
-                                <img class="img-fluid for-dark"
-                                     src="../assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-light"
-                                                                                                src="../assets/images/logo/logo_dark.png" alt="looginpage">
-                            </a>
-                        </div>-->
+                        <a class="logo text-start" href="index.html">
+                            <img class="img-fluid for-dark"
+                                 src="../assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-light"
+                                                                                            src="../assets/images/logo/logo_dark.png" alt="looginpage">
+                        </a>
+                    </div>-->
                         <div class="login-main">
                             @using (Ajax.BeginForm("DangNhap", "DangNhap", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }, new { @class = "theme-form" }))
                             {
@@ -167,22 +74,22 @@
                                     @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
                                 </div>
                                 @*<h6 class="text-muted mt-4 or">Đăng nhập với</h6>
-                                    <div class="social mt-4">
-                                        <div class="btn-showcase">
-                                            <a class="btn btn-light" href="https://www.linkedin.com/login"
-                                               target="_blank"><i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn </a><a class="btn btn-light" href="https://twitter.com/login?lang=en" target="_blank">
-                                                <i class="txt-twitter" data-feather="twitter"></i>twitter
-                                            </a><a class="btn btn-light"
-                                                   href="https://www.facebook.com/" target="_blank">
-                                                <i class="txt-fb"
-                                                   data-feather="facebook"></i>facebook
-                                            </a>
-                                        </div>
+                                <div class="social mt-4">
+                                    <div class="btn-showcase">
+                                        <a class="btn btn-light" href="https://www.linkedin.com/login"
+                                           target="_blank"><i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn </a><a class="btn btn-light" href="https://twitter.com/login?lang=en" target="_blank">
+                                            <i class="txt-twitter" data-feather="twitter"></i>twitter
+                                        </a><a class="btn btn-light"
+                                               href="https://www.facebook.com/" target="_blank">
+                                            <i class="txt-fb"
+                                               data-feather="facebook"></i>facebook
+                                        </a>
                                     </div>
-                                    <p class="mt-4 mb-0 text-center">
-                                        Bạn chưa có tài khoản?
-                                        <a class="ms-2" href="#">Tạo mới</a>
-                                    </p>*@
+                                </div>
+                                <p class="mt-4 mb-0 text-center">
+                                    Bạn chưa có tài khoản?
+                                    <a class="ms-2" href="#">Tạo mới</a>
+                                </p>*@
                                 <script>
                                     (function () {
                                         'use strict';
@@ -223,6 +130,34 @@
         <!-- Plugins JS Ends-->
         <!-- Theme js-->
         <script src="~/Assets/Login/js/script.js"></script>
+        <script>
+        $(document).ready(function () {
+            var toastMessage = '@TempData["ToastMessage"]';
+
+            if (toastMessage) {
+                var parts = toastMessage.split('|');
+                if (parts.length === 2) {
+                    var toastType = parts[0];
+                    var message = parts[1];
+
+                    switch (toastType) {
+                        case 'success':
+                            toastr.success(message);
+                            break;
+                        case 'error':
+                            toastr.error(message);
+                            break;
+                        case 'info':
+                            toastr.info(message);
+                            break;
+                        case 'warning':
+                            toastr.warning(message);
+                            break;
+                    }
+                }
+            }
+        });
+        </script>
     </div>
 </body>
 

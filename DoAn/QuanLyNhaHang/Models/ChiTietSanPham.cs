@@ -23,7 +23,7 @@ namespace QuanLyNhaHang.Models
 
         public int? Tru { get; set; }
 
-        public int MaDoangNghiep_id { get; set; }
+        public string MaDoangNghiep_id { get; set; }
 
         public virtual MonAn MonAn { get; set; }
 

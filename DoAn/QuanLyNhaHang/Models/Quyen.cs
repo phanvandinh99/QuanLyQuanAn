@@ -25,7 +25,7 @@ namespace QuanLyNhaHang.Models
         [StringLength(100)]
         public string GhiChu { get; set; }
 
-        public int MaDoangNghiep_id { get; set; }
+        public string MaDoangNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NhanVien> NhanVien { get; set; }

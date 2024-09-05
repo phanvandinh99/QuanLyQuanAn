@@ -4,7 +4,6 @@ namespace QuanLyNhaHang.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("HoaDon")]
     public partial class HoaDon
@@ -43,9 +42,7 @@ namespace QuanLyNhaHang.Models
 
         public int? MaBan_id { get; set; }
 
-        public int MaDoangNghiep_id { get; set; }
-
-        public virtual Ban Ban { get; set; }
+        public string MaDoangNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }

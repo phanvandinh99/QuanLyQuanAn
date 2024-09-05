@@ -36,11 +36,6 @@ namespace QuanLyNhaHang.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Ban>()
-                .HasMany(e => e.HoaDon)
-                .WithOptional(e => e.Ban)
-                .HasForeignKey(e => e.MaBan_id);
-
             modelBuilder.Entity<DoanhNghiep>()
                 .Property(e => e.SoDienThoai)
                 .IsUnicode(false);

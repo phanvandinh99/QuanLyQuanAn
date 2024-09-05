@@ -17,7 +17,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         // GET: NhanVien/HoaDon
         public ActionResult Index()
         {
-            var hoaDons = db.HoaDon.Include(h => h.Ban);
+            var hoaDons = db.HoaDon;
             return View(hoaDons.ToList());
         }
 
