@@ -24,10 +24,8 @@ namespace QuanLyNhaHang.Models
         [StringLength(10)]
         public string SDTKhachHang { get; set; }
 
-        [StringLength(10)]
+        [StringLength(255)]
         public string DiaChiKhachHang { get; set; }
-
-        public int? TongHoaDon { get; set; }
 
         public DateTime? NgayTao { get; set; }
 
@@ -40,7 +38,7 @@ namespace QuanLyNhaHang.Models
 
         public int? TrangThai { get; set; }
 
-        public int? MaBan_id { get; set; }
+        public int MaBan_id { get; set; }
 
         public string MaDoangNghiep_id { get; set; }
 

@@ -18,10 +18,22 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             _db = db;
         }
 
+        private string GetMaDoanhNghiepFromCookie()
+        {
+            var cookie = Request.Cookies["UserLogin"];
+            if (cookie != null && cookie["MaDoangNghiep"] != null)
+            {
+                return cookie["MaDoangNghiep"];
+            }
+            return null;
+        }
+
         public async Task<ActionResult> DanhSachTang()
         {
-            ViewBag.Tang = await _db.Tang.CountAsync();
-            var list = await _db.Tang.ToListAsync();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
+            ViewBag.Tang = await _db.Tang.Where(n=>n.MaDoangNghiep_id==sMaDoanhNghiep).CountAsync();
+            var list = await _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View(list);
         }
 
@@ -49,8 +61,11 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         [HttpPost]
         public async Task<ActionResult> ThemTang(Tang Model)
         {
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
             try
             {
+                Model.MaDoangNghiep_id = sMaDoanhNghiep;
                 _db.Tang.Add(Model);
                 await _db.SaveChangesAsync();
 

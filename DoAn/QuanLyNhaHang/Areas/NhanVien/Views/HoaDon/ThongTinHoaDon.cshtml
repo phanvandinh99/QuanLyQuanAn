@@ -6,12 +6,11 @@
 }
 <!-- #region Danh sách khác -->
 @{
-    IEnumerable<LoaiMonAn> listLoaiMonAn = (IEnumerable<LoaiMonAn>)ViewBag.LoaiMonAn;
-    IEnumerable<MonAn> listMonAn = (IEnumerable<MonAn>)ViewBag.DanhSachMonAn;
-    IEnumerable<ChiTietHoaDon> listMonAnKhachChon = (IEnumerable<ChiTietHoaDon>)ViewBag.MonAnKhachChon;
-    IEnumerable<Ban> listBan = (IEnumerable<Ban>)ViewBag.Ban;
+    var listLoaiMonAn = ViewBag.LoaiMonAn as IEnumerable<LoaiMonAn> ?? Enumerable.Empty<LoaiMonAn>();
+    var listMonAn = ViewBag.DanhSachMonAn as IEnumerable<MonAn> ?? Enumerable.Empty<MonAn>();
+    var listMonAnKhachChon = ViewBag.MonAnKhachChon as IEnumerable<ChiTietHoaDon> ?? Enumerable.Empty<ChiTietHoaDon>();
+    var listBan = ViewBag.Ban as IEnumerable<Ban> ?? Enumerable.Empty<Ban>();
 }
-
 <!-- #endregion -->
 <div class="container" id="DanhSachMonAn">
     <div class="page-title-container">
@@ -28,7 +27,7 @@
             <h2 class="small-title">Món Đã Gọi</h2>
             <div class="mb-5">
                 <!-- #region Hiển Thị Danh Sách Món Đã Gọi -->
-                @if (ViewBag.SoLuongMonAn != 0)
+                @if (listMonAnKhachChon.Any())
                 {
                     <span style="color:red; text-align:center;display:block;">@ViewBag.ThongBao</span>
                     foreach (var item in listMonAnKhachChon)
@@ -90,92 +89,89 @@
         <div class="col-12 col-lg-auto order-0 order-lg-1">
             <h2 class="small-title">Hóa Đơn Khách Hàng</h2>
             <!-- #region Khách Hàng -->
-            @if (ViewBag.SoLuongMonAn != 0)
-            {
-                <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
-                    <div class="card-body">
 
-                        @using (Html.BeginForm("CapNhatTenKhachHang", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @strURL = Request.Url.ToString() }))
-                        {
-                            <div class="mb-4">
-                                <div class="mb-2">
-                                    <label class="text-alternate text-muted mb-1">Khách Hàng</label>
-                                    <input type="text" class="form-control mask-currency" placeholder="@Model.TenKhachHang" name="txtTenKhachhang">
-                                </div>
-                                <div class="mb-2">
-                                    <label class="text-alternate text-muted mb-1">Số Điện Thoại</label>
-                                    <input type="number" min="0" class="form-control mask-currency" value="@Model.SDTKhachHang" name="txtSoDienThoai">
-                                </div>
+            <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
+                <div class="card-body">
+                    @using (Html.BeginForm("CapNhatTenKhachHang", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @strURL = Request.Url.ToString() }))
+                    {
+                        <div class="mb-4">
+                            <div class="mb-2">
+                                <label class="text-alternate text-muted mb-1">Khách Hàng</label>
+                                <input type="text" class="form-control mask-currency" placeholder="@Model.TenKhachHang" name="txtTenKhachhang">
                             </div>
+                            <div class="mb-2">
+                                <label class="text-alternate text-muted mb-1">Số Điện Thoại</label>
+                                <input type="number" min="0" class="form-control mask-currency" value="@Model.SDTKhachHang" name="txtSoDienThoai">
+                            </div>
+                        </div>
 
-                            <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
-                                <span>Cập Nhật</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
-                            </button>
-                        }
-                        <br />
-                    </div>
+                        <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
+                            <span>Cập Nhật</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                        </button>
+                    }
+                    <br />
                 </div>
-            }
+            </div>
             <!-- #endregion -->
             <!-- #region Hóa đơn -->
             <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important">
                 <div class="card-body">
-                    @if (ViewBag.SoLuongMonAn != 0)
+                    @if (listMonAn.Any())
                     {
                         using (Html.BeginForm("ThanhToan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
                         {
-                    <div class="mb-4">
-                        <div class="mb-2">
-                            <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
-                        </div>
-                        <div class="mb-2">
-                            <p class="text-alternate text-muted mb-1">Giờ Vào: @string.Format("{0:hh:mm:ss tt}", Model.NgayTao)</p>
-                        </div>
-                        <div class="mb-2">
-                            <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
-                        </div>
-                        @if (Model.Ban.Vip == 1)
-                        {
-                            <div class="mb-2">
-                                <label class="text-alternate text-muted mb-1">Phí Phòng Vip (%)</label>
-                                <input type="number" min="0" max="100" class="form-control mask-currency" value="10" readonly="readonly">
-                            </div>
-                        }
-                        @if (Model.TongHoaDon >= 5)
-                        {
-                            <div class="mb-2">
-                                <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
-                                <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang">
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="mb-2">
-                                <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
-                                <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang" readonly="readonly">
-                            </div>
-                        }
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
+                                </div>
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Giờ Vào: @string.Format("{0:hh:mm:ss tt}", Model.NgayTao)</p>
+                                </div>
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
+                                </div>
+                                @*@if (Model.Ban.Vip == 1)
+                                    {
+                                        <div class="mb-2">
+                                            <label class="text-alternate text-muted mb-1">Phí Phòng Vip (%)</label>
+                                            <input type="number" min="0" max="100" class="form-control mask-currency" value="10" readonly="readonly">
+                                        </div>
+                                    }
+                                    @if (Model.TongHoaDon >= 5)
+                                    {
+                                        <div class="mb-2">
+                                            <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
+                                            <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="mb-2">
+                                            <label class="text-alternate text-muted mb-1">Khách Hàng Thành Viên (5HD)</label>
+                                            <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaKhachHang" id="txtGiamGiaKhachHang" readonly="readonly">
+                                        </div>
+                                    }*@
 
-                        <div class="mb-2">
-                            <label class="text-alternate text-muted mb-1">Giảm Giá (vnđ)</label>
-                            <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGias">
-                        </div>
-                        <div class="mb-2">
-                            <label class="text-alternate text-muted mb-1">Giảm Giá (%)</label>
-                            <input type="number" min="0" max="100" class="form-control mask-currency" value="0" name="txtGiamGiaPhanTram" id="txtGiamGiaPhanTram">
-                        </div>
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Giảm Giá (vnđ)</label>
+                                    <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGias">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1">Giảm Giá (%)</label>
+                                    <input type="number" min="0" max="100" class="form-control mask-currency" value="0" name="txtGiamGiaPhanTram" id="txtGiamGiaPhanTram">
+                                </div>
 
-                        <div class="mb-2">
-                            <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
-                            <div class="cta-2">
-                                <span>
-                                    <input style="display:none" id="TongTienMonAn" value="@ViewBag.TongTienMonAn" />
-                                    <span id="TongTienMonAn" class="text-alternate text-muted cta-2">@string.Format("{0:0,0}", ViewBag.TongTienMonAn) vnđ</span>
-                                </span>
+                                <div class="mb-2">
+                                    <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
+                                    <div class="cta-2">
+                                        <span>
+                                            <input style="display:none" id="TongTienMonAn" value="@ViewBag.TongTienMonAn" />
+                                            <span id="TongTienMonAn" class="text-alternate text-muted cta-2">@string.Format("{0:0,0}", ViewBag.TongTienMonAn) vnđ</span>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
                             <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
                                 <span>THANH TOÁN</span>
@@ -199,7 +195,7 @@
 
                         <div class="mb-4">
                             <div class="mb-2">
-                                <p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan | @Model.Ban.SoGhe Ghế</p>
+                                @*<p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan | @Model.Ban.SoGhe Ghế</p>*@
                                 <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
                             </div>
                             <div class="mb-2">
@@ -212,7 +208,7 @@
                                 <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
                                 <div class="cta-2">
                                     <span>
-                                        <span class="text-alternate text-muted cta-2">@string.Format("{0:0,0}", ViewBag.TongTienMonAn) vnđ</span>
+                                        <span class="text-alternate text-muted cta-2">@ViewBag.TongTienMonAn.ToString("#,##0") vnđ</span>
                                     </span>
                                 </div>
                             </div>
@@ -233,7 +229,7 @@
                     <div class="card-body">
                         <div class="mb-4">
                             <div class="mb-2">
-                                <label class="text-alternate text-muted mb-1" style="text-align:center">Bàn @Model.Ban.TenBan | @Model.Ban.SoGhe ghế</label>
+                                <label class="text-alternate text-muted mb-1" style="text-align:center">@*Bàn @Model.Ban.TenBan | @Model.Ban.SoGhe ghế*@</label>
                                 <select class="form-select" name="Ban">
                                     @foreach (var item in listBan)
                                     {
@@ -299,7 +295,7 @@
         <!-- #region Danh sách món ăn -->
         <div style="text-align:center; display:block;" class="row">
             <div>
-                <a class="btn btn-outline-primary" style="margin-top:10px" href="/NhanVien/HoaDon/ThongTinHoaDon?iMaBan=@Model.MaBan_id">Tất Cả [@ViewBag.TatCa]</a>
+                <a class="btn btn-outline-primary" style="margin-top:10px" href="/NhanVien/HoaDon/ThongTinHoaDon?iMaBan=@Model.MaBan_id">Tất Cả [@ViewBag.MonAn]</a>
                 @foreach (var item in listLoaiMonAn)
                 {
                     <a class="btn btn-outline-primary" style="margin-top:10px" href="/NhanVien/HoaDon/ThongTinHoaDonMonAn?iMaBan=@Model.MaBan_id&iMaHoaDon=@Model.MaHoaDon&iMaLMA=@item.MaLMA">@item.TenLMA [@item.TongSoLuong]</a>
@@ -391,7 +387,7 @@
                 <div class="mb-2">
                     <p class="text-alternate text-muted mb-1">KH: @Model.TenKhachHang</p>
                     <p class="text-alternate text-muted mb-1">SDT: @Model.SDTKhachHang</p>
-                    <p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan</p>
+                    @*<p class="text-alternate text-muted mb-1">Bàn: @Model.Ban.TenBan</p>*@
                     <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
                 </div>
                 <div class="mb-2">
@@ -406,7 +402,9 @@
                     <b class="text-alternate text-muted mb-1">Thông tin món ăn </b> <b style="float:right">Thành tiền</b>
                     @foreach (var item in listMonAnKhachChon)
                     {
-                        <label class="text-alternate text-muted mb-1">@item.MonAn.TenMonAn (SL: @item.SoLuongMua) </label> <a style="float:right">@string.Format("{0:0,0}", item.ThanhTien)đ</a>
+                        <label class="text-alternate text-muted mb-1">
+                            @item.MonAn.TenMonAn (SL: @item.SoLuongMua)
+                        </label> <a style="float:right">@string.Format("{0:0,0}", item.ThanhTien)đ</a>
                     }
                     <div style="clear:both; display:block"></div>
                     <label style="text-align:center; display:block">___________________________</label>

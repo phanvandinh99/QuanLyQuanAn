@@ -1,6 +1,7 @@
 ﻿using QuanLyNhaHang.Models;
 using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,10 +16,18 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             _db = db;
         }
 
+        private string GetMaDoanhNghiepFromCookie()
+        {
+            var cookie = Request.Cookies["UserLogin"];
+            return cookie?["MaDoangNghiep"];
+        }
+
         public async Task<ActionResult> DanhSachBan()
         {
-            ViewBag.Ban = await _db.Ban.CountAsync();
-            var listBan = await _db.Ban.ToListAsync();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
+            ViewBag.Ban = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).CountAsync();
+            var listBan = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View(listBan);
         }
 
@@ -39,12 +48,16 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         //Thêm bàn
         public async Task<ActionResult> ThemBan()
         {
-            ViewBag.MaTang = await _db.Tang.ToListAsync();
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
+            ViewBag.MaTang = await _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View();
         }
         [HttpPost]
         public async Task<ActionResult> ThemBan(Ban Model)
         {
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
             try
             {
                 if (null == (Model.MaTang_id))
@@ -53,6 +66,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     return RedirectToAction("ThemTang", "Tang");
                 }
                 Model.TinhTrang = 0;
+                Model.MaDoangNghiep_id = sMaDoanhNghiep;
                 _db.Ban.Add(Model);
                 await _db.SaveChangesAsync();
 

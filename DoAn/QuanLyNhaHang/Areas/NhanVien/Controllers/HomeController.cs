@@ -5,6 +5,7 @@ using System.Data.Entity;
 using QuanLyNhaHang.Common;
 using QuanLyNhaHang.Models;
 using System.Threading.Tasks;
+using QuanLyNhaHang.Common.Const;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
@@ -77,16 +78,44 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            var tenTang = await _db.Tang.SingleOrDefaultAsync(n => n.MaTang == iMaTang & n.MaDoangNghiep_id == sMaDoanhNghiep);
+            var tenTang = await _db.Tang.SingleOrDefaultAsync(n => n.MaTang == iMaTang &
+                                                              n.MaDoangNghiep_id == sMaDoanhNghiep);
             ViewBag.Tang = tenTang.TenTang;
-
+            
             var listBan = await _db.Ban
-                          .Where(n => n.MaTang_id == iMaTang & n.MaDoangNghiep_id == sMaDoanhNghiep)
+                          .Where(n => n.MaTang_id == iMaTang &&
+                                 n.MaDoangNghiep_id == sMaDoanhNghiep)
                           .OrderBy(n => n.MaBan)
                           .ToListAsync();
 
+            var maBans = listBan.Where(n=>n.TinhTrang == Const.CoNguoi).Select(b => b.MaBan).ToList();
+            var hoaDons = await _db.HoaDon
+                          .Where(hd => maBans.Contains(hd.MaBan_id) &&
+                            hd.TrangThai == Const.ChuaThanhToan)
+                          .ToListAsync();
+
+            foreach (var hoaDon in hoaDons)
+            {
+                bool hasChiTietHoaDon = await _db.ChiTietHoaDon
+                    .AnyAsync(cthd => cthd.MaHoaDon_id == hoaDon.MaHoaDon);
+
+                if (!hasChiTietHoaDon)
+                {
+                    _db.HoaDon.Remove(hoaDon);
+
+                    var ban = await _db.Ban.SingleOrDefaultAsync(b => b.MaBan == hoaDon.MaBan_id);
+                    if (ban != null)
+                    {
+                        ban.TinhTrang = Const.KhongCoNguoi;
+                    }
+                }
+            }
+
+            await _db.SaveChangesAsync();
+
             return View(listBan);
         }
+
 
         public ActionResult Par_Tang()
         {

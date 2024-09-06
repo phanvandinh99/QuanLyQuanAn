@@ -8,7 +8,7 @@
     <div class="page-title-container">
         <div class="row">
             <div class="col-12 col-md-7">
-                <h1 class="mb-0 pb-0 display-4" id="title">Bàn @ViewBag.Tang (@Model.Count() bàn) @Model.Select(n=>n.Tang.TenTang)</h1>
+                <h1 class="mb-0 pb-0 display-4" id="title">Bàn @ViewBag.Tang (@Model.Count() bàn)</h1>
             </div>
         </div>
     </div>
@@ -32,6 +32,21 @@
             </div>
             <div class="mb-5">
                 <div class="row g-2">
+                    <!-- #region Hiển thị bàn khách mang đi-->
+                    <div class="col-6 col-md-4 col-lg-2">
+
+                        <a href="~/NhanVien/HoaDon/ThongTinHoaDon?iMaBan=0">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <i data-cs-icon="screen" class="text-bg-danger"></i>
+                                    </div>
+                                    <div class="text-bg-danger cta-4">MANG ĐI</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- #endregion -->
                     <!-- #region Hiển thị bàn -->
                     @foreach (var item in Model)
                     {
