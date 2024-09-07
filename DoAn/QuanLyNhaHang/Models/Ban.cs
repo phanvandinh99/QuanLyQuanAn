@@ -22,7 +22,7 @@ namespace QuanLyNhaHang.Models
 
         public int? MaTang_id { get; set; }
 
-        public string MaDoangNghiep_id { get; set; }
+        public string MaDoanhNghiep_id { get; set; }
 
         public virtual Tang Tang { get; set; }
     }

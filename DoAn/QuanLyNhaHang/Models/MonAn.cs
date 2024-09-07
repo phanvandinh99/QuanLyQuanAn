@@ -38,11 +38,9 @@ namespace QuanLyNhaHang.Models
 
         public int? SoLuongDaBan { get; set; }
 
-        public int? MaNMA_id { get; set; }
-
         public int? MaLMA_id { get; set; }
 
-        public string MaDoangNghiep_id { get; set; }
+        public string MaDoanhNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietHoaDon> ChiTietHoaDon { get; set; }
@@ -54,7 +52,5 @@ namespace QuanLyNhaHang.Models
         public virtual ICollection<LichSuGoiMon> LichSuGoiMon { get; set; }
 
         public virtual LoaiMonAn LoaiMonAn { get; set; }
-
-        public virtual NhomMonAn NhomMonAn { get; set; }
     }
 }

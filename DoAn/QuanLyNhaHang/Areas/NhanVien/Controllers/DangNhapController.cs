@@ -34,7 +34,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 var nhanVien = await _db.NhanVien
                                .SingleOrDefaultAsync(n => n.TaiKhoanNV == sTaiKhoan &&
                                                      n.MatKhauNV == sMatKhau &&
-                                                     n.MaDoangNghiep_id == sMaDoanhNghiep);
+                                                     n.MaDoanhNghiep_id == sMaDoanhNghiep);
 
                 if (nhanVien == null)
                 {
@@ -48,7 +48,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     {
                         Values = {
                             ["TenNhanVien"] = nhanVien.TenNhanVien,
-                            ["MaDoangNghiep"] = nhanVien.MaDoangNghiep_id.ToString(),
+                            ["MaDoanhNghiep"] = nhanVien.MaDoanhNghiep_id.ToString(),
                             ["TaiKhoanNV"] = nhanVien.TaiKhoanNV,
                             ["MaQuyen_id"] = nhanVien.MaQuyen_id.ToString()
                         },

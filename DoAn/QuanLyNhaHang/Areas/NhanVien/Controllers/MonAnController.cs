@@ -70,7 +70,6 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         }
         public ActionResult ThemMonAn()
         {
-            ViewBag.NhomMonAn = db.NhomMonAn.ToList();
             ViewBag.LoaiMonAn = db.LoaiMonAn.ToList();
             ViewBag.NguyenLieu = db.NguyenLieu.Where(n => n.MaLNL_id != 4 & n.MaNguyenLieu != 1).ToList();
             return View();
@@ -81,8 +80,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             try
             {
-                ViewBag.NhomMonAn = db.NhomMonAn.ToList();
-                ViewBag.LoaiMonAn = db.NhomMonAn.ToList();
+                ViewBag.LoaiMonAn = db.LoaiMonAn.ToList();
                 ViewBag.NguyenLieu = db.NguyenLieu.ToList();
                 #region Lưu hình ảnh vào thư mục
                 if (HinhAnh.ContentLength > 0)
@@ -109,7 +107,6 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 monAn.ThongTin = Model.ThongTin;
                 monAn.MoTa = Model.MoTa;
                 monAn.SoLuongDaBan = 0;
-                monAn.MaNMA_id = Model.MaNMA_id;
                 monAn.MaLMA_id = Model.MaLMA_id;
                 db.MonAn.Add(monAn);
                 db.SaveChanges();

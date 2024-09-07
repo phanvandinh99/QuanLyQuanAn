@@ -22,9 +22,9 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         private string GetMaDoanhNghiepFromCookie()
         {
             var cookie = Request.Cookies["UserLogin"];
-            if (cookie != null && cookie["MaDoangNghiep"] != null)
+            if (cookie != null && cookie["MaDoanhNghiep"] != null)
             {
-                return cookie["MaDoangNghiep"];
+                return cookie["MaDoanhNghiep"];
             }
             return null;
         }
@@ -39,16 +39,16 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                                 .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                                 .CountAsync();
             ViewBag.SumMonAn = await _db.MonAn
-                               .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+                               .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                                .CountAsync();
             ViewBag.SumNhanVien = await _db.NhanVien
-                                  .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+                                  .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                                   .CountAsync();
-            ViewBag.SumBan = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+            ViewBag.SumBan = await _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                              .CountAsync();
             // Món Ăn Bán Chạy
             ViewBag.BanChay = await _db.MonAn
-                              .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+                              .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                               .OrderByDescending(n => n.SoLuongDaBan)
                               .ToListAsync();
             // Hóa đơn
@@ -79,12 +79,12 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
             var tenTang = await _db.Tang.SingleOrDefaultAsync(n => n.MaTang == iMaTang &
-                                                              n.MaDoangNghiep_id == sMaDoanhNghiep);
+                                                              n.MaDoanhNghiep_id == sMaDoanhNghiep);
             ViewBag.Tang = tenTang.TenTang;
             
             var listBan = await _db.Ban
                           .Where(n => n.MaTang_id == iMaTang &&
-                                 n.MaDoangNghiep_id == sMaDoanhNghiep)
+                                 n.MaDoanhNghiep_id == sMaDoanhNghiep)
                           .OrderBy(n => n.MaBan)
                           .ToListAsync();
 
@@ -121,7 +121,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            var listTang = _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+            var listTang = _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                            .OrderBy(n => n.MaTang)
                            .ToList();
 

@@ -35,7 +35,7 @@ namespace QuanLyNhaHang.Models
 
         public int? MaQuyen_id { get; set; }
 
-        public string MaDoangNghiep_id { get; set; }
+        public string MaDoanhNghiep_id { get; set; }
 
         public virtual Quyen Quyen { get; set; }
 

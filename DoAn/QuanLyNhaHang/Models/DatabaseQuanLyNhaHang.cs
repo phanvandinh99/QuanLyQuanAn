@@ -28,7 +28,6 @@ namespace QuanLyNhaHang.Models
         public virtual DbSet<NguyenLieuXuat> NguyenLieuXuat { get; set; }
         public virtual DbSet<NhaCC> NhaCC { get; set; }
         public virtual DbSet<NhanVien> NhanVien { get; set; }
-        public virtual DbSet<NhomMonAn> NhomMonAn { get; set; }
         public virtual DbSet<PhieuNhap> PhieuNhap { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<Tang> Tang { get; set; }
@@ -145,11 +144,6 @@ namespace QuanLyNhaHang.Models
                 .HasMany(e => e.PhieuNhap)
                 .WithOptional(e => e.NhanVien)
                 .HasForeignKey(e => e.TaiKhoanNV_id);
-
-            modelBuilder.Entity<NhomMonAn>()
-                .HasMany(e => e.MonAn)
-                .WithOptional(e => e.NhomMonAn)
-                .HasForeignKey(e => e.MaNMA_id);
 
             modelBuilder.Entity<PhieuNhap>()
                 .Property(e => e.TaiKhoanNV_id)

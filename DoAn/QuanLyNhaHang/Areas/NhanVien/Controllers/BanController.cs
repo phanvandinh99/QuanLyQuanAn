@@ -26,8 +26,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.Ban = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).CountAsync();
-            var listBan = await _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
+            ViewBag.Ban = await _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).CountAsync();
+            var listBan = await _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View(listBan);
         }
 
@@ -50,7 +50,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.MaTang = await _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
+            ViewBag.MaTang = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View();
         }
         [HttpPost]
@@ -66,7 +66,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     return RedirectToAction("ThemTang", "Tang");
                 }
                 Model.TinhTrang = 0;
-                Model.MaDoangNghiep_id = sMaDoanhNghiep;
+                Model.MaDoanhNghiep_id = sMaDoanhNghiep;
                 _db.Ban.Add(Model);
                 await _db.SaveChangesAsync();
 

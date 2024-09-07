@@ -32,8 +32,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.Tang = await _db.Tang.Where(n=>n.MaDoangNghiep_id==sMaDoanhNghiep).CountAsync();
-            var list = await _db.Tang.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
+            ViewBag.Tang = await _db.Tang.Where(n=>n.MaDoanhNghiep_id==sMaDoanhNghiep).CountAsync();
+            var list = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View(list);
         }
 
@@ -65,7 +65,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             try
             {
-                Model.MaDoangNghiep_id = sMaDoanhNghiep;
+                Model.MaDoanhNghiep_id = sMaDoanhNghiep;
                 _db.Tang.Add(Model);
                 await _db.SaveChangesAsync();
 
