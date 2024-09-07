@@ -36,7 +36,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             ViewBag.DoanhThu = await DoanhThuDonHang(sMaDoanhNghiep);
             ViewBag.SumHoaDon = await _db.HoaDon
-                                .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
+                                .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
                                 .CountAsync();
             ViewBag.SumMonAn = await _db.MonAn
                                .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep)
@@ -53,7 +53,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                               .ToListAsync();
             // Hóa đơn
             ViewBag.HoaDon = await _db.HoaDon
-                             .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep
+                             .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep
                                     && n.NgayThanhToan.HasValue
                                     && n.NgayThanhToan.Value.Year == DateTime.Now.Year)
                              .OrderByDescending(n => n.NgayThanhToan)
@@ -65,7 +65,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         public async Task<double> DoanhThuDonHang(string sMaDoanhNghiep)
         {
             double TongDoanhThu = await _db.HoaDon
-                                  .Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep
+                                  .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep
                                          && n.NgayThanhToan.HasValue
                                          && n.NgayThanhToan.Value.Year == DateTime.Now.Year)
                                   .SumAsync(n => (double?)n.TongTien) ?? 0;

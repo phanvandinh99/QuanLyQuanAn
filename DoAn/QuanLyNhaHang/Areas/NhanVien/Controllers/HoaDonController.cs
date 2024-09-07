@@ -30,106 +30,112 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             {
                 string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-                // Thực hiện các truy vấn không phụ thuộc song song
-                var loaiMonAnTask = _db.LoaiMonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
-                var danhSachMonAnTask = _db.MonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
-                var monAnCountTask = _db.MonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).CountAsync();
-                var banTask = _db.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
-
-                await Task.WhenAll(loaiMonAnTask, danhSachMonAnTask, monAnCountTask, banTask);
-
-                // Gán kết quả vào ViewBag sau khi tất cả hoàn thành
-                ViewBag.LoaiMonAn = loaiMonAnTask.Result;
-                ViewBag.DanhSachMonAn = danhSachMonAnTask.Result;
-                ViewBag.MonAn = monAnCountTask.Result;
-                ViewBag.Ban = banTask.Result;
-
-                if (iMaBan < Const.MangDi)
+                using (var dbContext1 = new DatabaseQuanLyNhaHang())
                 {
-                    // Tạo hóa đơn mới
-                    var hoaDon = new HoaDon
-                    {
-                        TenKhachHang = "Mang Đi",
-                        SDTKhachHang = "0123456789",
-                        NgayTao = DateTime.Now,
-                        TongTien = 0,
-                        TrangThai = Const.ChuaThanhToan,
-                        MaBan_id = Const.MangDi,
-                        MaDoangNghiep_id = sMaDoanhNghiep
-                    };
+                    // Thực hiện các truy vấn không phụ thuộc song song
+                    var loaiMonAnTask = dbContext1.LoaiMonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
+                    var danhSachMonAnTask = dbContext1.MonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
+                    var monAnCountTask = dbContext1.MonAn.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).CountAsync();
+                    var banTask = dbContext1.Ban.Where(n => n.MaDoangNghiep_id == sMaDoanhNghiep).ToListAsync();
 
-                    _db.HoaDon.Add(hoaDon);
-                    _db.SaveChanges();
+                    await Task.WhenAll(loaiMonAnTask, danhSachMonAnTask, monAnCountTask, banTask);
 
-                    // Đặt các giá trị ViewBag mặc định cho hóa đơn mới
-                    ViewBag.MonAnKhachChon = 0;
-                    ViewBag.TongTienMonAn = 0;
-                    ViewBag.SoLuongMonAn = 0;
-
-                    return View(hoaDon);
+                    // Gán kết quả vào ViewBag sau khi tất cả hoàn thành
+                    ViewBag.LoaiMonAn = loaiMonAnTask.Result;
+                    ViewBag.DanhSachMonAn = danhSachMonAnTask.Result;
+                    ViewBag.MonAn = monAnCountTask.Result;
+                    ViewBag.Ban = banTask.Result;
                 }
-                else if (iMaBan >= Const.TaiBan)
+
+                using (var dbContext2 = new DatabaseQuanLyNhaHang())
                 {
-                    // Kiểm tra bàn có hợp lệ không
-                    var checkBan = await _db.Ban.SingleOrDefaultAsync(n => n.MaBan == iMaBan && n.MaDoangNghiep_id == sMaDoanhNghiep);
-                    if (checkBan == null)
+                    if (iMaBan < Const.MangDi)
                     {
-                        TempData["ToastMessage"] = "error|Bàn không hợp lệ";
-                        return RedirectToAction("Index", "Home");
-                    }
-
-                    // Kiểm tra tình trạng của bàn
-                    if (checkBan.TinhTrang == Const.KhongCoNguoi)
-                    {
-                        checkBan.TinhTrang = Const.CoNguoi;
-                        _db.SaveChanges();
-
                         // Tạo hóa đơn mới
-                        var hoaDonNew = new HoaDon
+                        var hoaDon = new HoaDon
                         {
-                            TenKhachHang = "Tại Bàn",
-                            SDTKhachHang = "1234567890",
+                            TenKhachHang = "Mang Đi",
+                            SDTKhachHang = "0123456789",
                             NgayTao = DateTime.Now,
                             TongTien = 0,
                             TrangThai = Const.ChuaThanhToan,
-                            MaBan_id = iMaBan,
-                            MaDoangNghiep_id = sMaDoanhNghiep
+                            MaBan_id = Const.MangDi,
+                            MaDoanhNghiep_id = sMaDoanhNghiep
                         };
 
-                        _db.HoaDon.Add(hoaDonNew);
-                        _db.SaveChanges();
+                        dbContext2.HoaDon.Add(hoaDon);
+                        await dbContext2.SaveChangesAsync();
 
+                        // Đặt các giá trị ViewBag mặc định cho hóa đơn mới
                         ViewBag.MonAnKhachChon = 0;
                         ViewBag.TongTienMonAn = 0;
                         ViewBag.SoLuongMonAn = 0;
 
-                        return View(hoaDonNew);
-                    }
-                    else
-                    {
-                        // Lấy hóa đơn của bàn đã có người
-                        var hoaDon = await _db.HoaDon.SingleOrDefaultAsync(n => n.MaBan_id == iMaBan &&
-                                                                               n.TrangThai == Const.ChuaThanhToan &&
-                                                                               n.MaDoangNghiep_id == sMaDoanhNghiep);
-                        if (hoaDon == null)
-                        {
-                            checkBan.TinhTrang = Const.KhongCoNguoi;
-                            _db.SaveChanges();
-
-                            TempData["ToastMessage"] = "error|Hóa đơn không tồn tại";
-                            return RedirectToAction("DanhSachBan", "Ban");
-                        }
-
-                        // Tính toán tổng tiền và số lượng món ăn
-                        ViewBag.MonAnKhachChon = hoaDon;
-                        ViewBag.TongTienMonAn = await TongTienOrderAsync(hoaDon.MaHoaDon, 0, 0, 0, 0);
-                        ViewBag.SoLuongMonAn = await SoLuongOrderAsync(hoaDon.MaHoaDon);
-
                         return View(hoaDon);
                     }
-                }
+                    else if (iMaBan >= Const.TaiBan)
+                    {
+                        // Kiểm tra bàn có hợp lệ không
+                        var checkBan = await dbContext2.Ban.SingleOrDefaultAsync(n => n.MaBan == iMaBan && n.MaDoangNghiep_id == sMaDoanhNghiep);
+                        if (checkBan == null)
+                        {
+                            TempData["ToastMessage"] = "error|Bàn không hợp lệ";
+                            return RedirectToAction("Index", "Home");
+                        }
 
-                return View();
+                        // Kiểm tra tình trạng của bàn
+                        if (checkBan.TinhTrang == Const.KhongCoNguoi)
+                        {
+                            checkBan.TinhTrang = Const.CoNguoi;
+                            await dbContext2.SaveChangesAsync();
+
+                            // Tạo hóa đơn mới
+                            var hoaDonNew = new HoaDon
+                            {
+                                TenKhachHang = "Tại Bàn",
+                                SDTKhachHang = "1234567890",
+                                NgayTao = DateTime.Now,
+                                TongTien = 0,
+                                TrangThai = Const.ChuaThanhToan,
+                                MaBan_id = iMaBan,
+                                MaDoanhNghiep_id = sMaDoanhNghiep
+                            };
+
+                            dbContext2.HoaDon.Add(hoaDonNew);
+                            await dbContext2.SaveChangesAsync();
+
+                            ViewBag.MonAnKhachChon = 0;
+                            ViewBag.TongTienMonAn = 0;
+                            ViewBag.SoLuongMonAn = 0;
+
+                            return View(hoaDonNew);
+                        }
+                        else
+                        {
+                            // Lấy hóa đơn của bàn đã có người
+                            var hoaDon = await dbContext2.HoaDon.SingleOrDefaultAsync(n => n.MaBan_id == iMaBan &&
+                                                                                       n.TrangThai == Const.ChuaThanhToan &&
+                                                                                       n.MaDoanhNghiep_id == sMaDoanhNghiep);
+                            if (hoaDon == null)
+                            {
+                                checkBan.TinhTrang = Const.KhongCoNguoi;
+                                await dbContext2.SaveChangesAsync();
+
+                                TempData["ToastMessage"] = "error|Hóa đơn không tồn tại";
+                                return RedirectToAction("DanhSachBan", "Ban");
+                            }
+
+                            // Tính toán tổng tiền và số lượng món ăn
+                            ViewBag.MonAnKhachChon = hoaDon;
+                            ViewBag.TongTienMonAn = await TongTienOrderAsync(hoaDon.MaHoaDon, 0, 0, 0, 0);
+                            ViewBag.SoLuongMonAn = await SoLuongOrderAsync(hoaDon.MaHoaDon);
+
+                            return View(hoaDon);
+                        }
+                    }
+
+                    return View();
+                }
             }
             catch (Exception ex)
             {
