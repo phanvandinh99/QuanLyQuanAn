@@ -21,12 +21,10 @@ namespace QuanLyNhaHang.Models
         public virtual DbSet<HoanTra> HoanTra { get; set; }
         public virtual DbSet<LichSuGoiMon> LichSuGoiMon { get; set; }
         public virtual DbSet<LoaiMonAn> LoaiMonAn { get; set; }
-        public virtual DbSet<LoaiNguyenLieu> LoaiNguyenLieu { get; set; }
         public virtual DbSet<MonAn> MonAn { get; set; }
         public virtual DbSet<NguyenLieu> NguyenLieu { get; set; }
         public virtual DbSet<NguyenLieuTra> NguyenLieuTra { get; set; }
         public virtual DbSet<NguyenLieuXuat> NguyenLieuXuat { get; set; }
-        public virtual DbSet<NhaCC> NhaCC { get; set; }
         public virtual DbSet<NhanVien> NhanVien { get; set; }
         public virtual DbSet<PhieuNhap> PhieuNhap { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
@@ -73,11 +71,6 @@ namespace QuanLyNhaHang.Models
                 .WithOptional(e => e.LoaiMonAn)
                 .HasForeignKey(e => e.MaLMA_id);
 
-            modelBuilder.Entity<LoaiNguyenLieu>()
-                .HasMany(e => e.NguyenLieu)
-                .WithOptional(e => e.LoaiNguyenLieu)
-                .HasForeignKey(e => e.MaLNL_id);
-
             modelBuilder.Entity<MonAn>()
                 .HasMany(e => e.ChiTietHoaDon)
                 .WithRequired(e => e.MonAn)
@@ -118,15 +111,6 @@ namespace QuanLyNhaHang.Models
                 .WithRequired(e => e.NguyenLieu)
                 .HasForeignKey(e => e.MaNguyenLieu_id)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<NhaCC>()
-                .Property(e => e.SoDienThoai)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<NhaCC>()
-                .HasMany(e => e.PhieuNhap)
-                .WithOptional(e => e.NhaCC)
-                .HasForeignKey(e => e.MaNCC_id);
 
             modelBuilder.Entity<NhanVien>()
                 .Property(e => e.TaiKhoanNV)

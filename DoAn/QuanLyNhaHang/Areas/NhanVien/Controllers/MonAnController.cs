@@ -71,7 +71,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         public ActionResult ThemMonAn()
         {
             ViewBag.LoaiMonAn = db.LoaiMonAn.ToList();
-            ViewBag.NguyenLieu = db.NguyenLieu.Where(n => n.MaLNL_id != 4 & n.MaNguyenLieu != 1).ToList();
+            //ViewBag.NguyenLieu = db.NguyenLieu.Where(n => n.MaLNL_id != 4 & n.MaNguyenLieu != 1).ToList();
             return View();
         }
         [HttpPost]

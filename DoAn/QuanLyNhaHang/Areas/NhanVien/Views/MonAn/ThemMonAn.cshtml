@@ -7,7 +7,6 @@
 
 @{
 
-    IEnumerable<NhomMonAn> listNhomMonAn = ViewBag.NhomMonAn as IEnumerable<NhomMonAn>;
     IEnumerable<LoaiMonAn> listLoaiMonAn = ViewBag.LoaiMonAn as IEnumerable<LoaiMonAn>;
     IEnumerable<NguyenLieu> listNguyenLieu = ViewBag.NguyenLieu as IEnumerable<NguyenLieu>;
 }
@@ -53,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="row g-3">
-                                <div class="col-md-6 mb-3">
+                                @*<div class="col-md-6 mb-3">
                                     <label class="form-label">Nhóm Món Ăn</label>
                                     <select class="form-control" name="MaNMA_id">
                                         @foreach (var item in listNhomMonAn)
@@ -62,7 +61,7 @@
                                         }
 
                                     </select>
-                                </div>
+                                </div>*@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Loại Món Ăn</label>
                                     <select class="form-control" name="MaLMA_id">

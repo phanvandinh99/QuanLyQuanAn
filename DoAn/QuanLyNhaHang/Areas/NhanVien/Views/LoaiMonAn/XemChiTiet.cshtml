@@ -1,7 +1,7 @@
 ﻿@using QuanLyNhaHang.Models
-@model Tang
+@model LoaiMonAn
 @{
-    ViewBag.Title = "Chi Tiết Tầng";
+    ViewBag.Title = "Chi Tiết Loại Món Ăn";
     Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
 }
 
@@ -10,7 +10,7 @@
         <div class="row g-0">
             <div class="col-auto mb-3 mb-md-0 me-auto">
                 <div class="w-auto sw-md-30">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết Tầng</h1>
+                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết Loại Món Ăn</h1>
                 </div>
             </div>
         </div>
@@ -23,13 +23,13 @@
                     <div class="ps-4">
                         <div class="row mb-1">
                             <div class="col">
-                                <div class="mb-3">Mã tầng: @Model.MaTang</div>
-                                <div class="mb-3">Tên tầng: @Model.TenTang</div>
-                                <div class="mb-3">Tổng số bàn: @ViewBag.Tang</div>
+                                <div class="mb-3">Mã tầng: @Model.MaLMA</div>
+                                <div class="mb-3">Tên tầng: @Model.TenLMA</div>
+                                <div class="mb-3">Số Lượng: @ViewBag.TongSoLuong</div>
                             </div>
                             <div>
-                                <a href="/NhanVien/Tang/DanhSachTang" class="btn btn-outline-danger">Trở Về</a>
-                                <a href="/NhanVien/Tang/CapNhatTang?iMaTang=@Model.MaTang" class="btn btn-primary">Cập Nhật</a>
+                                <a href="/NhanVien/LoaiMonAn/Index" class="btn btn-outline-danger">Trở Về</a>
+                                <a href="/NhanVien/LoaiMonAn/CapNhat?iMaLMA=@Model.MaLMA" class="btn btn-primary">Cập Nhật</a>
                             </div>
                         </div>
                     </div>

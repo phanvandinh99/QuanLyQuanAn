@@ -72,42 +72,42 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
                 // tìm mã nguyên liệu
                 var nguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
                 // kiểm tra nếu nhập số lẽ với thức uống
-                if (nguyenLieu.MaLNL_id == 4) // mã nguyên thức uống == 4
-                {
-                    int SL;
-                    if (int.TryParse(item.SoLuongTra.ToString(), out SL))
-                    {
-                        NguyenLieuTra nltThucUong = new NguyenLieuTra();
-                        nltThucUong.MaHoanTra_id = maXuatKho.MaHoanTra;
-                        nltThucUong.MaNguyenLieu_id = item.MaNguyenLieu_id;
-                        nltThucUong.SoLuongTra = item.SoLuongTra;
-                        db.NguyenLieuTra.Add(nltThucUong);
-                        db.SaveChanges();
-                        #region Cộng số lượng số lượng trong kho
-                        var slNguyenLieus = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
-                        slNguyenLieus.SoLuongHienCon = slNguyenLieus.SoLuongHienCon + item.SoLuongTra;
-                        db.SaveChanges();
-                        #endregion
-                    }
-                    else // số lượng thức uống lẽ ví dụ: 1,5 chai, 2,5 chai
-                    {
-                        // Không in cái đó ra
-                    }
-                }
-                else
-                {
-                    NguyenLieuTra nlt = new NguyenLieuTra();
-                    nlt.MaHoanTra_id = maXuatKho.MaHoanTra;
-                    nlt.MaNguyenLieu_id = item.MaNguyenLieu_id;
-                    nlt.SoLuongTra = item.SoLuongTra;
-                    db.NguyenLieuTra.Add(nlt);
-                    db.SaveChanges();
-                    #region Cộng số lượng số lượng trong kho
-                    var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
-                    slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon + item.SoLuongTra;
-                    db.SaveChanges();
-                    #endregion
-                }
+                //if (nguyenLieu.MaLNL_id == 4) // mã nguyên thức uống == 4
+                //{
+                //    int SL;
+                //    if (int.TryParse(item.SoLuongTra.ToString(), out SL))
+                //    {
+                //        NguyenLieuTra nltThucUong = new NguyenLieuTra();
+                //        nltThucUong.MaHoanTra_id = maXuatKho.MaHoanTra;
+                //        nltThucUong.MaNguyenLieu_id = item.MaNguyenLieu_id;
+                //        nltThucUong.SoLuongTra = item.SoLuongTra;
+                //        db.NguyenLieuTra.Add(nltThucUong);
+                //        db.SaveChanges();
+                //        #region Cộng số lượng số lượng trong kho
+                //        var slNguyenLieus = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
+                //        slNguyenLieus.SoLuongHienCon = slNguyenLieus.SoLuongHienCon + item.SoLuongTra;
+                //        db.SaveChanges();
+                //        #endregion
+                //    }
+                //    else // số lượng thức uống lẽ ví dụ: 1,5 chai, 2,5 chai
+                //    {
+                //        // Không in cái đó ra
+                //    }
+                //}
+                //else
+                //{
+                //    NguyenLieuTra nlt = new NguyenLieuTra();
+                //    nlt.MaHoanTra_id = maXuatKho.MaHoanTra;
+                //    nlt.MaNguyenLieu_id = item.MaNguyenLieu_id;
+                //    nlt.SoLuongTra = item.SoLuongTra;
+                //    db.NguyenLieuTra.Add(nlt);
+                //    db.SaveChanges();
+                //    #region Cộng số lượng số lượng trong kho
+                //    var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
+                //    slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon + item.SoLuongTra;
+                //    db.SaveChanges();
+                //    #endregion
+                //}
                 #endregion
             }
             //db.SaveChanges();

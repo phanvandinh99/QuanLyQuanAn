@@ -19,7 +19,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         private string GetMaDoanhNghiepFromCookie()
         {
             var cookie = Request.Cookies["UserLogin"];
-            return cookie?["MaDoangNghiep"];
+            return cookie?["MaDoanhNghiep"];
         }
 
         public async Task<ActionResult> DanhSachBan()
@@ -45,14 +45,22 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             }
         }
 
-        //Thêm bàn
+        // Thêm bàn
         public async Task<ActionResult> ThemBan()
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.MaTang = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+            var tangs = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+            if (tangs == null || !tangs.Any())
+            {
+                TempData["ToastMessage"] = "error|Bạn phải thêm tầng/ khu";
+                return RedirectToAction("ThemTang", "Tang");
+            }
+
+            ViewBag.MaTang = tangs;
             return View();
         }
+
         [HttpPost]
         public async Task<ActionResult> ThemBan(Ban Model)
         {
@@ -60,11 +68,6 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             try
             {
-                if (null == (Model.MaTang_id))
-                {
-                    TempData["ToastMessage"] = "error|Bạn phải thêm tầng/ khu";
-                    return RedirectToAction("ThemTang", "Tang");
-                }
                 Model.TinhTrang = 0;
                 Model.MaDoanhNghiep_id = sMaDoanhNghiep;
                 _db.Ban.Add(Model);

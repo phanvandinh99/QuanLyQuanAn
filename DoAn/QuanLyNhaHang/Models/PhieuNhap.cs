@@ -26,14 +26,10 @@ namespace QuanLyNhaHang.Models
         [StringLength(50)]
         public string TaiKhoanNV_id { get; set; }
 
-        public int? MaNCC_id { get; set; }
-
         public string MaDoangNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
-
-        public virtual NhaCC NhaCC { get; set; }
 
         public virtual NhanVien NhanVien { get; set; }
     }

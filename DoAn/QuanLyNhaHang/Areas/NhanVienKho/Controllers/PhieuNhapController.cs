@@ -53,74 +53,74 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             var chiTietNhap = db.ChiTietPhieuNhap.SingleOrDefault(n => n.MaPhieuNhap_id == iMaPhieuNhap && n.MaNguyenLieu_id == iMaNguyenLieu);
             // truy xuất nguyên liệu
             var nguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == iMaNguyenLieu);
-            if (soLuongNhap < chiTietNhap.SoLuongNhap) // giảm số lượng nhập xuống => trừ trong số lượng hiện còn
-            {
-                if (nguyenLieu.MaLNL_id == 4 || nguyenLieu.MaNguyenLieu == 1) // thức uống hoặc khăn lạnh
-                {
-                    if (soLuongNhap == (int)soLuongNhap) // kiểm tra có nguyên hay 
-                    {
-                        #region giảm bớt số lượng hiện còn nguyên liệu
-                        nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon - (chiTietNhap.SoLuongNhap - soLuongNhap);
-                        nguyenLieu.GiaNhapCuoi = GiaNhap;
-                        #endregion
-                        chiTietNhap.SoLuongNhap = soLuongNhap;
-                        chiTietNhap.GiaNhap = GiaNhap;
-                        db.SaveChanges();
-                    }
-                    else // thức uống cập nhật lẽ 1,5 2.5
-                    {
-                        // không làm gì cả
-                    }
-                }
-                else // còn lại có thể nhập lẽ
-                {
-                    #region giảm bớt số lượng hiện còn nguyên liệu
-                    nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon - (chiTietNhap.SoLuongNhap - soLuongNhap);
-                    nguyenLieu.GiaNhapCuoi = GiaNhap;
-                    #endregion
-                    chiTietNhap.SoLuongNhap = soLuongNhap;
-                    chiTietNhap.GiaNhap = GiaNhap;
-                    db.SaveChanges();
-                }
-            }
-            else if (soLuongNhap > chiTietNhap.SoLuongNhap) //cập nhật số lượng nhập tăng lên so với ban đầu
-            {
-                if (nguyenLieu.MaLNL_id == 4 || nguyenLieu.MaNguyenLieu == 1) // thức uống hoặc khăn lạnh
-                {
-                    if (soLuongNhap == (int)soLuongNhap) // kiểm tra có nguyên hay 
-                    {
-                        #region giảm bớt số lượng hiện còn nguyên liệu
-                        nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon + (soLuongNhap - chiTietNhap.SoLuongNhap);
-                        nguyenLieu.GiaNhapCuoi = GiaNhap;
-                        #endregion
-                        chiTietNhap.SoLuongNhap = soLuongNhap;
-                        chiTietNhap.GiaNhap = GiaNhap;
-                        db.SaveChanges();
-                    }
-                    else // thức uống cập nhật lẽ 1,5 2.5
-                    {
-                        // không làm gì cả
-                    }
-                }
-                else // còn lại có thể nhập lẽ
-                {
-                    #region giảm bớt số lượng hiện còn nguyên liệu
-                    nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon + (soLuongNhap - chiTietNhap.SoLuongNhap);
-                    nguyenLieu.GiaNhapCuoi = GiaNhap;
-                    #endregion
-                    chiTietNhap.SoLuongNhap = soLuongNhap;
-                    chiTietNhap.GiaNhap = GiaNhap;
-                    db.SaveChanges();
-                }
-            }
-            else // giữ nguyên số lượng nhập thay đổi giá tiền
-            {
-                #region giảm bớt số lượng hiện còn nguyên liệu
-                nguyenLieu.GiaNhapCuoi = GiaNhap;
-                #endregion
-                chiTietNhap.GiaNhap = GiaNhap;
-                db.SaveChanges();
-            }
+            //if (soLuongNhap < chiTietNhap.SoLuongNhap) // giảm số lượng nhập xuống => trừ trong số lượng hiện còn
+            //{
+            //    if (nguyenLieu.MaLNL_id == 4 || nguyenLieu.MaNguyenLieu == 1) // thức uống hoặc khăn lạnh
+            //    {
+            //        if (soLuongNhap == (int)soLuongNhap) // kiểm tra có nguyên hay 
+            //        {
+            //            #region giảm bớt số lượng hiện còn nguyên liệu
+            //            nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon - (chiTietNhap.SoLuongNhap - soLuongNhap);
+            //            nguyenLieu.GiaNhapCuoi = GiaNhap;
+            //            #endregion
+            //            chiTietNhap.SoLuongNhap = soLuongNhap;
+            //            chiTietNhap.GiaNhap = GiaNhap;
+            //            db.SaveChanges();
+            //        }
+            //        else // thức uống cập nhật lẽ 1,5 2.5
+            //        {
+            //            // không làm gì cả
+            //        }
+            //    }
+            //    else // còn lại có thể nhập lẽ
+            //    {
+            //        #region giảm bớt số lượng hiện còn nguyên liệu
+            //        nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon - (chiTietNhap.SoLuongNhap - soLuongNhap);
+            //        nguyenLieu.GiaNhapCuoi = GiaNhap;
+            //        #endregion
+            //        chiTietNhap.SoLuongNhap = soLuongNhap;
+            //        chiTietNhap.GiaNhap = GiaNhap;
+            //        db.SaveChanges();
+            //    }
+            //}
+            //else if (soLuongNhap > chiTietNhap.SoLuongNhap) //cập nhật số lượng nhập tăng lên so với ban đầu
+            //{
+            //    if (nguyenLieu.MaLNL_id == 4 || nguyenLieu.MaNguyenLieu == 1) // thức uống hoặc khăn lạnh
+            //    {
+            //        if (soLuongNhap == (int)soLuongNhap) // kiểm tra có nguyên hay 
+            //        {
+            //            #region giảm bớt số lượng hiện còn nguyên liệu
+            //            nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon + (soLuongNhap - chiTietNhap.SoLuongNhap);
+            //            nguyenLieu.GiaNhapCuoi = GiaNhap;
+            //            #endregion
+            //            chiTietNhap.SoLuongNhap = soLuongNhap;
+            //            chiTietNhap.GiaNhap = GiaNhap;
+            //            db.SaveChanges();
+            //        }
+            //        else // thức uống cập nhật lẽ 1,5 2.5
+            //        {
+            //            // không làm gì cả
+            //        }
+            //    }
+            //    else // còn lại có thể nhập lẽ
+            //    {
+            //        #region giảm bớt số lượng hiện còn nguyên liệu
+            //        nguyenLieu.SoLuongHienCon = nguyenLieu.SoLuongHienCon + (soLuongNhap - chiTietNhap.SoLuongNhap);
+            //        nguyenLieu.GiaNhapCuoi = GiaNhap;
+            //        #endregion
+            //        chiTietNhap.SoLuongNhap = soLuongNhap;
+            //        chiTietNhap.GiaNhap = GiaNhap;
+            //        db.SaveChanges();
+            //    }
+            //}
+            //else // giữ nguyên số lượng nhập thay đổi giá tiền
+            //{
+            //    #region giảm bớt số lượng hiện còn nguyên liệu
+            //    nguyenLieu.GiaNhapCuoi = GiaNhap;
+            //    #endregion
+            //    chiTietNhap.GiaNhap = GiaNhap;
+            //    db.SaveChanges();
+            //}
             return Redirect(strURL);
         }
         public ActionResult XoaNguyenLieuNhap(int iMaNguyenLieuNhap, int iMaPhieuNhap)

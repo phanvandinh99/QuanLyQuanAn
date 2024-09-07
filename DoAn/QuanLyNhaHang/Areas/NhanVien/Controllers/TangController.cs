@@ -21,9 +21,9 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         private string GetMaDoanhNghiepFromCookie()
         {
             var cookie = Request.Cookies["UserLogin"];
-            if (cookie != null && cookie["MaDoangNghiep"] != null)
+            if (cookie != null && cookie["MaDoanhNghiep"] != null)
             {
-                return cookie["MaDoangNghiep"];
+                return cookie["MaDoanhNghiep"];
             }
             return null;
         }

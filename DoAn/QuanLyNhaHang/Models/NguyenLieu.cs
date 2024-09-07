@@ -32,8 +32,6 @@ namespace QuanLyNhaHang.Models
 
         public double GiaNhapCuoi { get; set; }
 
-        public int? MaLNL_id { get; set; }
-
         public string MaDoanhNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,8 +39,6 @@ namespace QuanLyNhaHang.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietSanPham> ChiTietSanPham { get; set; }
-
-        public virtual LoaiNguyenLieu LoaiNguyenLieu { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieuTra> NguyenLieuTra { get; set; }

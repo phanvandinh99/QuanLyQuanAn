@@ -69,63 +69,62 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
 
                 // tìm mã nguyên liệu
                 var nguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
-                if (nguyenLieu.MaLNL_id == 4) // mã nguyên thức uống == 4
-                {
-                    int SL;
-                    if (int.TryParse(item.SoLuongXuat.ToString(), out SL))
-                    {
-                        NguyenLieuXuat nlx = new NguyenLieuXuat();
-                        nlx.MaXuatKho_id = Model.MaXuatKho;
-                        nlx.MaNguyenLieu_id = item.MaNguyenLieu_id;
-                        nlx.SoLuongXuat = item.SoLuongXuat;
-                        db.NguyenLieuXuat.Add(nlx);
+                //if (nguyenLieu.MaLNL_id == 4) // mã nguyên thức uống == 4
+                //{
+                //    int SL;
+                //    if (int.TryParse(item.SoLuongXuat.ToString(), out SL))
+                //    {
+                //        NguyenLieuXuat nlx = new NguyenLieuXuat();
+                //        nlx.MaXuatKho_id = Model.MaXuatKho;
+                //        nlx.MaNguyenLieu_id = item.MaNguyenLieu_id;
+                //        nlx.SoLuongXuat = item.SoLuongXuat;
+                //        db.NguyenLieuXuat.Add(nlx);
 
-                        #region Trừ bớt số lượng trong kho
-                        var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
-                        if (slNguyenLieu.SoLuongHienCon >= item.SoLuongXuat)
-                        {
-                            slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon - item.SoLuongXuat;
-                        }
-                        else
-                        {
-                            // Thoát và k lưu
-                            //db.XuatKho.Remove(maXuatKho);
-                            return RedirectToAction("KhoKhongDapUng", "Error");
-                        }
-                        #endregion
-                    }
-                    else // số lượng thức uống lẽ ví dụ: 1,5 chai, 2,5 chai
-                    {
-                        // Không in cái đó ra
-                    }
-                }
-                else
-                {
-                    NguyenLieuXuat nlx = new NguyenLieuXuat();
-                    nlx.MaXuatKho_id = Model.MaXuatKho;
-                    nlx.MaNguyenLieu_id = item.MaNguyenLieu_id;
-                    nlx.SoLuongXuat = item.SoLuongXuat;
-                    db.NguyenLieuXuat.Add(nlx);
+                //        #region Trừ bớt số lượng trong kho
+                //        var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
+                //        if (slNguyenLieu.SoLuongHienCon >= item.SoLuongXuat)
+                //        {
+                //            slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon - item.SoLuongXuat;
+                //        }
+                //        else
+                //        {
+                //            // Thoát và k lưu
+                //            //db.XuatKho.Remove(maXuatKho);
+                //            return RedirectToAction("KhoKhongDapUng", "Error");
+                //        }
+                //        #endregion
+                //    }
+                //    else // số lượng thức uống lẽ ví dụ: 1,5 chai, 2,5 chai
+                //    {
+                //        // Không in cái đó ra
+                //    }
+                //}
+                //else
+                //{
+                //    NguyenLieuXuat nlx = new NguyenLieuXuat();
+                //    nlx.MaXuatKho_id = Model.MaXuatKho;
+                //    nlx.MaNguyenLieu_id = item.MaNguyenLieu_id;
+                //    nlx.SoLuongXuat = item.SoLuongXuat;
+                //    db.NguyenLieuXuat.Add(nlx);
 
-                    #region Trừ bớt số lượng trong kho
-                    var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
-                    if (slNguyenLieu.SoLuongHienCon >= item.SoLuongXuat)
-                    {
-                        slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon - item.SoLuongXuat;
-                    }
-                    else
-                    {
-                        // Thoát và k lưu
-                        //db.XuatKho.Remove(maXuatKho);
-                        return RedirectToAction("KhoKhongDapUng", "Error");
-                    }
+                //    #region Trừ bớt số lượng trong kho
+                //    var slNguyenLieu = db.NguyenLieu.SingleOrDefault(n => n.MaNguyenLieu == item.MaNguyenLieu_id);
+                //    if (slNguyenLieu.SoLuongHienCon >= item.SoLuongXuat)
+                //    {
+                //        slNguyenLieu.SoLuongHienCon = slNguyenLieu.SoLuongHienCon - item.SoLuongXuat;
+                //    }
+                //    else
+                //    {
+                //        // Thoát và k lưu
+                //        //db.XuatKho.Remove(maXuatKho);
+                //        return RedirectToAction("KhoKhongDapUng", "Error");
+                //    }
 
-                }
+                //}
                 #endregion
             }
             db.SaveChanges();
             return RedirectToAction("DanhSachPhieuXuatKho", "XuatKho");
         }
-        #endregion
     }
 }

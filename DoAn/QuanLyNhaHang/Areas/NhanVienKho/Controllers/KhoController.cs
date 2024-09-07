@@ -13,11 +13,11 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
         [HttpGet]
         public ActionResult NhapKho()
         {
-            ViewBag.ListNguyenLieu = db.LoaiNguyenLieu.ToList();
-            ViewBag.TatCa = db.LoaiNguyenLieu.Count();
-            ViewBag.NguyenLieu = db.NguyenLieu.ToList().OrderBy(n=>n.TenNguyenLieu);
-            ViewBag.NhanVien = db.NhanVien.Where(n => n.MaQuyen_id == 2).ToList(); //1 nhân viên, 2 kho
-            ViewBag.NhaCungCap = db.NhaCC.ToList();
+            //ViewBag.ListNguyenLieu = db.LoaiNguyenLieu.ToList();
+            //ViewBag.TatCa = db.LoaiNguyenLieu.Count();
+            //ViewBag.NguyenLieu = db.NguyenLieu.ToList().OrderBy(n=>n.TenNguyenLieu);
+            //ViewBag.NhanVien = db.NhanVien.Where(n => n.MaQuyen_id == 2).ToList(); //1 nhân viên, 2 kho
+            //ViewBag.NhaCungCap = db.NhaCC.ToList();
             return View();
         }
         [HttpPost]

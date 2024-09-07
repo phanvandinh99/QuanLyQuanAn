@@ -17,7 +17,6 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             ViewBag.XuatKho = db.XuatKho.Count();
             ViewBag.HoanTra = db.HoanTra.Count();
             ViewBag.PhieuNhapCount = db.PhieuNhap.Count();
-            ViewBag.NhaCungCap = db.NhaCC.Count();
 
             ViewBag.HoaDon = db.HoaDon.OrderByDescending(n => n.MaHoaDon).ToList();
             ViewBag.PhieuNhap = db.PhieuNhap.OrderByDescending(n => n.MaPhieuNhap).ToList();
@@ -43,7 +42,6 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             ViewBag.XuatKho = db.XuatKho.Count();
             ViewBag.HoanTra = db.HoanTra.Count();
             ViewBag.PhieuNhap = db.PhieuNhap.Count();
-            ViewBag.NhaCungCap = db.NhaCC.Count();
             if (iNgay == 0 && iThang == 0) //Thống kê theo năm
             {
                 ViewBag.ThongKe = DoanhThuNam(iNam);
@@ -100,7 +98,6 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             ViewBag.XuatKho = db.XuatKho.Count();
             ViewBag.HoanTra = db.HoanTra.Count();
             ViewBag.PhieuNhap = db.PhieuNhap.Count();
-            ViewBag.NhaCungCap = db.NhaCC.Count();
 
             ViewBag.ThongKe = DoanhThuTuanHoaDon(iNgayBatDau, iNgayKetThuc, iThang);
             ViewBag.ThongKePhieuNhap = DoanhThuTuan(iNgayBatDau, iNgayKetThuc, iThang);
@@ -131,7 +128,6 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             ViewBag.XuatKho = db.XuatKho.Count();
             ViewBag.HoanTra = db.HoanTra.Count();
             ViewBag.PhieuNhap = db.PhieuNhap.Count();
-            ViewBag.NhaCungCap = db.NhaCC.Count();
 
             ViewBag.ThongKe = DoanhThuThangDenThang_HoaDon(iThangBatDau, iNamBatDau, iThangKetThuc, iNamKetThuc);
             ViewBag.ThongKePhieuNhap = DoanhThuThangDenThang(iThangBatDau, iNamBatDau, iThangKetThuc, iNamKetThuc);
