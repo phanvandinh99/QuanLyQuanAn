@@ -25,28 +25,24 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> ThongTinHoaDon(int iMaBan)
+        public ActionResult ThongTinHoaDon(int iMaBan)
         {
             try
             {
                 string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-                var loaiMonAnTask = _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
-                var danhSachMonAnTask = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
-                var monAnCountTask = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).CountAsync();
-                var banTask = _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+                var loaiMonAnTask = _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
+                var danhSachMonAnTask = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
+                var monAnCountTask = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
+                var banTask = _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
 
-                await Task.WhenAll(loaiMonAnTask, danhSachMonAnTask, monAnCountTask, banTask);
-
-                // Gán kết quả vào ViewBag sau khi tất cả hoàn thành
-                ViewBag.LoaiMonAn = await loaiMonAnTask;
-                ViewBag.DanhSachMonAn = await danhSachMonAnTask;
-                ViewBag.MonAn = await monAnCountTask;
-                ViewBag.Ban = await banTask;
+                ViewBag.LoaiMonAn = loaiMonAnTask;
+                ViewBag.DanhSachMonAn = danhSachMonAnTask;
+                ViewBag.MonAn = monAnCountTask;
+                ViewBag.Ban = banTask;
 
                 if (iMaBan < Const.MangDi)
                 {
-                    // Tạo hóa đơn mới
                     var hoaDon = new HoaDon
                     {
                         TenKhachHang = "Mang Đi",
@@ -59,9 +55,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     };
 
                     _db.HoaDon.Add(hoaDon);
-                    await _db.SaveChangesAsync(); // Đảm bảo lưu thay đổi trước khi tiếp tục
+                    _db.SaveChanges();
 
-                    // Đặt các giá trị ViewBag mặc định cho hóa đơn mới
                     ViewBag.MonAnKhachChon = 0;
                     ViewBag.TongTienMonAn = 0;
                     ViewBag.SoLuongMonAn = 0;
@@ -71,7 +66,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 else if (iMaBan >= Const.TaiBan)
                 {
                     // Kiểm tra bàn có hợp lệ không
-                    var checkBan = await _db.Ban.SingleOrDefaultAsync(n => n.MaBan == iMaBan && n.MaDoanhNghiep_id == sMaDoanhNghiep);
+                    var checkBan = _db.Ban.SingleOrDefault(n => n.MaBan == iMaBan && n.MaDoanhNghiep_id == sMaDoanhNghiep);
                     if (checkBan == null)
                     {
                         TempData["ToastMessage"] = "error|Bàn không hợp lệ";
@@ -82,7 +77,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     if (checkBan.TinhTrang == Const.KhongCoNguoi)
                     {
                         checkBan.TinhTrang = Const.CoNguoi;
-                        await _db.SaveChangesAsync(); // Đảm bảo lưu thay đổi trước khi tiếp tục
+                        _db.SaveChanges();
 
                         // Tạo hóa đơn mới
                         var hoaDonNew = new HoaDon
@@ -97,7 +92,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                         };
 
                         _db.HoaDon.Add(hoaDonNew);
-                        await _db.SaveChangesAsync(); // Đảm bảo lưu thay đổi trước khi tiếp tục
+                        _db.SaveChanges();
 
                         ViewBag.MonAnKhachChon = 0;
                         ViewBag.TongTienMonAn = 0;
@@ -108,13 +103,13 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     else
                     {
                         // Lấy hóa đơn của bàn đã có người
-                        var hoaDon = await _db.HoaDon.SingleOrDefaultAsync(n => n.MaBan_id == iMaBan &&
-                                                                               n.TrangThai == Const.ChuaThanhToan &&
-                                                                               n.MaDoanhNghiep_id == sMaDoanhNghiep);
+                        var hoaDon = _db.HoaDon.SingleOrDefault(n => n.MaBan_id == iMaBan &&
+                                                                n.TrangThai == Const.ChuaThanhToan &&
+                                                                n.MaDoanhNghiep_id == sMaDoanhNghiep);
                         if (hoaDon == null)
                         {
                             checkBan.TinhTrang = Const.KhongCoNguoi;
-                            await _db.SaveChangesAsync(); // Đảm bảo lưu thay đổi trước khi tiếp tục
+                            _db.SaveChanges();
 
                             TempData["ToastMessage"] = "error|Hóa đơn không tồn tại";
                             return RedirectToAction("DanhSachBan", "Ban");
@@ -122,8 +117,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
                         // Tính toán tổng tiền và số lượng món ăn
                         ViewBag.MonAnKhachChon = hoaDon;
-                        ViewBag.TongTienMonAn = await TongTienOrderAsync(hoaDon.MaHoaDon, 0, 0, 0, 0);
-                        ViewBag.SoLuongMonAn = await SoLuongOrderAsync(hoaDon.MaHoaDon);
+                        ViewBag.TongTienMonAn = TongTienOrderAsync(hoaDon.MaHoaDon, 0, 0, 0, 0);
+                        ViewBag.SoLuongMonAn = SoLuongOrderAsync(hoaDon.MaHoaDon);
 
                         return View(hoaDon);
                     }
@@ -168,6 +163,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
         public ActionResult Order(int iMaHoaDon, int iMaMonAn, string strURL, FormCollection f) // Order = thêm món ăn vào hóa đơn
         {
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
             int soLuongOrder = int.Parse(f["txtSoLuongThem"].ToString());
             int kiemTra = 0;
             #region Kiểm tra trong kho có đáp ứng đủ k
@@ -205,6 +202,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     cthd.SoLuongMua = soLuongOrder;
                     cthd.ThanhTien = (double)((cthd.SoLuongMua) * giaMonAn.DonGia);
                     cthd.NgayGoi = DateTime.Now;
+                    cthd.MaDoanhNghiep_id = sMaDoanhNghiep;
                     _db.ChiTietHoaDon.Add(cthd);
                     // thêm số lượng đã bán trong bảng Món Ăn
                     giaMonAn.SoLuongDaBan = giaMonAn.SoLuongDaBan + soLuongOrder;
@@ -218,6 +216,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     ls.ThoiGianTra = null;
                     ls.MaHoaDon_id = iMaHoaDon;
                     ls.MaMonAn_id = iMaMonAn;
+                    ls.MaDoanhNghiep_id = sMaDoanhNghiep;
                     _db.LichSuGoiMon.Add(ls);
                     _db.SaveChanges();
 
@@ -281,6 +280,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     ls.ThoiGianTra = null;
                     ls.MaHoaDon_id = iMaHoaDon;
                     ls.MaMonAn_id = iMaMonAn;
+                    ls.MaDoanhNghiep_id = sMaDoanhNghiep;
                     _db.LichSuGoiMon.Add(ls);
                     // thêm số lượng đã bán trong bảng Món Ăn
                     giaMonAn.SoLuongDaBan = giaMonAn.SoLuongDaBan + soLuongOrder;
@@ -310,6 +310,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     double? tongTien = 0;
                     XuatKho xk = new XuatKho();
                     xk.NgayXuat = DateTime.Now;
+                    xk.MaDoanhNghiep_id = sMaDoanhNghiep;
                     _db.XuatKho.Add(xk);
                     _db.SaveChanges();
                     // lưu nguyên liệu vào nguyên liệu xuất
