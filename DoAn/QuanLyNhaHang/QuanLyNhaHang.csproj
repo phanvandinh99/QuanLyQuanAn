@@ -377,6 +377,12 @@
     <Content Include="Areas\NhanVien\Views\NguyenLieu\XemChiTiet.cshtml" />
     <Content Include="Areas\NhanVien\Views\NguyenLieu\CapNhat.cshtml" />
     <Content Include="Areas\NhanVien\Views\NguyenLieu\ThemMoi.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DoanhNghiep\Index.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DoanhNghiep\XemChiTiet.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DoanhNghiep\ThemMoi.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DoanhNghiep\CapNhat.cshtml" />
+    <Content Include="Areas\NhanVien\Views\NhanVien\DanhSachNhanVien.cshtml" />
+    <Content Include="Areas\NhanVien\Views\NhanVien\Index.cshtml" />
     <None Include="Assets\js\Ajax\jquery-1.8.0.intellisense.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.min.js" />
@@ -404,6 +410,7 @@
     <Compile Include="Areas\NhanVienKho\NhanVienKhoAreaRegistration.cs" />
     <Compile Include="Areas\NhanVien\Controllers\BanController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\DangNhapController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\DoanhNghiepController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\ErrorController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\FilterController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\HoaDonController.cs" />
