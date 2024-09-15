@@ -37,6 +37,11 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             try
             {
                 var doanhNghiep = await _db.DoanhNghiep.FindAsync(sMaDoanhNghiep);
+                if (doanhNghiep == null)
+                {
+                    TempData["ToastMessage"] = "error|Doanh nghiệp không tồn tại.";
+                    return RedirectToAction("Index", "DoanhNghiep");
+                }
 
                 return View(doanhNghiep);
             }

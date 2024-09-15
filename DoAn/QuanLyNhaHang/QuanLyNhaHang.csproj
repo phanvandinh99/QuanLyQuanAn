@@ -332,8 +332,6 @@
     <Content Include="Areas\NhanVien\Views\HoaDon\KhachHang.cshtml" />
     <Content Include="Areas\NhanVien\Views\NhanVien\DSNhanVien.cshtml" />
     <Content Include="Areas\NhanVien\Views\NhanVien\ThemNhanVien.cshtml" />
-    <Content Include="Areas\NhanVien\Views\NhanVien\XemChiTiet.cshtml" />
-    <Content Include="Areas\NhanVien\Views\NhanVien\CapNhat.cshtml" />
     <Content Include="Areas\NhanVien\Views\Error\MonAn.cshtml" />
     <Content Include="Areas\NhanVien\Views\MonAn\ThemMonAn.cshtml" />
     <Content Include="Areas\NhanVien\Views\MonAn\DanhSachMonAnBanChay.cshtml" />
@@ -383,6 +381,10 @@
     <Content Include="Areas\NhanVien\Views\DoanhNghiep\CapNhat.cshtml" />
     <Content Include="Areas\NhanVien\Views\NhanVien\DanhSachNhanVien.cshtml" />
     <Content Include="Areas\NhanVien\Views\NhanVien\Index.cshtml" />
+    <Content Include="Areas\NhanVien\Views\NhanVien\ThemMoi.cshtml" />
+    <Content Include="Areas\NhanVien\Views\NhanVien\CapNhat.cshtml" />
+    <Content Include="Areas\NhanVien\Views\NhanVien\XemChiTiet.cshtml" />
+    <Content Include="Areas\NhanVien\Views\ThongKe\Index.cshtml" />
     <None Include="Assets\js\Ajax\jquery-1.8.0.intellisense.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.min.js" />
@@ -414,12 +416,15 @@
     <Compile Include="Areas\NhanVien\Controllers\ErrorController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\FilterController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\HoaDonController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\HoanTraController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\HomeController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\LoaiMonAnController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\MonAnController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NguyenLieuController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\TangController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\ThongKeController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\XuatKhoController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Common\Const\Const.cs" />
     <Compile Include="Common\DangNhapService.cs" />
@@ -429,6 +434,7 @@
     </Compile>
     <Compile Include="Models\Ban.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
+    <Compile Include="Models\PhanQuyen.cs" />
     <Compile Include="Models\ChiTietPhieuNhap.cs" />
     <Compile Include="Models\DanhMuc.cs" />
     <Compile Include="Models\DatabaseQuanLyNhaHang.cs" />
@@ -481,7 +487,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Areas\NhanVien\Views\HoanTra\" />
+    <Folder Include="Areas\NhanVien\Views\XuatKho\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

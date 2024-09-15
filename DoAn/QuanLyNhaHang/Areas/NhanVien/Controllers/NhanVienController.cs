@@ -31,9 +31,12 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             if (sMaDoanhNghiep == Const.MaDoanhNghiep)
             {
-                var list = await _db.NhanVien.Where(n => n.MaQuyen_id == Const.Admin)
-                                            .OrderBy(n => n.MaQuyen_id)
-                                            .ToListAsync();
+                var list = await _db.NhanVien.Where(n => n.MaQuyen_id != Const.SupperAdmin &&
+                                      n.MaQuyen_id != Const.Admin &&
+                                      n.MaDoanhNghiep_id == sMaDoanhNghiep
+                                      )
+                              .OrderBy(n => n.MaQuyen_id)
+                              .ToListAsync();
                 return View(list);
             }
             else

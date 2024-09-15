@@ -16,5 +16,8 @@
         public const int Admin = 2;
         public const int Employee = 3;
 
+        public const string MaDoanhNghiep = "AnhTran";
+
+
     }
 }
