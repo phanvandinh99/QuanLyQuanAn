@@ -1,7 +1,7 @@
 ﻿@using QuanLyNhaHang.Models
 @model NhanVien
 @{
-    ViewBag.Title = "XemChiTiet";
+    ViewBag.Title = "Chi Tiết Nhân Viên";
     Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
 }
 
@@ -10,29 +10,28 @@
         <div class="row g-0">
             <div class="col-auto mb-3 mb-md-0 me-auto">
                 <div class="w-auto sw-md-30">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết</h1>
+                    <h1 class="mb-0 pb-0 display-4" id="title">Chi Tiết Nhân Viên</h1>
                 </div>
             </div>
         </div>
     </div>
     <div class="mb-5">
-        <h2 class="small-title">Thông Tin Chi Tiết Sản Phẩm</h2>
+        <h2 class="small-title">Thông Tin Chi Tiết Nhân Viên</h2>
         <div class="card mb-2">
             <div class="row g-0 card-body">
                 <div class="col">
                     <div class="ps-4">
                         <div class="row mb-1">
                             <div class="col">
-                                <div class="heading text-primary mb-1">Họ Tên: @Model.TenNhanVien</div>
-                                <div class="mb-3">Tên Đăng Nhập: @Model.TaiKhoanNV</div>
-                                <div class="mb-3">Mật Khẩu NV: @Model.MatKhauNV</div>
-                                <div class="mb-3">Ngày Sinh: @string.Format("{0:dd/MM/yyyy}", Model.NgaySinh)</div>
-                                <div class="mb-3">Loại Nguyên Liệu: @Model.SoDienThoai</div>
-                                <div class="mb-3">Quyền: @Model.Quyen.TenQuyen</div>
+                                <div class="heading text-primary mb-1">Mã Nhân Viên: @Model.MaNhanVien</div>
+                                <div class="mb-3">Tài Khoản: @Model.TaiKhoanNV</div>
+                                <div class="mb-3">Mật Khẩu: @Model.MatKhauNV</div>
+                                <div class="mb-3">Họ Và Tên: @Model.TenNhanVien</div>
+                                <div class="mb-3">Số Điện Thoại: @Model.SoDienThoai</div>
                             </div>
                             <div>
-                                <a href="/NhanVien/NhanVien/DSNhanVien" class="btn btn-danger">Trở Về</a>
-                                <a href="/NhanVienKho/NguyenLieu/CapNhat?iMaNguyenLieu=@Model.TaiKhoanNV" class="btn btn-primary">Cập Nhật</a>
+                                <a href="/NhanVien/NhanVien/Index" class="btn btn-outline-danger">Trở Về</a>
+                                <a href="/NhanVien/NhanVien/CapNhat?iMaNhanVien=@Model.MaNhanVien" class="btn btn-primary">Cập Nhật</a>
                             </div>
                         </div>
                     </div>
@@ -41,4 +40,3 @@
         </div>
     </div>
 </div>
-

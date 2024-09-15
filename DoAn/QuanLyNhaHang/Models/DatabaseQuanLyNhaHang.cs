@@ -27,6 +27,7 @@ namespace QuanLyNhaHang.Models
         public virtual DbSet<NguyenLieuTra> NguyenLieuTra { get; set; }
         public virtual DbSet<NguyenLieuXuat> NguyenLieuXuat { get; set; }
         public virtual DbSet<NhanVien> NhanVien { get; set; }
+        public virtual DbSet<PhanQuyen> PhanQuyen { get; set; }
         public virtual DbSet<PhieuNhap> PhieuNhap { get; set; }
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<Tang> Tang { get; set; }
@@ -50,11 +51,6 @@ namespace QuanLyNhaHang.Models
             modelBuilder.Entity<DanhMuc>()
                 .Property(e => e.Url)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<DanhMuc>()
-                .HasMany(e => e.NhanVien)
-                .WithMany(e => e.DanhMuc)
-                .Map(m => m.ToTable("PhanQuyen").MapLeftKey("MaDanhMuc_id").MapRightKey("MaNhanVien_id"));
 
             modelBuilder.Entity<DoanhNghiep>()
                 .Property(e => e.SoDienThoai)
@@ -112,6 +108,12 @@ namespace QuanLyNhaHang.Models
                 .HasForeignKey(e => e.MaNguyenLieu_id)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<DanhMuc>()
+                .HasMany(e => e.PhanQuyen)
+                .WithRequired(e => e.DanhMuc)
+                .HasForeignKey(e => e.MaDanhMuc_id)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<NguyenLieu>()
                 .HasMany(e => e.NguyenLieuTra)
                 .WithRequired(e => e.NguyenLieu)
@@ -145,6 +147,12 @@ namespace QuanLyNhaHang.Models
                 .WithRequired(e => e.PhieuNhap)
                 .HasForeignKey(e => e.MaPhieuNhap_id)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NhanVien>()
+                 .HasMany(e => e.PhanQuyen)
+                 .WithRequired(e => e.NhanVien)
+                 .HasForeignKey(e => e.MaNhanVien_id)
+                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Quyen>()
                 .HasMany(e => e.NhanVien)

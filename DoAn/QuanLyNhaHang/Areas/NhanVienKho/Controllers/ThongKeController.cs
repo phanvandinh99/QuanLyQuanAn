@@ -12,6 +12,7 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
         DatabaseQuanLyNhaHang db = new DatabaseQuanLyNhaHang();
         public ActionResult ThongKe()
         {
+   
             ViewBag.DoanhThu = DoanhThuDonHang();
             ViewBag.NguyenLieu = db.NguyenLieu.Count();
             ViewBag.XuatKho = db.XuatKho.Count();
@@ -30,6 +31,7 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             ViewBag.Loi = null;
             return View();
         }
+
         [HttpPost]
         public ActionResult ThongKe(FormCollection f)
         {

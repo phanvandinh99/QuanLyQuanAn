@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using QuanLyNhaHang.Common.Const;
+using System.Web.UI;
+using System;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
@@ -27,105 +29,165 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            var list = await _db.NhanVien.Where(n => n.MaQuyen_id != Const.SupperAdmin &&
-                                                n.MaQuyen_id != Const.Admin &&
-                                                n.MaDoanhNghiep_id == sMaDoanhNghiep
-                                                )
-                                        .OrderBy(n => n.MaQuyen_id)
-                                        .ToListAsync();
-            return View(list);
+            if (sMaDoanhNghiep == Const.MaDoanhNghiep)
+            {
+                var list = await _db.NhanVien.Where(n => n.MaQuyen_id == Const.Admin)
+                                            .OrderBy(n => n.MaQuyen_id)
+                                            .ToListAsync();
+                return View(list);
+            }
+            else
+            {
+                var list = await _db.NhanVien.Where(n => n.MaQuyen_id != Const.SupperAdmin &&
+                                             n.MaQuyen_id != Const.Admin &&
+                                             n.MaDoanhNghiep_id == sMaDoanhNghiep
+                                             )
+                                     .OrderBy(n => n.MaQuyen_id)
+                                     .ToListAsync();
+                return View(list);
+            }
         }
 
-        // Thêm bàn
+        public async Task<ActionResult> XemChiTiet(int iMaNhanVien)
+        {
+            try
+            {
+                var nhanVien = await _db.NhanVien.FindAsync(iMaNhanVien);
+                return View(nhanVien);
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "error|Xem chi tiết nhân viên thất bại.";
+                return RedirectToAction("Index", "NhanVien");
+            }
+        }
+
+        // Thêm Nhan Vien
         public async Task<ActionResult> ThemMoi()
         {
-            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+            var danhMuc = await _db.DanhMuc.ToListAsync();
+            ViewBag.DanhMuc = danhMuc;
 
-            var tangs = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
-            if (tangs == null || !tangs.Any())
-            {
-                TempData["ToastMessage"] = "error|Bạn phải thêm tầng/ khu";
-                return RedirectToAction("ThemTang", "Tang");
-            }
-
-            ViewBag.MaTang = tangs;
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> ThemMoi(Ban Model)
+        public async Task<ActionResult> ThemMoi(QuanLyNhaHang.Models.NhanVien Model, int[] danhMucIds)
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
             try
             {
-                Model.TinhTrang = 0;
+                Model.MaQuyen_id = Const.Employee;
                 Model.MaDoanhNghiep_id = sMaDoanhNghiep;
-                _db.Ban.Add(Model);
+
+                _db.NhanVien.Add(Model);
                 await _db.SaveChangesAsync();
 
-                TempData["ToastMessage"] = "success|Thêm bàn thành công.";
+                var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                {
+                    MaNhanVien_id = Model.MaNhanVien,
+                    MaDanhMuc_id = id
+                }).ToList();
 
-                return RedirectToAction("DanhSachBan", "Ban");
+                if (phanQuyens.Any())
+                {
+                    _db.PhanQuyen.AddRange(phanQuyens);
+                    await _db.SaveChangesAsync();
+                }
+
+                TempData["ToastMessage"] = "success|Thêm nhân viên thành công.";
+                return RedirectToAction("Index", "NhanVien");
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                TempData["ToastMessage"] = "error|Thêm bàn thất bại.";
-                return RedirectToAction("DanhSachBan", "Ban");
+                TempData["ToastMessage"] = "error|Thêm nhân viên thất bại.";
+                return RedirectToAction("Index", "NhanVien");
             }
         }
 
+        // Cập nhật Nhan Vien
+        public async Task<ActionResult> CapNhat(int iMaNhanVien)
+        {
+            var nhanVien = _db.NhanVien.Find(iMaNhanVien);
+            if (nhanVien == null)
+            {
+                TempData["ToastMessage"] = "error|Không tìm thấy nhân viên.";
+                return RedirectToAction("Index", "NhanVien");
+            }
 
+            var danhMuc = await _db.DanhMuc.ToListAsync();
+            ViewBag.DanhMuc = danhMuc;
 
-
-
-        public ActionResult DSNhanVienKho()
-        {
-            var list = _db.NhanVien.Where(n => n.MaQuyen_id == 2).OrderBy(n => n.MaQuyen_id).ToList();
-            return View(list);
-        }
-        public ActionResult ThemNhanVien()
-        {
-            ViewBag.Quyen = _db.Quyen.ToList();
-            return View();
-        }
-        [HttpPost]
-        public ActionResult ThemNhanVien(QuanLyNhaHang.Models.NhanVien Model)
-        {
-            _db.NhanVien.Add(Model);
-            _db.SaveChanges();
-            return RedirectToAction("DSNhanVien", "NhanVien");
-        }
-        public ActionResult Xoa(string sTaiKhoanid)
-        {
-            var nhanVien = _db.NhanVien.Find(sTaiKhoanid);
-            _db.NhanVien.Remove(nhanVien);
-            _db.SaveChanges();
-            return RedirectToAction("DSNhanVien", "NhanVien");
-        }
-        public ActionResult XemChiTiet(string sTaiKhoanid)
-        {
-            var nhanVien = _db.NhanVien.Find(sTaiKhoanid);
             return View(nhanVien);
         }
-        public ActionResult CapNhat(string sTaiKhoanid)
-        {
-            QuanLyNhaHang.Models.NhanVien nhanVien = _db.NhanVien.Find(sTaiKhoanid);
-            ViewBag.MaQuyen_id = new SelectList(_db.Quyen, "MaQuyen", "TenQuyen", nhanVien.MaQuyen_id);
-            return View(nhanVien);
-        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CapNhat([Bind(Include = "TaiKhoanNV,MatKhauNV,TenNhanVien,NgaySinh,SoDienThoai,MaQuyen_id")] QuanLyNhaHang.Models.NhanVien nhanVien)
+        public async Task<ActionResult> CapNhat(QuanLyNhaHang.Models.NhanVien Model, int[] danhMucIds)
         {
-            if (ModelState.IsValid)
+            string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
+
+            try
             {
-                _db.Entry(nhanVien).State = EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("DSNhanVien", "NhanVien");
+                var nhanVien = await _db.NhanVien.FindAsync(Model.MaNhanVien);
+                if (nhanVien == null)
+                {
+                    TempData["ToastMessage"] = "error|Không tìm thấy nhân viên.";
+                    return RedirectToAction("Index", "NhanVien");
+                }
+
+                // Cập nhật thông tin cơ bản của nhân viên
+                nhanVien.TaiKhoanNV = Model.TaiKhoanNV;
+                nhanVien.MatKhauNV = Model.MatKhauNV;
+                nhanVien.TenNhanVien = Model.TenNhanVien;
+                nhanVien.SoDienThoai = Model.SoDienThoai;
+
+                await _db.SaveChangesAsync();
+
+                // Xóa tất cả các quyền cũ của nhân viên
+                var quyenHienTai = _db.PhanQuyen.Where(pq => pq.MaNhanVien_id == Model.MaNhanVien);
+                _db.PhanQuyen.RemoveRange(quyenHienTai);
+                await _db.SaveChangesAsync();
+
+                // Thêm các quyền mới từ danh sách danhMucIds
+                var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                {
+                    MaNhanVien_id = Model.MaNhanVien,
+                    MaDanhMuc_id = id
+                }).ToList();
+
+                if (phanQuyens.Any())
+                {
+                    _db.PhanQuyen.AddRange(phanQuyens);
+                    await _db.SaveChangesAsync();
+                }
+
+                TempData["ToastMessage"] = "success|Cập nhật nhân viên thành công.";
+                return RedirectToAction("Index", "NhanVien");
             }
-            ViewBag.MaQuyen_id = new SelectList(_db.Quyen, "MaQuyen", "TenQuyen", nhanVien.MaQuyen_id);
-            return View();
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "error|Cập nhật nhân viên thất bại.";
+                return RedirectToAction("Index", "NhanVien");
+            }
+        }
+
+        public async Task<ActionResult> Xoa(int iMaNhanVien)
+        {
+            try
+            {
+                _db.NhanVien.Remove(await _db.NhanVien.FindAsync(iMaNhanVien));
+                await _db.SaveChangesAsync();
+
+                TempData["ToastMessage"] = "success|Xóa nhân viên thành thành công.";
+
+                return RedirectToAction("Index", "NhanVien");
+            }
+            catch (Exception ex)
+            {
+                TempData["ToastMessage"] = "error|Xóa nhân viên thất bại.";
+                return RedirectToAction("Index", "NhanVien");
+            }
         }
     }
 }

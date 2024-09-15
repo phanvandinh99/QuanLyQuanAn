@@ -1,14 +1,11 @@
 ﻿@using QuanLyNhaHang.Models
-@model NhanVien
 @{
-    ViewBag.Title = "Cập Nhật Nhân Viên";
+    ViewBag.Title = "Thêm Mới Nhân Viên";
     Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
 }
 
 @{
     IEnumerable<DanhMuc> listDanhMuc = ViewBag.DanhMuc as IEnumerable<DanhMuc>;
-
-    var danhMucIdsDaChon = Model.PhanQuyen.Select(pq => pq.MaDanhMuc_id).ToList();
 }
 
 @using (Html.BeginForm())
@@ -18,7 +15,7 @@
             <div class="row">
                 <div class="col-auto mb-3 mb-md-0 me-auto">
                     <div class="w-auto sw-md-60">
-                        <h1 class="mb-0 pb-0 display-4" id="title">Cập Nhật Nhân Viên</h1>
+                        <h1 class="mb-0 pb-0 display-4" id="title">Thêm Mới Nhân Viên</h1>
                     </div>
                 </div>
             </div>
@@ -32,23 +29,22 @@
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Tài Khoản Đăng Nhập</label>
-                                    <input class="form-control" type="text" name="TaiKhoanNV" value="@Model.TaiKhoanNV" required>
-                                    <input class="form-control" type="hidden" name="MaNhanVien" value="@Model.MaNhanVien" required>
+                                    <input class="form-control" type="text" name="TaiKhoanNV" placeholder="UserName" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Mật Khẩu</label>
-                                    <input class="form-control" type="password" name="MatKhauNV" value="@Model.MatKhauNV" required>
+                                    <input class="form-control" type="password" name="MatKhauNV" placeholder="Password" required>
                                 </div>
                             </div>
 
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Họ Tên</label>
-                                    <input class="form-control" type="text" name="TenNhanVien" value="@Model.TenNhanVien" required>
+                                    <input class="form-control" type="text" name="TenNhanVien" placeholder="Tên Nhân Viên" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Số Điện Thoại</label>
-                                    <input class="form-control" type="number" name="SoDienThoai" value="@Model.SoDienThoai" required>
+                                    <input class="form-control" type="number" name="SoDienThoai" placeholder="Đại chỉ email" required>
                                 </div>
                             </div>
                         </div>
@@ -63,25 +59,11 @@
                     <div class="card-body mb-n5" id="filterColumn">
                         <div class="mb-5">
                             <p class="text-small text-muted mb-2">Quyền</p>
-                            @*@foreach (var item in listDanhMuc)
-                                {
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="DanhMucIds" value="@item.MaDanhMuc" id="danhMuc_@item.MaDanhMuc">
-                                        <label class="form-check-label" for="danhMuc_@item.MaDanhMuc">@item.TenChucNang</label>
-                                    </div>
-                                }*@
                             @foreach (var item in listDanhMuc)
                             {
                                 <div class="form-check">
-                                    <input type="checkbox"
-                                           class="form-check-input"
-                                           name="danhMucIds"
-                                           value="@item.MaDanhMuc"
-                                           id="danhMuc_@item.MaDanhMuc"
-                                           @(danhMucIdsDaChon.Contains(item.MaDanhMuc) ? "checked" : "")>
-                                    <label class="form-check-label" for="danhMuc_@item.MaDanhMuc">
-                                        @item.TenChucNang
-                                    </label>
+                                    <input type="checkbox" class="form-check-input" name="DanhMucIds" value="@item.MaDanhMuc" id="danhMuc_@item.MaDanhMuc">
+                                    <label class="form-check-label" for="danhMuc_@item.MaDanhMuc">@item.TenChucNang</label>
                                 </div>
                             }
                         </div>
@@ -94,7 +76,7 @@
 
         </div>
         <a href="/NhanVien/NhanVien/Index" class="btn btn-outline-primary">Trở Về</a>
-        <button class="btn btn-danger" type="submit">Cập Nhật</button>
+        <button class="btn btn-danger" type="submit">Thêm Mới</button>
 
     </div>
 }

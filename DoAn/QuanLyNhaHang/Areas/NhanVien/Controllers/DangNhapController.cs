@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using System.Data.Entity;
 using QuanLyNhaHang.Models;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
@@ -43,6 +44,14 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 }
                 else
                 {
+                    // Lấy mã doanh nghiệp
+                    var maDoanhNghiep = _db.DoanhNghiep.SingleOrDefault(n => n.MaDoanhNghiep == nhanVien.MaDoanhNghiep_id);
+                    if(maDoanhNghiep.ThoiGianKetThuc <= DateTime.Now)
+                    {
+                        TempData["ToastMessage"] = "error|Doanh nghiệp hết hợp đồng.";
+                        return View();
+                    }
+
                     // Tạo cookie lưu thông tin đăng nhập
                     var cookie = new HttpCookie("UserLogin")
                     {

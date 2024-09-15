@@ -53,7 +53,7 @@
                 <div class="user-container d-flex">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profile" alt="profile" src="~/Assets/img/logo/iconEmployee.jpg">
-                        <div class="name">@sTenNhanVien</div>
+                        <div class="name">@Html.Raw(sTenNhanVien)</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-3 ms-0 me-0">
@@ -265,12 +265,12 @@
                                 <span class="label">Thống Kê</span>
                             </a>
                         </li>
-                        <li>
+                        @*<li>
                             <a href="/NhanVien/HoaDon/DanhSachHoaDon">
                                 <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
                                 <span class="label">Nhập Xuất</span>
                             </a>
-                        </li>
+                        </li>*@
                         <li>
                             <a href="#storefront" data-href="Storefront.html">
                                 <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>

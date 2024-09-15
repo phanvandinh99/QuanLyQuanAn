@@ -77,7 +77,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
                 return RedirectToAction("DanhSachBan", "Ban");
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
                 TempData["ToastMessage"] = "error|Thêm bàn thất bại.";
                 return RedirectToAction("DanhSachBan", "Ban");

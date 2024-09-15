@@ -462,17 +462,25 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         }
         public ActionResult XoaHoaDons(int iMaHoaDon)
         {
-            var chiTiet = _db.HoaDon.SingleOrDefault(n => n.MaHoaDon == iMaHoaDon);
-            if (chiTiet == null)
+            try
             {
-                return RedirectToAction("XoaHoaDon", "Error");
+                var chiTiet = _db.HoaDon.SingleOrDefault(n => n.MaHoaDon == iMaHoaDon);
+                if (chiTiet == null)
+                {
+                    return RedirectToAction("XoaHoaDon", "Error");
+                }
+                HoaDon hoaDon = _db.HoaDon.Find(iMaHoaDon);
+                if (hoaDon == null)
+                {
+                    return HttpNotFound();
+                }
+                return View(hoaDon);
             }
-            HoaDon hoaDon = _db.HoaDon.Find(iMaHoaDon);
-            if (hoaDon == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                TempData["ToastMessage"] = "error|Xóa hóa đơn thất bại.";
+                return RedirectToAction("DanhSachBan", "Ban");
             }
-            return View(hoaDon);
         }
         // xóa hóa đơn
         public ActionResult XoaHoaDon(int iMaHoaDon)
