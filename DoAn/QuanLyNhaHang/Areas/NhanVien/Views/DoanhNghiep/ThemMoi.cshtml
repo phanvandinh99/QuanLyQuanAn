@@ -1,0 +1,95 @@
+﻿@using QuanLyNhaHang.Models
+@{
+    ViewBag.Title = "Thêm Doanh Nghiệp";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="page-title-container">
+            <div class="row">
+                <div class="col-auto mb-3 mb-md-0 me-auto">
+                    <div class="w-auto sw-md-60">
+                        <h1 class="mb-0 pb-0 display-4" id="title">Thêm Mới Doanh Nghiệp</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg order-1 order-lg-0" style="max-width:823px">
+                <h2 class="small-title">Thông Tin Doanh Nghiệp</h2>
+                <div id="addressForm" class="tooltip-label-end" novalidate="">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Mã Doanh Nghiệp</label>
+                                    <input class="form-control" name="MaDoanhNghiep" placeholder="Mã doanh nghiệp" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Tên Doanh Nghiệp</label>
+                                    <input class="form-control" name="TenDoanhNghiep" placeholder="Tên doanh nghiệp" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Số Điện Thoại</label>
+                                    <input class="form-control" type="number" name="SoDienThoai" placeholder="Số điện thoại" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input class="form-control" type="email" name="Email" placeholder="Đại chỉ email" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Thời Gian Bắt Đầu</label>
+                                    <input class="form-control" type="datetime-local" name="ThoiGianBatDau" id="ThoiGianBatDau" placeholder="Ngày bắt đầu" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Thời Gian Kết Thúc</label>
+                                    <input class="form-control" type="datetime-local" name="ThoiGianKetThuc" id="ThoiGianKetThuc" placeholder="Ngày kết thúc" required>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Địa Chỉ</label>
+                                    <textarea class="form-control" name="DiaChi" rows="2" required placeholder="Địa chỉ doanh nghiệp"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Thành Tiền</label>
+                                    <input class="form-control" type="number" name="TongTien" placeholder="Giá thuê" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/NhanVien/DoanhNghiep/Index" class="btn btn-outline-primary">Trở Về</a>
+                <button class="btn btn-danger" type="submit">Thêm Mới</button>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    document.getElementById('ThoiGianBatDau').addEventListener('change', validateDateTime);
+    document.getElementById('ThoiGianKetThuc').addEventListener('change', validateDateTime);
+
+    function validateDateTime() {
+        var startTime = document.getElementById('ThoiGianBatDau').value;
+        var endTime = document.getElementById('ThoiGianKetThuc').value;
+
+        if (startTime && endTime && startTime > endTime) {
+            alert('Thời gian bắt đầu phải nhỏ hơn hoặc bằng thời gian kết thúc.');
+            document.getElementById('ThoiGianBatDau').value = '';
+            document.getElementById('ThoiGianKetThuc').value = '';
+        }
+    }
+
+</script>
