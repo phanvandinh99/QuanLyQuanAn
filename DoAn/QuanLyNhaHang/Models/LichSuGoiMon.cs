@@ -24,8 +24,6 @@ namespace QuanLyNhaHang.Models
 
         public int? MaMonAn_id { get; set; }
 
-        public string MaDoanhNghiep_id { get; set; }
-
         public virtual HoaDon HoaDon { get; set; }
 
         public virtual MonAn MonAn { get; set; }

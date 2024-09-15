@@ -9,13 +9,10 @@ namespace QuanLyNhaHang.Models
     [Table("NhanVien")]
     public partial class NhanVien
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public NhanVien()
-        {
-            PhieuNhap = new HashSet<PhieuNhap>();
-        }
-
         [Key]
+        public int MaNhanVien { get; set; }
+
+        [Required]
         [StringLength(50)]
         public string TaiKhoanNV { get; set; }
 
@@ -35,11 +32,10 @@ namespace QuanLyNhaHang.Models
 
         public int? MaQuyen_id { get; set; }
 
+        [Required]
+        [StringLength(50)]
         public string MaDoanhNghiep_id { get; set; }
 
         public virtual Quyen Quyen { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhieuNhap> PhieuNhap { get; set; }
     }
 }

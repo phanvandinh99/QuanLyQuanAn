@@ -47,10 +47,11 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     var cookie = new HttpCookie("UserLogin")
                     {
                         Values = {
-                            ["TenNhanVien"] = nhanVien.TenNhanVien,
-                            ["MaDoanhNghiep"] = nhanVien.MaDoanhNghiep_id.ToString(),
+                            ["MaNhanVien"] = nhanVien.MaNhanVien.ToString(),
                             ["TaiKhoanNV"] = nhanVien.TaiKhoanNV,
-                            ["MaQuyen_id"] = nhanVien.MaQuyen_id.ToString()
+                            ["TenNhanVien"] = nhanVien.TenNhanVien,
+                            ["MaQuyen_id"] = nhanVien.MaQuyen_id.ToString(),
+                            ["MaDoanhNghiep"] = nhanVien.MaDoanhNghiep_id.ToString()
                         },
                         Expires = DateTime.Now.AddDays(1)
                     };

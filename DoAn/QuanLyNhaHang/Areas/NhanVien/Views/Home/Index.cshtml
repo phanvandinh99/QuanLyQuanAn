@@ -27,19 +27,6 @@
             <div class="mb-5">
                 <div class="row g-2">
                     <div class="col-6 col-md-4 col-lg-2">
-                        <a href="/NhanVien/HoaDon/DanhSachHoaDon">
-                            <div class="card h-100 hover-scale-up cursor-pointer">
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-dollar text-primary"><circle cx="10" cy="10" r="8"></circle><path d="M8.2474 12.7882C9.21854 13.0238 10.3165 13.1347 11.255 12.7328C11.8747 12.4349 12.0341 11.9499 11.9943 11.3645C11.9508 10.4361 10.8492 10.0759 10.023 9.97886C9.37073 9.86455 8.53367 9.66016 8.15681 9.09552C7.83068 8.47891 8.00824 7.59903 8.73659 7.25954C9.4 6.95033 10.8166 6.87849 11.6536 7.25954"></path><path d="M10 5.5V7M10 13V14.5"></path></svg>
-                                    </div>
-                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">TỔNG DOANH THU</div>
-                                    <div class="text-primary cta-4">@ViewBag.DoanhThu.ToString("#,##0") vnđ</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-6 col-md-4 col-lg-2">
                         <a href="~/NhanVien/HoaDon/DanhSachHoaDon">
                             <div class="card h-100 hover-scale-up cursor-pointer">
                                 <div class="card-body d-flex flex-column align-items-center">
@@ -48,6 +35,19 @@
                                     </div>
                                     <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">SỐ HÓA ĐƠN</div>
                                     <div class="text-primary cta-4">@ViewBag.SumHoaDon</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a href="/NhanVien/HoaDon/DanhSachHoaDon">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-dollar text-primary"><circle cx="10" cy="10" r="8"></circle><path d="M8.2474 12.7882C9.21854 13.0238 10.3165 13.1347 11.255 12.7328C11.8747 12.4349 12.0341 11.9499 11.9943 11.3645C11.9508 10.4361 10.8492 10.0759 10.023 9.97886C9.37073 9.86455 8.53367 9.66016 8.15681 9.09552C7.83068 8.47891 8.00824 7.59903 8.73659 7.25954C9.4 6.95033 10.8166 6.87849 11.6536 7.25954"></path><path d="M10 5.5V7M10 13V14.5"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">TỔNG DOANH THU</div>
+                                    <div class="text-primary cta-4">@ViewBag.DoanhThu.ToString("#,##0") vnđ</div>
                                 </div>
                             </div>
                         </a>
@@ -76,17 +76,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-2">
-                        <div class="card h-100 hover-scale-up cursor-pointer">
-                            <div class="card-body d-flex flex-column align-items-center">
-                                <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-arrow-top-left text-primary"><path d="M7 12L2.35355 7.35355C2.15829 7.15829 2.15829 6.84171 2.35355 6.64645L7 2"></path><path d="M18 18V11C18 9.93913 17.5786 8.92172 16.8284 8.17157C16.0783 7.42143 15.0609 7 14 7H2.5"></path></svg>
+                    @*<div class="col-6 col-md-4 col-lg-2">
+                            <div class="card h-100 hover-scale-up cursor-pointer">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-arrow-top-left text-primary"><path d="M7 12L2.35355 7.35355C2.15829 7.15829 2.15829 6.84171 2.35355 6.64645L7 2"></path><path d="M18 18V11C18 9.93913 17.5786 8.92172 16.8284 8.17157C16.0783 7.42143 15.0609 7 14 7H2.5"></path></svg>
+                                    </div>
+                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">RETURNS</div>
+                                    <div class="text-primary cta-4">2</div>
                                 </div>
-                                <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">RETURNS</div>
-                                <div class="text-primary cta-4">2</div>
                             </div>
-                        </div>
-                    </div>
+                        </div>*@
                     <div class="col-6 col-md-4 col-lg-2">
                         <a href="/NhanVien/Home/Ban?iMaTang=1">
                             <div class="card h-100 hover-scale-up cursor-pointer">
@@ -124,13 +124,15 @@
                                                         <a href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@item.MaHoaDon" class="body-link stretched-link">@item.TenKhachHang</a>
                                                     </div>
                                                     <div class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start">
-                                                        @if (item.TrangThai == 0)
+                                                        @if (item.MaBan_id == 1)
                                                         {
                                                             <svg xmlns="http://www.w3.org/2000/svg" style="color:black" width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-check-square dark-text-darker me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="Cập Nhật" aria-label="Cập Nhật"><path d="M17 5L10.6329 12.2032C10.2511 12.6351 9.58418 12.6556 9.17656 12.248L6.92857 10"></path><path d="M11 2L5.5 2C4.09554 2 3.39331 2 2.88886 2.33706C2.67048 2.48298 2.48298 2.67048 2.33706 2.88886C2 3.39331 2 4.09554 2 5.5L2 14.5C2 15.9045 2 16.6067 2.33706 17.1111C2.48298 17.3295 2.67048 17.517 2.88886 17.6629C3.39331 18 4.09554 18 5.5 18L14.5 18C15.9045 18 16.6067 18 17.1111 17.6629C17.3295 17.517 17.517 17.3295 17.6629 17.1111C18 16.6067 18 15.9045 18 14.5L18 11"></path></svg>
+                                                            <span>Mang đi</span>
                                                         }
                                                         else
                                                         {
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-error-hexagon"><path d="M9 2.57735C9.6188 2.22008 10.3812 2.22008 11 2.57735L15.9282 5.42265C16.547 5.77992 16.9282 6.44017 16.9282 7.1547V12.8453C16.9282 13.5598 16.547 14.2201 15.9282 14.5774L11 17.4226C10.3812 17.7799 9.6188 17.7799 9 17.4226L4.0718 14.5774C3.45299 14.2201 3.0718 13.5598 3.0718 12.8453V7.1547C3.0718 6.44017 3.45299 5.77992 4.0718 5.42265L9 2.57735Z"></path><path d="M8 12 12.0001 7.99994M8 7.99994 12.0001 12"></path></svg>
+                                                            <span>Tại bàn</span>
                                                         }
                                                     </div>
                                                     <div class="col-12 col-md-2 d-flex align-items-center mb-1 mb-md-0 text-alternate">
@@ -144,7 +146,9 @@
                                                             <span>-</span>
                                                         }
                                                     </div>
-                                                    <div class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate">@string.Format("{0:hh:mm:ss tt}", item.NgayTao)</div>
+                                                    <div class="col-12 col-md-3 d-flex align-items-center justify-content-md-end mb-1 mb-md-0 text-alternate">
+                                                        @string.Format("{0:MM/dd/yyyy hh:mm:ss tt}", item.NgayTao)
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

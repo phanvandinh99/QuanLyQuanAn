@@ -25,8 +25,6 @@ namespace QuanLyNhaHang.Models
 
         public double? ThanhTien { get; set; }
 
-        public string MaDoangNghiep_id { get; set; }
-
         public virtual NguyenLieu NguyenLieu { get; set; }
 
         public virtual XuatKho XuatKho { get; set; }

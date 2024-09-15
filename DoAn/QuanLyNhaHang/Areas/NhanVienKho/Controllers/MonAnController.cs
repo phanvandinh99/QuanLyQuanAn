@@ -23,8 +23,7 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             // lấy m ón ăn cùng loại
             var monAnCungLoai = db.MonAn.Where(n => n.MaLMA_id == monAn.MaLMA_id).ToList().Take(5);
             ViewBag.MonAnCungLoai = monAnCungLoai;
-            // lấy chi tiết món ăn
-            ViewBag.ChiTietMonAn = db.ChiTietSanPham.Where(n => n.MaMonAn_id == iMaMonAn).ToList();
+
             return View(monAn);
         }
         [HttpGet]
@@ -36,7 +35,7 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
         }
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult ThemMonAn(HttpPostedFileBase HinhAnh,MonAn Model, IEnumerable<ChiTietSanPham> listCTSP)
+        public ActionResult ThemMonAn(HttpPostedFileBase HinhAnh,MonAn Model)
         {
             //try
             //{
@@ -71,35 +70,6 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
             monAn.MaLMA_id = Model.MaLMA_id;
             db.MonAn.Add(monAn);
             db.SaveChanges();
-            #endregion
-            //Lấy id mã món ăn
-            var maMonAn = db.MonAn.OrderByDescending(n => n.MaMonAn).FirstOrDefault();
-            #region Thêm món ăn vào chi tiết sản phẩm
-            if (listCTSP != null)
-            {
-                foreach (var item in listCTSP) // chi tiết phiếu nhật
-                {
-                    ChiTietSanPham ctsp = new ChiTietSanPham();
-                    //kiểm tra chi tiết sản phẩm đã tồn tại chưa
-                    var chiTietSanPham = db.ChiTietSanPham.SingleOrDefault(n => n.MaMonAn_id == maMonAn.MaMonAn && n.MaNguyenLieu_id == item.MaNguyenLieu_id);
-                    if (chiTietSanPham != null)
-                    {
-                        chiTietSanPham.SoLuongDung += item.SoLuongDung;
-                        chiTietSanPham.Tru = item.Tru;
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-
-                        ctsp.MaMonAn_id = maMonAn.MaMonAn;
-                        ctsp.MaNguyenLieu_id = item.MaNguyenLieu_id;
-                        ctsp.SoLuongDung = item.SoLuongDung;
-                        ctsp.Tru = item.Tru;
-                        db.ChiTietSanPham.Add(ctsp);
-                        db.SaveChanges();
-                    }
-                }
-            }
             #endregion
             return RedirectToAction("HaiSan","NguyenLieu");
         }

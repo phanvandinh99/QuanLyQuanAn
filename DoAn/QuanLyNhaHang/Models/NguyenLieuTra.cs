@@ -21,12 +21,12 @@ namespace QuanLyNhaHang.Models
 
         public double? SoLuongTra { get; set; }
 
-        public int? SoLuongXuat { get; set; }
-
         public double? DonGia { get; set; }
 
         public double? ThanhTien { get; set; }
 
+        [Required]
+        [StringLength(50)]
         public string MaDoanhNghiep_id { get; set; }
 
         public virtual HoanTra HoanTra { get; set; }

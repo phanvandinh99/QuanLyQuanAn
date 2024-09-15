@@ -365,11 +365,6 @@
     <Content Include="Areas\NhanVien\Views\Error\ThanhCong.cshtml" />
     <Content Include="Areas\NhanVienKho\Views\ThongKe\ThongKeTuan.cshtml" />
     <Content Include="Areas\NhanVienKho\Views\ThongKe\ThongKeQuy.cshtml" />
-    <Content Include="Areas\NhanVien\Views\HoaDons\Create.cshtml" />
-    <Content Include="Areas\NhanVien\Views\HoaDons\Delete.cshtml" />
-    <Content Include="Areas\NhanVien\Views\HoaDons\Details.cshtml" />
-    <Content Include="Areas\NhanVien\Views\HoaDons\Edit.cshtml" />
-    <Content Include="Areas\NhanVien\Views\HoaDons\Index.cshtml" />
     <Content Include="Areas\NhanVien\Views\HoaDon\XoaHoaDons.cshtml" />
     <Content Include="Areas\NhanVien\Views\DangNhap\DangNhap.cshtml" />
     <Content Include="Areas\NhanVien\Views\Tang\CapNhatTang.cshtml" />
@@ -412,7 +407,6 @@
     <Compile Include="Areas\NhanVien\Controllers\ErrorController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\FilterController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\HoaDonController.cs" />
-    <Compile Include="Areas\NhanVien\Controllers\HoaDonsController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\HomeController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\LoaiMonAnController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\MonAnController.cs" />
@@ -429,13 +423,13 @@
     <Compile Include="Models\Ban.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChiTietPhieuNhap.cs" />
-    <Compile Include="Models\ChiTietSanPham.cs" />
     <Compile Include="Models\DatabaseQuanLyNhaHang.cs" />
     <Compile Include="Models\DoanhNghiep.cs" />
     <Compile Include="Models\HoaDon.cs" />
     <Compile Include="Models\HoanTra.cs" />
     <Compile Include="Models\LichSuGoiMon.cs" />
     <Compile Include="Models\LoaiMonAn.cs" />
+    <Compile Include="Models\LoaiNguyenLieu.cs" />
     <Compile Include="Models\MonAn.cs" />
     <Compile Include="Models\NguyenLieu.cs" />
     <Compile Include="Models\NguyenLieuTra.cs" />

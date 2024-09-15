@@ -25,8 +25,6 @@ namespace QuanLyNhaHang.Models
 
         public DateTime? NgayGoi { get; set; }
 
-        public string MaDoanhNghiep_id { get; set; }
-
         public virtual HoaDon HoaDon { get; set; }
 
         public virtual MonAn MonAn { get; set; }

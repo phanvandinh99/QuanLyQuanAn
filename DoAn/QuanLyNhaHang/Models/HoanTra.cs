@@ -18,10 +18,10 @@ namespace QuanLyNhaHang.Models
         [Key]
         public int MaHoanTra { get; set; }
 
-        public DateTime? NgayHoanTra { get; set; }
+        public DateTime NgayHoanTra { get; set; }
 
-        public double? TongTien { get; set; }
-
+        [Required]
+        [StringLength(50)]
         public string MaDoanhNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

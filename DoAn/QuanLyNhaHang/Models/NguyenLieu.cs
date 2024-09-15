@@ -13,7 +13,6 @@ namespace QuanLyNhaHang.Models
         public NguyenLieu()
         {
             ChiTietPhieuNhap = new HashSet<ChiTietPhieuNhap>();
-            ChiTietSanPham = new HashSet<ChiTietSanPham>();
             NguyenLieuTra = new HashSet<NguyenLieuTra>();
             NguyenLieuXuat = new HashSet<NguyenLieuXuat>();
         }
@@ -32,13 +31,16 @@ namespace QuanLyNhaHang.Models
 
         public double GiaNhapCuoi { get; set; }
 
+        public int? MaLNL_id { get; set; }
+
+        [Required]
+        [StringLength(50)]
         public string MaDoanhNghiep_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietSanPham> ChiTietSanPham { get; set; }
+        public virtual LoaiNguyenLieu LoaiNguyenLieu { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NguyenLieuTra> NguyenLieuTra { get; set; }

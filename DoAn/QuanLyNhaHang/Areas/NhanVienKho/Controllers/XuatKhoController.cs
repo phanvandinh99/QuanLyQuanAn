@@ -49,18 +49,9 @@ namespace QuanLyNhaHang.Areas.NhanVienKho.Controllers
         [HttpPost]
         public ActionResult PhieuXuatKho(XuatKho Model, IEnumerable<NguyenLieuXuat> lstModel)
         {
-            #region Lưu xuất kho
             XuatKho xk = new XuatKho();
-            if (Model.NgayXuat == null)
-            {
-                xk.NgayXuat = DateTime.Now;
-            }
-            else
-            {
-                xk.NgayXuat = Model.NgayXuat;
-            }
             db.XuatKho.Add(xk);
-            #endregion
+
             // lấy mã xuất kho
             //var maXuatKho = db.XuatKho.OrderByDescending(n => n.MaXuatKho).FirstOrDefault();
 

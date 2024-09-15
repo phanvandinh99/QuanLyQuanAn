@@ -10,19 +10,7 @@
     IEnumerable<LoaiMonAn> listLoaiMonAn = ViewBag.LoaiMonAn as IEnumerable<LoaiMonAn>;
     IEnumerable<NguyenLieu> listNguyenLieu = ViewBag.NguyenLieu as IEnumerable<NguyenLieu>;
 }
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<style>
-    .tox-notification {
-        display: none !important;
-    }
 
-    .tox .tox-statusbar {
-        display: none
-    }
-</style>
-<script>
-    tinymce.init({ selector: 'textarea' });
-</script>
 <div class="container">
     @using (Html.BeginForm("ThemMonAn", "MonAn", FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
@@ -44,24 +32,19 @@
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Tên Món Ăn</label>
-                                    <input class="form-control" name="TenMonAn">
+                                    <input class="form-control" name="TenMonAn" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Đơn Giá</label>
-                                    <input class="form-control" type="number" name="DonGia">
+                                    <input class="form-control" type="number" name="DonGia" min="1" required>
                                 </div>
                             </div>
                             <div class="row g-3">
-                                @*<div class="col-md-6 mb-3">
-                                    <label class="form-label">Nhóm Món Ăn</label>
-                                    <select class="form-control" name="MaNMA_id">
-                                        @foreach (var item in listNhomMonAn)
-                                        {
-                                            <option class="select2-selection__arrow" value="@item.MaNMA">@item.TenNMA</option>
-                                        }
-
-                                    </select>
-                                </div>*@
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Hình Ảnh</label>
+                                    <input class="form-control" name="HinhAnh" type="file" required>
+                                    <span style="color:red;float:right">@ViewBag.upload</span>
+                                </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Loại Món Ăn</label>
                                     <select class="form-control" name="MaLMA_id">
@@ -73,23 +56,9 @@
                                 </div>
                             </div>
                             <div class="row g-3">
-                                <div class="col-md-12 mb-3">
-                                    <label class="form-label">Hình Ảnh</label>
-                                    @*<input class="form-control" type="file" name="HinhAnh">*@
-                                    <input class="form-control" name="HinhAnh" type="file">
-                                    <span style="color:red;float:right">@ViewBag.upload</span>
-                                </div>
-                            </div>
-                            <div class="row g-3">
                                 <div class="col-12">
-                                    <label class="form-label">Thông tin chính</label>
-                                    <input class="form-control" name="ThongTin">
-                                </div>
-                            </div><br />
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <label class="form-label">Mô Tả Món Ăn</label>
-                                    <textarea name="MoTa"></textarea>
+                                    <label class="form-label">Mô Tả</label>
+                                    <textarea class="form-control" name="MoTa" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -118,98 +87,7 @@
                 </div>
             </div>
         </div>
-        <!-- #region Phần Sản Phẩm Nhập -->
-        <table class="table ChiTietSanPham">
-            <tr class="trAppend" style="display:none">
-                <td style="max-width: 60%">
-                    <select class="ddlNguyenLieuDung form-select" name="" >
-                        @foreach (var item in listNguyenLieu)
-                        {
-                            <option value="@item.MaNguyenLieu">@item.TenNguyenLieu</option>
-                        }
-                    </select>
-                </td>
-                <td style="width:20%">
-                    <input name="" class="txtSoLuongDung form-control" >
-                </td>
-                @*<td style="width:20%">
-                    <select name="" class="selectTru form-select">
-                        <option value="0">Không Trừ</option>
-                        <option value="1">Trừ</option>
-                    </select>
-                </td>*@
-                <td>
-                    <input class="btnXoa btn btn-danger" type="button"  value="-">
-                </td>
-            </tr>
-            <tr class="trFirstChild" data-id="-1">
-                <td>Nguyên Liệu Dùng</td>
-                <td>Số Lượng Dùng(kg)</td>
-                <td>Trừ</td>
-                <td></td>
-            </tr>
-        </table>
-        <input type="button" value="+" class="btn btn-outline-black" id="btnThemNguyenLieu">
         <input type="submit" value="Thêm Món Ăn" class="btn btn-primary" id="btnThemMoiMonAn">
-        <!-- #endregion -->
     }
 </div>
-
-<script type="text/javascript">
-    function TinhToan() {
-        var gam = document.getElementById("gam").value;
-        var a = 0.001
-        var kq = parseFloat(a) * parseFloat(gam)
-        if (!isNaN(kq)) {
-            document.getElementById("kg").value = kq;
-        }
-    }
-    // Phần appen nguyên liệu
-    $("#btnThemNguyenLieu").click(function () {
-        var id_cuoi = $(".ChiTietSanPham").find("tr:last-child").attr("data-id");
-        i = parseInt(id_cuoi) + 1;
-        var tdnoidung = $(".trAppend").html();
-        var trnoidung = "<tr class=\"trAppended\" data-id=\"" + i + "\">" + tdnoidung + "</tr>";
-        $(".ChiTietSanPham").append(trnoidung);
-        loadIDNguyenLieu();
-    });
-
-    // Phương thức sử lý lấy thuộc tính attr từ thẻ tr gắn xuống chỉ xố phần tử các trong thuộc tính name của thẻ input
-    function loadIDNguyenLieu() {
-        $(".trAppended").each(function () {
-            var id = $(this).attr("data-id");
-            var nameMaNguyenLieu = "[" + id + "].MaNguyenLieu_id";
-            var nameSoLuongDung = "[" + id + "].SoLuongDung";
-            var nameTru = "[" + id + "].Tru";
-            $(this).find(".ddlNguyenLieuDung").attr("name", nameMaNguyenLieu);
-            $(this).find(".txtSoLuongDung").attr("name", nameSoLuongDung);
-            $(this).find(".selectTru").attr("name", nameTru);
-        });
-    }
-    // sử lý sự kiện xóa 1 dòng từ nút delete nằm bên trong thẻ tr
-    $("body").on("click", ".btnXoa", function () {
-        // Xóa phần tử cha phía ngoài
-        $(this).closest(".trAppended").remove();
-        CapNhatID();
-    });
-
-    function CapNhatID() {
-        //Lấy lại tr 1
-        var id_cuoi = $(".ChiTietSanPham").find(".trFirstChild").attr("data-id");
-        i = parseInt(id_cuoi) + 1;
-
-        $(".trAppendSanPham").each(function () {
-            var id = i;
-            $(this).attr("data-id", i)
-            // cập nhật lại id (tr) khi xóa
-            var nameMaNguyenLieu = "[" + id + "].MaNguyenLieu_id";
-            var nameSoLuongDung = "[" + id + "].SoLuongDung";
-            var nameTru = "[" + id + "].Tru";
-            $(this).find(".ddlNguyenLieuDung").attr("name", nameMaNguyenLieu); // gán name cho dropdowlist
-            $(this).find(".txtSoLuongDung").attr("name", nameSoLuongDung);
-            $(this).find(".selectTru").attr("name", nameTru);
-            i++;
-        });
-    }
-</script>
 

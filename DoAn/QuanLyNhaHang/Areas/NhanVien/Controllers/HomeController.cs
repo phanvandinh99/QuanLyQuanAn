@@ -36,7 +36,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             ViewBag.DoanhThu = await DoanhThuDonHang(sMaDoanhNghiep);
             ViewBag.SumHoaDon = await _db.HoaDon
-                                .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
+                                .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep &&
+                                       n.TrangThai == Const.DaThanhToan)
                                 .CountAsync();
             ViewBag.SumMonAn = await _db.MonAn
                                .Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
@@ -87,31 +88,6 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                                  n.MaDoanhNghiep_id == sMaDoanhNghiep)
                           .OrderBy(n => n.MaBan)
                           .ToListAsync();
-
-            var maBans = listBan.Where(n=>n.TinhTrang == Const.CoNguoi).Select(b => b.MaBan).ToList();
-            var hoaDons = await _db.HoaDon
-                          .Where(hd => maBans.Contains(hd.MaBan_id) &&
-                            hd.TrangThai == Const.ChuaThanhToan)
-                          .ToListAsync();
-
-            foreach (var hoaDon in hoaDons)
-            {
-                bool hasChiTietHoaDon = await _db.ChiTietHoaDon
-                    .AnyAsync(cthd => cthd.MaHoaDon_id == hoaDon.MaHoaDon);
-
-                if (!hasChiTietHoaDon)
-                {
-                    _db.HoaDon.Remove(hoaDon);
-
-                    var ban = await _db.Ban.SingleOrDefaultAsync(b => b.MaBan == hoaDon.MaBan_id);
-                    if (ban != null)
-                    {
-                        ban.TinhTrang = Const.KhongCoNguoi;
-                    }
-                }
-            }
-
-            await _db.SaveChangesAsync();
 
             return View(listBan);
         }
