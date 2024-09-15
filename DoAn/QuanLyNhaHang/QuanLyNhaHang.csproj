@@ -430,6 +430,7 @@
     <Compile Include="Models\Ban.cs" />
     <Compile Include="Models\ChiTietHoaDon.cs" />
     <Compile Include="Models\ChiTietPhieuNhap.cs" />
+    <Compile Include="Models\DanhMuc.cs" />
     <Compile Include="Models\DatabaseQuanLyNhaHang.cs" />
     <Compile Include="Models\DoanhNghiep.cs" />
     <Compile Include="Models\HoaDon.cs" />

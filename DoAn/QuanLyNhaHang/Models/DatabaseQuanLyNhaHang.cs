@@ -15,6 +15,8 @@ namespace QuanLyNhaHang.Models
         public virtual DbSet<Ban> Ban { get; set; }
         public virtual DbSet<ChiTietHoaDon> ChiTietHoaDon { get; set; }
         public virtual DbSet<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
+        public virtual DbSet<DanhMuc> DanhMuc { get; set; }
+        public virtual DbSet<DoanhNghiep> DoanhNghiep { get; set; }
         public virtual DbSet<HoaDon> HoaDon { get; set; }
         public virtual DbSet<HoanTra> HoanTra { get; set; }
         public virtual DbSet<LichSuGoiMon> LichSuGoiMon { get; set; }
@@ -29,7 +31,6 @@ namespace QuanLyNhaHang.Models
         public virtual DbSet<Quyen> Quyen { get; set; }
         public virtual DbSet<Tang> Tang { get; set; }
         public virtual DbSet<XuatKho> XuatKho { get; set; }
-        public virtual DbSet<DoanhNghiep> DoanhNghiep { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,12 +39,33 @@ namespace QuanLyNhaHang.Models
                 .WithOptional(e => e.Ban)
                 .HasForeignKey(e => e.MaBan_id);
 
-            modelBuilder.Entity<HoaDon>()
-                .Property(e => e.SDTKhachHang)
+            modelBuilder.Entity<DanhMuc>()
+                .Property(e => e.Icon)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DanhMuc>()
+                .Property(e => e.TenChucNang)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DanhMuc>()
+                .Property(e => e.Url)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DanhMuc>()
+                .HasMany(e => e.NhanVien)
+                .WithMany(e => e.DanhMuc)
+                .Map(m => m.ToTable("PhanQuyen").MapLeftKey("MaDanhMuc_id").MapRightKey("MaNhanVien_id"));
+
+            modelBuilder.Entity<DoanhNghiep>()
+                .Property(e => e.SoDienThoai)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<DoanhNghiep>()
+                .Property(e => e.Email)
                 .IsUnicode(false);
 
             modelBuilder.Entity<HoaDon>()
-                .Property(e => e.DiaChiKhachHang)
+                .Property(e => e.SDTKhachHang)
                 .IsUnicode(false);
 
             modelBuilder.Entity<HoaDon>()
@@ -139,14 +161,6 @@ namespace QuanLyNhaHang.Models
                 .WithRequired(e => e.XuatKho)
                 .HasForeignKey(e => e.MaXuatKho_id)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<DoanhNghiep>()
-                .Property(e => e.SoDienThoai)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<DoanhNghiep>()
-                .Property(e => e.Email)
-                .IsUnicode(false);
         }
     }
 }
