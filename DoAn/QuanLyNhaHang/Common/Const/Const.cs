@@ -2,8 +2,11 @@
 {
     public static class Const
     {
+        // Mang đi
         public const int MangDi = 1;
         public const int TaiBan = 0;
+        public const bool boolMangDi = true;
+        public const bool boolTaiBan = false;
 
         public const int CoNguoi = 1;
         public const int KhongCoNguoi = 0;

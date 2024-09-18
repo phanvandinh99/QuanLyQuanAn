@@ -3,6 +3,7 @@ using System;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -28,40 +29,46 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         }
 
         // hiển thị danh sách các món ăn
-        public ActionResult DanhSachMonAn()
+        public async Task<ActionResult> DanhSachMonAn()
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.TatCa = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).Count();
-            ViewBag.LoaiMonAn = _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
-            var listMonAn = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).OrderBy(n => n.MaMonAn).ToList();
+            ViewBag.TatCa = await _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).CountAsync();
+            ViewBag.LoaiMonAn = await _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+            var listMonAn = await _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).OrderBy(n => n.MaMonAn).ToListAsync();
             return View(listMonAn);
         }
-        public ActionResult DanhSachMonAnList()
+        public async Task<ActionResult> DanhSachMonAnList()
         {
-            ViewBag.TatCa = _db.MonAn.Count();
-            ViewBag.LoaiMonAn = _db.LoaiMonAn.ToList();
-            var listMonAn = _db.MonAn.OrderBy(n => n.MaMonAn).ToList();
+            ViewBag.TatCa = await _db.MonAn.CountAsync();
+            ViewBag.LoaiMonAn = await _db.LoaiMonAn.ToListAsync();
+            var listMonAn = await _db.MonAn.OrderBy(n => n.MaMonAn).ToListAsync();
             return View(listMonAn);
         }
-        public ActionResult DanhSachMonAnBanChay()
+        public async Task<ActionResult> DanhSachMonAnBanChay()
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.TatCa = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).Count();
-            ViewBag.LoaiMonAn = _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToList();
-            var listMonAn = _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).OrderBy(n => n.MaMonAn).ToList().OrderBy(n => n.SoLuongDaBan).ToList().Take(10);
+            ViewBag.TatCa = await _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).CountAsync();
+            ViewBag.LoaiMonAn = await _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+            var listMonAn = await _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep)
+                                           .OrderByDescending(n => n.SoLuongDaBan)
+                                           .Take(10)
+                                           .ToListAsync();
+
             return View(listMonAn);
         }
 
-        public ActionResult XoaMonAn(int iMaMonAn)
+        public async Task<ActionResult> XoaMonAn(int iMaMonAn)
         {
             try
             {
-                var monAn = _db.MonAn.Find(iMaMonAn);
+                var monAn = await _db.MonAn.FindAsync(iMaMonAn);
                 _db.MonAn.Remove(monAn);
-                _db.SaveChanges();
-                return RedirectToAction("XoaMonAnThanhCong", "Error");
+                await _db.SaveChangesAsync();
+                TempData["ToastMessage"] = "success|Xóa món ăn thành công";
+
+                return RedirectToAction("DanhSachMonAn", "MonAn");
             }
             catch
             {
@@ -70,13 +77,13 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             }
         }
 
-        public ActionResult XemChiTiet(int iMaMonAn)
+        public async Task<ActionResult> XemChiTiet(int iMaMonAn)
         {
             try
             {
-                var monAn = _db.MonAn.Find(iMaMonAn);
-                // lấy m ón ăn cùng loại
-                var monAnCungLoai = _db.MonAn.Where(n => n.MaLMA_id == monAn.MaLMA_id).ToList().Take(5);
+                var monAn = await _db.MonAn.FindAsync(iMaMonAn);
+                // lấy món ăn cùng loại
+                var monAnCungLoai = await _db.MonAn.Where(n => n.MaLMA_id == monAn.MaLMA_id).Take(5).ToListAsync();
                 ViewBag.MonAnCungLoai = monAnCungLoai;
                 return View(monAn);
             }
@@ -87,10 +94,10 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
         }
 
-        public ActionResult ThemMonAn()
+        public async Task<ActionResult> ThemMonAn()
         {
-            ViewBag.LoaiMonAn = _db.LoaiMonAn.ToList();
-            var loaiMonAn = _db.LoaiMonAn.ToList().Count();
+            ViewBag.LoaiMonAn = await _db.LoaiMonAn.ToListAsync();
+            var loaiMonAn = await _db.LoaiMonAn.CountAsync();
             if (loaiMonAn == 0)
             {
                 TempData["ToastMessage"] = "error|Bạn phải thêm loại món ăn để tạo món ăn.";
@@ -103,52 +110,67 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        public ActionResult ThemMonAn(HttpPostedFileBase HinhAnh, MonAn Model)
+        public async Task<ActionResult> ThemMonAn(HttpPostedFileBase HinhAnh, MonAn Model)
         {
             try
             {
                 string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-                ViewBag.LoaiMonAn = _db.LoaiMonAn.ToList();
-                ViewBag.NguyenLieu = _db.NguyenLieu.ToList();
-                #region Lưu hình ảnh vào thư mục
-                if (HinhAnh.ContentLength > 0)
+                // Set default image
+                string tenAnh = "AnhMacDinh.jpg";
+
+                // Handle image upload if present
+                if (HinhAnh?.ContentLength > 0)
                 {
-                    var tenAnh = Path.GetFileName(HinhAnh.FileName);
+                    tenAnh = Path.GetFileName(HinhAnh.FileName);
                     var duongDan = Path.Combine(Server.MapPath("~/Assets/img/AnhMonAn"), tenAnh);
-                    if (System.IO.File.Exists(duongDan))
-                    {
-                        ViewBag.upload = "Hình ảnh đã tồn tại";
-                    }
-                    else
+
+                    // Save the image only if it doesn't exist
+                    if (!System.IO.File.Exists(duongDan))
                     {
                         HinhAnh.SaveAs(duongDan);
                     }
+                    else
+                    {
+                        ViewBag.upload = "Hình ảnh đã tồn tại";
+                    }
                 }
-                #endregion
 
-                #region Thêm Món Ăn Vào DATA
-                MonAn monAn = new MonAn();
-                monAn.TenMonAn = Model.TenMonAn;
-                monAn.HinhAnh = HinhAnh.FileName;
-                monAn.DonGia = Model.DonGia;
-                monAn.NgayCapNhat = DateTime.Now;
-                monAn.ThongTin = Model.ThongTin;
-                monAn.MoTa = Model.MoTa;
-                monAn.SoLuongDaBan = 0;
-                monAn.MaLMA_id = Model.MaLMA_id;
-                monAn.MaDoanhNghiep_id = sMaDoanhNghiep;
+                // Create new MonAn object and populate properties
+                MonAn monAn = new MonAn
+                {
+                    TenMonAn = Model.TenMonAn,
+                    HinhAnh = tenAnh, // Use the image name (uploaded or default)
+                    DonGia = Model.DonGia,
+                    NgayCapNhat = DateTime.Now,
+                    ThongTin = Model.ThongTin,
+                    MoTa = Model.MoTa,
+                    SoLuongDaBan = 0,
+                    MaLMA_id = Model.MaLMA_id,
+                    MaDoanhNghiep_id = sMaDoanhNghiep
+                };
+
+                // Thực hiện số lượng loại món ăn
+                var loaiMonAn = await _db.LoaiMonAn.FindAsync(monAn.MaLMA_id);
+                loaiMonAn.TongSoLuong++;
+
+                // Add to database
                 _db.MonAn.Add(monAn);
-                _db.SaveChanges();
-                #endregion
+                await _db.SaveChangesAsync();
+
+                ViewBag.LoaiMonAn = await _db.LoaiMonAn.ToListAsync();
 
                 TempData["ToastMessage"] = "success|Thêm món ăn thành công.";
                 return RedirectToAction("DanhSachMonAn", "MonAn");
             }
-            catch
+            catch (Exception ex)
             {
+                TempData["ToastMessage"] = "error|Thêm món ăn thất bại.";
+
                 return RedirectToAction("MonAn", "Error");
             }
         }
+
+
     }
 }

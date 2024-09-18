@@ -8,7 +8,6 @@
 @{
 
     IEnumerable<LoaiMonAn> listLoaiMonAn = ViewBag.LoaiMonAn as IEnumerable<LoaiMonAn>;
-    IEnumerable<NguyenLieu> listNguyenLieu = ViewBag.NguyenLieu as IEnumerable<NguyenLieu>;
 }
 
 <div class="container">
@@ -31,22 +30,22 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tên Món Ăn</label>
+                                    <label class="form-label">Tên Món Ăn<span class="text-danger">*</span> </label>
                                     <input class="form-control" name="TenMonAn" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Đơn Giá</label>
+                                    <label class="form-label">Đơn Giá<span class="text-danger">*</span></label>
                                     <input class="form-control" type="number" name="DonGia" min="1" required>
                                 </div>
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Hình Ảnh</label>
-                                    <input class="form-control" name="HinhAnh" type="file" required>
+                                    <input class="form-control" name="HinhAnh" type="file">
                                     <span style="color:red;float:right">@ViewBag.upload</span>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Loại Món Ăn</label>
+                                    <label class="form-label">Loại Món Ăn<span class="text-danger">*</span></label>
                                     <select class="form-control" name="MaLMA_id">
                                         @foreach (var item in listLoaiMonAn)
                                         {

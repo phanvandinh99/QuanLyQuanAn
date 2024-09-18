@@ -171,15 +171,24 @@
                         using (Html.BeginForm("ThanhToan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
                         {
                             <div class="mb-4">
+                                <!-- Hiển thị thông tin hóa đơn -->
                                 <div class="mb-2">
                                     <p class="text-alternate text-muted mb-1">Hóa Đơn: @Model.MaHoaDon</p>
                                 </div>
+                                @if (!string.IsNullOrEmpty(ViewBag.TenBan))
+                                {
+                                    <div class="mb-2">
+                                        <p class="text-alternate text-muted mb-1">Tên Bàn: @ViewBag.TenBan</p>
+                                    </div>
+                                }
                                 <div class="mb-2">
                                     <p class="text-alternate text-muted mb-1">Giờ Vào: @string.Format("{0:dd/MM/yyyy hh:mm:ss tt}", Model.NgayTao)</p>
                                 </div>
                                 <div class="mb-2">
                                     <p class="text-alternate text-muted mb-1">SL Món Ăn: @ViewBag.SoLuongMonAn </p>
                                 </div>
+
+                                <!-- Phí Vận Chuyển cho Mang Đi -->
                                 @if (ViewBag.MangDi == 1)
                                 {
                                     <div class="mb-2">
@@ -187,37 +196,42 @@
                                         <input type="number" min="0" class="form-control mask-currency" value="0" name="txtPhiShip" id="txtPhiShip">
                                     </div>
                                 }
+
+                                <!-- Giảm Giá (vnđ) -->
                                 <div class="mb-2">
                                     <label class="text-alternate text-muted mb-1">Giảm Giá (vnđ)</label>
-                                    <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGias">
+                                    <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGiaVND">
                                 </div>
+
+                                <!-- Giảm Giá (%) -->
                                 <div class="mb-2">
                                     <label class="text-alternate text-muted mb-1">Giảm Giá (%)</label>
                                     <input type="number" min="0" max="100" class="form-control mask-currency" value="0" name="txtGiamGiaPhanTram" id="txtGiamGiaPhanTram">
                                 </div>
 
+                                <!-- Tổng Tiền -->
                                 <div class="mb-2">
                                     <p class="text-alternate text-muted mb-1">Tổng Tiền:</p>
                                     <div class="cta-2">
                                         <span>
-                                            <input style="display:none" id="TongTienMonAn" value="@ViewBag.TongTienMonAn" />
-                                            <div class="text-primary cta-4"></div>
+                                            <input style="display:none" id="TongTienMonAnHidden" value="@ViewBag.TongTienMonAn" />
                                             <span id="TongTienMonAn" class="text-alternate text-muted cta-2">@ViewBag.TongTienMonAn.ToString("#,##0") vnđ</span>
                                         </span>
                                     </div>
                                 </div>
                             </div>
 
+                            <!-- Nút Thanh Toán -->
                             <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
                                 <span>THANH TOÁN</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right">
+                                    <path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path>
+                                </svg>
                             </button>
                         }
                         <br />
                         <div class="mb-4">
                             <div class="mb-2" style="text-align:justify">
-                                <button type="button" class="btn btn-outline-primary" style="display:inline; float:left" onclick="kiemtra()">Kiểm Tra</button>
-                                &nbsp;
                                 <a class="btn btn-outline-primary" href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@Model.MaHoaDon" target="_blank">Chi Tiết</a>
                                 <button type="button" onclick="printDiv('print')" class="btn btn-outline-primary" style="margin-top:5px">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-print"><path d="M6.44444 15 5.52949 15C4.13332 15 3.43524 15 2.9322 14.6657 2.71437 14.5209 2.52706 14.3348 2.38087 14.1179 2.04325 13.6171 2.03869 12.919 2.02956 11.5229L2.02302 10.5229C2.01379 9.1101 2.00917 8.40371 2.34565 7.89566 2.49128 7.67577 2.67897 7.48685 2.8979 7.33979 3.40374 7 4.11015 7 5.52295 7L14.477 7C15.8899 7 16.5963 7 17.1021 7.33979 17.321 7.48685 17.5087 7.67577 17.6543 7.89566 17.9908 8.40371 17.9862 9.1101 17.977 10.5229L17.9704 11.5229C17.9613 12.919 17.9568 13.6171 17.6191 14.1179 17.4729 14.3348 17.2856 14.5209 17.0678 14.6657 16.5648 15 15.8667 15 14.4705 15L13.5556 15M15 7 15 3.75C15 3.04777 15 2.69665 14.8315 2.44443 14.7585 2.33524 14.6648 2.24149 14.5556 2.16853 14.3033 2 13.9522 2 13.25 2L6.75 2C6.04777 2 5.69665 2 5.44443 2.16853 5.33524 2.24149 5.24149 2.33524 5.16853 2.44443 5 2.69665 5 3.04777 5 3.75L5 7"></path><path d="M12.25 13C12.9522 13 13.3033 13 13.5556 13.1685C13.6648 13.2415 13.7585 13.3352 13.8315 13.4444C14 13.6967 14 14.0478 14 14.75L14 16.25C14 16.9522 14 17.3033 13.8315 17.5556C13.7585 17.6648 13.6648 17.7585 13.5556 17.8315C13.3033 18 12.9522 18 12.25 18L7.75 18C7.04777 18 6.69665 18 6.44443 17.8315C6.33524 17.7585 6.24149 17.6648 6.16853 17.5556C6 17.3033 6 16.9522 6 16.25L6 14.75C6 14.0478 6 13.6967 6.16853 13.4444C6.24149 13.3352 6.33524 13.2415 6.44443 13.1685C6.69665 13 7.04777 13 7.75 13L12.25 13Z"></path><path d="M7 10H6H5"></path></svg>
@@ -259,35 +273,31 @@
                 </div>
             </div>
             <!-- #region Chuyển bàn -->
-            <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important; display: none">
-                @using (Html.BeginForm("ChuyenBan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
+            <div class="card mb-5 w-100 sw-lg-35" style="margin-bottom:0.5rem !important;">
+                @if (!string.IsNullOrEmpty(ViewBag.TenBan))
                 {
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <div class="mb-2">
-                                <label class="text-alternate text-muted mb-1" style="text-align:center">@*Bàn @Model.Ban.TenBan | @Model.Ban.SoGhe ghế*@</label>
-                                <select class="form-select" name="Ban">
-                                    @foreach (var item in listBan)
-                                    {
-                                        if (item.TinhTrang == 1) //đã có người
+                    using (Html.BeginForm("ChuyenBan", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon }))
+                    {
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <div class="mb-2">
+                                    <label class="text-alternate text-muted mb-1" style="text-align:center">@*Bàn @Model.Ban.TenBan | @Model.Ban.SoGhe ghế*@</label>
+                                    <select class="form-select" name="Ban">
+                                        @foreach (var item in listBan)
                                         {
-                                            <option style="color: red" value="@item.MaBan">Bàn @item.TenBan | @item.Tang.TenTang | @item.SoGhe ghế</option>
+                                            <option value="@item.MaBan" style="color:black">@item.TenBan | @item.Tang.TenTang | @item.SoGhe ghế</option>
                                         }
-                                        else
-                                        {
-                                            <option value="@item.MaBan" style="color:black">Bàn @item.TenBan | @item.Tang.TenTang | @item.SoGhe ghế</option>
-                                        }
-                                    }
-                                </select>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
-                            <span>Chuyển Bàn</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
-                        </button>
-                        <br />
-                    </div>
+                            <button class="btn btn-icon btn-icon-end btn-primary w-100" type="submit">
+                                <span>Chuyển Bàn</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-chevron-right"><path d="M7 4L12.6464 9.64645C12.8417 9.84171 12.8417 10.1583 12.6464 10.3536L7 16"></path></svg>
+                            </button>
+                            <br />
+                        </div>
+                    }
                 }
             </div>
             <!-- #endregion -->
@@ -396,8 +406,7 @@
                     }
                     <div style="clear:both; display:block"></div>
                     <label style="text-align:center; display:block">___________________________</label>
-                    <label class="text-alternate text-muted mb-1">Giảm Giá Thành Viên: </label> <a style="float:right"><span id="GiamGiaKHTN"></span></a> <br />
-                    <label class="text-alternate text-muted mb-1">Giảm Giá VND: </label> <a style="float:right"><span id="GiamGiaKH"></span></a> <br />
+                    <label class="text-alternate text-muted mb-1">Giảm Giá VND: </label> <a style="float:right"><span id="GiamGiaVND"></span></a> <br />
                     <label class="text-alternate text-muted mb-1">Giảm Giá %: </label> <a style="float:right"><span id="GiamGiaPT"></span></a> <br />
                     <label class="text-alternate text-muted mb-1">Tổng tiền: </label> <a style="float:right"><span id="TT"></span></a> <br />
                 </div>
@@ -411,41 +420,14 @@
 <!-- #endregion -->
 
 <script type="text/javascript">
-    // xem nhanh tổng tiền
-    function kiemtra() {
-        var d = document.getElementById("txtGiamGiaKhachHang").value;
-        var a = document.getElementById("txtGiamGias").value;
-        var c = document.getElementById("txtGiamGiaPhanTram").value;
-        var b = document.getElementById("TongTienMonAn").value;
-
-        var kq = parseFloat(b - a - d) - parseFloat(b * c / 100);
-        kq = kq.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-        console.log(kq);
-        alert("KHÁCH CẦN TRẢ: " + kq)
-    }
-
-
-    // Tính in hóa đơn
-    function TinhToan() {
-        var gam = document.getElementById("gam").value;
-        var a = 0.001
-        var kq = parseFloat(a) * parseFloat(gam)
-        if (!isNaN(kq)) {
-            document.getElementById("kg").value = kq;
-        }
-    }
-
-
     // In hóa đơn
     function printDiv(divName) {
-        var a = document.getElementById("txtGiamGias").value;
+        var a = document.getElementById("txtGiamGiaVND").value;
         var c = document.getElementById("txtGiamGiaPhanTram").value;
-        var b = document.getElementById('TongTienMonAn').value;
-        var d = document.getElementById("txtGiamGiaKhachHang").value;
-        var kq = parseFloat(b - a - d) - parseFloat(b * c / 100);
+        var b = document.getElementById('TongTienMonAnHidden').value;
+        var kq = parseFloat(b - a) - parseFloat(b * c / 100);
 
-        document.getElementById('GiamGiaKHTN').innerHTML = d + " vnđ";// giá trị giảm giá kh
-        document.getElementById('GiamGiaKH').innerHTML = a + " vnđ";// giá trị giảm giá kh
+        document.getElementById('GiamGiaVND').innerHTML = a + " vnđ";// giá trị giảm giá %
         document.getElementById('GiamGiaPT').innerHTML = c + " vnđ";// giá trị giảm giá %
         document.getElementById('TT').innerHTML = kq + " vnđ";// giá trị giảm giá Tổng tiền
 
@@ -464,3 +446,62 @@
     };
     var userList = new List('DanhSachMonAn', options);
 </script>
+
+<!-- Thêm script jQuery để xử lý logic -->
+<script>
+    $(document).ready(function () {
+        var tongTienGoc = parseFloat($('#TongTienMonAnHidden').val());
+
+        // Khi nhập giá trị vào trường Giảm Giá VNĐ
+        $('#txtGiamGiaVND').on('input', function () {
+            var giamGiaVND = parseFloat($(this).val()) || 0;
+
+            // Kiểm tra nếu giá trị vượt quá tổng tiền gốc
+            if (giamGiaVND > tongTienGoc) {
+                $(this).val(tongTienGoc); // Đặt lại giá trị về tổng tiền gốc
+            }
+
+            if ($(this).val() > 0) {
+                $('#txtGiamGiaPhanTram').prop('disabled', true); // Vô hiệu hóa giảm giá %
+            } else {
+                $('#txtGiamGiaPhanTram').prop('disabled', false); // Kích hoạt lại giảm giá %
+            }
+
+            tinhTongTien(); // Tính lại tổng tiền
+        });
+
+        // Khi nhập giá trị vào trường Giảm Giá %
+        $('#txtGiamGiaPhanTram').on('input', function () {
+            var giamGiaPhanTram = parseFloat($(this).val()) || 0;
+
+            // Giới hạn giá trị không được vượt quá 100%
+            if (giamGiaPhanTram > 100) {
+                $(this).val(100); // Đặt lại giá trị về 100%
+            }
+
+            if ($(this).val() > 0) {
+                $('#txtGiamGiaVND').prop('disabled', true); // Vô hiệu hóa giảm giá VNĐ
+            } else {
+                $('#txtGiamGiaVND').prop('disabled', false); // Kích hoạt lại giảm giá VNĐ
+            }
+
+            tinhTongTien(); // Tính lại tổng tiền
+        });
+
+        // Hàm tính tổng tiền dựa trên giảm giá và cập nhật trực tiếp
+        function tinhTongTien() {
+            var giamGiaVND = parseFloat($('#txtGiamGiaVND').val()) || 0;
+            var giamGiaPhanTram = parseFloat($('#txtGiamGiaPhanTram').val()) || 0;
+            var tongTien = tongTienGoc - giamGiaVND - (tongTienGoc * giamGiaPhanTram / 100);
+
+            // Tổng tiền không được âm
+            if (tongTien < 0) {
+                tongTien = 0;
+            }
+
+            // Cập nhật tổng tiền trên giao diện
+            $('#TongTienMonAn').text(tongTien.toLocaleString() + ' vnđ');
+        }
+    });
+</script>
+

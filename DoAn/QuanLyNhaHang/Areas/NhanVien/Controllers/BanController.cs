@@ -1,4 +1,5 @@
-﻿using QuanLyNhaHang.Models;
+﻿using QuanLyNhaHang.Common.Const;
+using QuanLyNhaHang.Models;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -26,8 +27,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            ViewBag.Ban = await _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).CountAsync();
-            var listBan = await _db.Ban.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
+            var listBan = await _db.Ban.Where(n => n.MangDi == Const.boolTaiBan && n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
             return View(listBan);
         }
 
@@ -70,6 +70,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             {
                 Model.TinhTrang = 0;
                 Model.MaDoanhNghiep_id = sMaDoanhNghiep;
+                Model.MangDi = Const.boolTaiBan;
                 _db.Ban.Add(Model);
                 await _db.SaveChangesAsync();
 

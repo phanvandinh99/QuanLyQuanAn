@@ -69,7 +69,6 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             try
             {
-                // Thêm mới doanh nghiệp
                 _db.DoanhNghiep.Add(model);
                 await _db.SaveChangesAsync();
 
@@ -84,6 +83,25 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 };
                 _db.NhanVien.Add(nhanVien);
 
+                // Thêm mới tầng
+                var tang = new Tang
+                {
+                    TenTang = "Tầng 1",
+                    MaDoanhNghiep_id = model.MaDoanhNghiep
+                };
+                _db.Tang.Add(tang);
+
+                // Thêm mới bàn
+                var ban = new Ban
+                {
+                    TenBan = "Mang Đi",
+                    TinhTrang = Const.MangDi,
+                    MangDi = Const.boolMangDi,
+                    MaTang_id = tang.MaTang,
+                    MaDoanhNghiep_id = model.MaDoanhNghiep
+                };
+                _db.Ban.Add(ban);
+
                 await _db.SaveChangesAsync();
 
                 TempData["ToastMessage"] = "success|Thêm Doanh nghiệp thành công.";
@@ -91,10 +109,11 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             }
             catch (Exception ex)
             {
-                TempData["ToastMessage"] = $"error|Thêm doanh nghiệp thất bại.";
+                TempData["ToastMessage"] = $"error|Thêm doanh nghiệp thất bại";
                 return RedirectToAction("Index", "DoanhNghiep");
             }
         }
+
 
 
         //Cập Nhật Doanh Nghiệp

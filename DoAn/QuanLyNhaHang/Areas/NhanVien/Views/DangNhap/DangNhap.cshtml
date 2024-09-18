@@ -32,13 +32,6 @@
             <div class="col-xl-5 p-0">
                 <div class="login-card login-dark">
                     <div>
-                        <!--<div>
-                        <a class="logo text-start" href="index.html">
-                            <img class="img-fluid for-dark"
-                                 src="../assets/images/logo/logo.png" alt="looginpage"><img class="img-fluid for-light"
-                                                                                            src="../assets/images/logo/logo_dark.png" alt="looginpage">
-                        </a>
-                    </div>-->
                         <div class="login-main">
                             @using (Ajax.BeginForm("DangNhap", "DangNhap", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }, new { @class = "theme-form" }))
                             {

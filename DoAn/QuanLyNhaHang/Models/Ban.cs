@@ -28,6 +28,8 @@ namespace QuanLyNhaHang.Models
 
         public int? TinhTrang { get; set; }
 
+        public bool? MangDi{ get; set; }
+
         public int? MaTang_id { get; set; }
 
         [Required]
