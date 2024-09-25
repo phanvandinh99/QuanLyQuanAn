@@ -25,10 +25,18 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> ThongTinHoaDon(int iMaBan)
+        public async Task<ActionResult> ThongTinHoaDon(int? iMaBan)
         {
             try
             {
+                // Kiểm tra bàn có null không
+                if (iMaBan == null)
+                {
+                    TempData["ToastMessage"] = "error|Bàn không hợp lệ";
+                    return RedirectToAction("Index", "Home");
+                }
+
+
                 string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
                 // Kiểm tra bàn có hợp lệ không
@@ -42,6 +50,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 var loaiMonAn = await _db.LoaiMonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
                 var monAn = await _db.MonAn.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
                 var banTask = await _db.Ban.Where(n=>n.MaBan != iMaBan &&
+                                                  n.MangDi == Const.boolTaiBan &&
                                                   n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
 
                 ViewBag.LoaiMonAn = loaiMonAn;
@@ -397,6 +406,9 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     hoaDon.TrangThai = Const.DaThanhToan; // trạng thái trong đơn hàng = 0 là đã thanh toán
 
                     ViewBag.TongTienMonAn = TongTienOrder(hoaDon.MaHoaDon, phiShip, giamGiaVND, giamGiaPhanTram);
+                    hoaDon.PhiShip = phiShip;
+                    hoaDon.GiamGiaTienMat = giamGiaVND;
+                    hoaDon.GiamGiaPhanTram = giamGiaPhanTram;
                     hoaDon.TongTien = ViewBag.TongTienMonAn;
                     hoaDon.NgayThanhToan = DateTime.Now;
                     await _db.SaveChangesAsync();
@@ -408,7 +420,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     await _db.SaveChangesAsync();
                 }
                 TempData["ToastMessage"] = "success|Thanh toán thành công.";
-                return RedirectToAction("DanhSachHoaDon", "HoaDon");
+                return RedirectToAction("Ban", "Home", new { iMaTang = ban.MaTang_id });
             }
             catch (Exception ex)
             {
@@ -438,12 +450,12 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 await _db.SaveChangesAsync();
 
                 TempData["ToastMessage"] = "success|Hủy thành công.";
-                return RedirectToAction("DanhSachBan", "Ban");
+                return RedirectToAction("Ban", "Home", new { iMaTang = ban.MaTang_id });
             }
             catch (Exception ex)
             {
                 TempData["ToastMessage"] = "error|Hủy hóa đơn thất bại.";
-                return RedirectToAction("DanhSachBan", "Ban");
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -526,91 +538,117 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         #endregion
 
 
-        // Chuyển bàn
         public async Task<ActionResult> ChuyenBan(int iMaHoaDon, FormCollection f)
         {
-            int banMoi = int.Parse(f["Ban"].ToString());
+            int banMoi = int.Parse(f["Ban"]);
 
-            // cho trạng thái bài thuộc hóa đơn về bằng 0
-            var hoaDonCu = await _db.HoaDon.FindAsync(iMaHoaDon);
-            var ban = await _db.Ban.FindAsync(hoaDonCu.MaBan_id);
-            if (ban != null)
+            // Retrieve HoaDon and Ban entities
+            var hoaDonCu = await _db.HoaDon.Include(hd => hd.Ban).FirstOrDefaultAsync(hd => hd.MaHoaDon == iMaHoaDon);
+            var banMoiEntity = await _db.Ban.FindAsync(banMoi);
+
+            if (hoaDonCu == null || banMoiEntity == null)
             {
-                ban.TinhTrang = 0;
+                return RedirectToAction("Index", "Home"); // Redirect if entities are not found
             }
 
-            //Kiểm tra bàn mới này đã có khách nào đang ngồi hay k
-            var checkBan = await _db.Ban.FindAsync(banMoi);
-            if (checkBan.TinhTrang == 0) // chưa có khách => cập nhật lại bàn mới
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                hoaDonCu.MaBan_id = banMoi;
-                checkBan.TinhTrang = 1;
-                await _db.SaveChangesAsync();
-            }
-            else // đã có khách => đã có hóa đơn
-            {
-                // lấy ra hóa đơn thuộc bàn cao nhất
-                var hoaDonBanMoi = _db.HoaDon.Where(n => n.MaBan_id == banMoi).OrderByDescending(n => n.MaHoaDon).FirstOrDefault();
-                var chiTietMonAnMoi = _db.ChiTietHoaDon.Where(n => n.MaHoaDon_id == hoaDonBanMoi.MaHoaDon).ToList();
-                // lấy ra danh sách món add vào sanh sách món mới()
-                var chiTietMonAnCu = _db.ChiTietHoaDon.Where(n => n.MaHoaDon_id == hoaDonCu.MaHoaDon);
-                if (chiTietMonAnCu != null) // đã gọi món => có lịch sử
+                try
                 {
-                    foreach (var item in chiTietMonAnCu)
+                    // Reset old table status
+                    if (hoaDonCu.Ban != null)
                     {
-                        foreach (var items in chiTietMonAnMoi)
+                        hoaDonCu.Ban.TinhTrang = 0;
+                    }
+
+                    // Update new table status
+                    if (banMoiEntity.TinhTrang == 0) // Table is free
+                    {
+                        hoaDonCu.MaBan_id = banMoi;
+                        banMoiEntity.TinhTrang = 1;
+                        await _db.SaveChangesAsync();
+                    }
+                    else // Table is occupied
+                    {
+                        // Retrieve the latest bill on the new table
+                        var hoaDonBanMoi = await _db.HoaDon.Where(n => n.MaBan_id == banMoi).OrderByDescending(n => n.MaHoaDon).FirstOrDefaultAsync();
+                        if (hoaDonBanMoi == null)
                         {
-                            if (item.MaMonAn_id != items.MaMonAn_id) // hóa đơn k trùng món 
+                            return RedirectToAction("Index", "Home"); // Redirect if no bill found
+                        }
+
+                        var chiTietMonAnCu = await _db.ChiTietHoaDon.Where(n => n.MaHoaDon_id == hoaDonCu.MaHoaDon).ToListAsync();
+                        var chiTietMonAnMoi = await _db.ChiTietHoaDon.Where(n => n.MaHoaDon_id == hoaDonBanMoi.MaHoaDon).ToListAsync();
+
+                        var chiTietMonAnMoiDict = chiTietMonAnMoi.ToDictionary(c => c.MaMonAn_id);
+
+                        // Process items from old bill
+                        foreach (var item in chiTietMonAnCu)
+                        {
+                            if (chiTietMonAnMoiDict.TryGetValue(item.MaMonAn_id, out var existingItem))
                             {
-                                ChiTietHoaDon cthd = new ChiTietHoaDon();
-                                cthd.MaHoaDon_id = hoaDonBanMoi.MaHoaDon;
-                                cthd.MaMonAn_id = item.MaMonAn_id;
-                                cthd.SoLuongMua = item.SoLuongMua;
-                                cthd.ThanhTien = item.ThanhTien;
-                                _db.ChiTietHoaDon.Add(cthd);
-                                //_db.SaveChanges();
+                                // Update quantity if the item exists in the new bill
+                                existingItem.SoLuongMua += item.SoLuongMua;
+                                _db.Entry(existingItem).State = EntityState.Modified;
                             }
-                            else // trùng món => + số lượng
+                            else
                             {
-                                var monAnMoi = _db.ChiTietHoaDon.SingleOrDefault(n => n.MaMonAn_id == items.MaMonAn_id & n.MaHoaDon_id == hoaDonBanMoi.MaHoaDon);
-                                monAnMoi.SoLuongMua += item.SoLuongMua;
+                                // Add new item if it does not exist in the new bill
+                                var newChiTiet = new ChiTietHoaDon
+                                {
+                                    MaHoaDon_id = hoaDonBanMoi.MaHoaDon,
+                                    MaMonAn_id = item.MaMonAn_id,
+                                    SoLuongMua = item.SoLuongMua,
+                                    ThanhTien = item.ThanhTien
+                                };
+                                _db.ChiTietHoaDon.Add(newChiTiet);
                             }
                         }
+
+                        // Transfer history
+                        var lichSuBanCu = await _db.LichSuGoiMon.Where(n => n.MaHoaDon_id == hoaDonCu.MaHoaDon).ToListAsync();
+                        foreach (var item in lichSuBanCu)
+                        {
+                            var history = new LichSuGoiMon
+                            {
+                                SoLuongMua = item.SoLuongMua,
+                                SoLuongTra = item.SoLuongTra,
+                                ThoiGianGoi = item.ThoiGianGoi,
+                                ThoiGianTra = item.ThoiGianTra,
+                                MaHoaDon_id = hoaDonBanMoi.MaHoaDon,
+                                MaMonAn_id = item.MaMonAn_id
+                            };
+                            _db.LichSuGoiMon.Add(history);
+                        }
+
+                        _db.LichSuGoiMon.RemoveRange(lichSuBanCu);
+                        _db.HoaDon.Remove(hoaDonCu);
+
+                        await _db.SaveChangesAsync();
+
+                        ViewBag.TongTienMonAn = TongTienOrder(hoaDonBanMoi.MaHoaDon, 0, 0, 0);
                     }
 
-                    //đưa lịch sử hóa đơn cũ vào lịch sử hóa đơn mới. sau khi thực hiện xóa lịch sử củ đi
-                    //lấy lịch sử món ăn bàn cũ và mới
-                    var lichSuBanCu = _db.LichSuGoiMon.Where(n => n.MaHoaDon_id == hoaDonCu.MaHoaDon).ToList();
-                    var lichSuBanMoi = _db.LichSuGoiMon.Where(n => n.MaHoaDon_id == hoaDonBanMoi.MaHoaDon).ToList();
-                    foreach (var item in lichSuBanCu)
-                    {
-                        LichSuGoiMon history = new LichSuGoiMon();
-                        history.SoLuongMua = item.SoLuongMua;
-                        history.SoLuongTra = item.SoLuongTra;
-                        history.ThoiGianGoi = item.ThoiGianGoi;
-                        history.ThoiGianTra = item.ThoiGianTra;
-                        history.MaHoaDon_id = hoaDonBanMoi.MaHoaDon;
-                        history.MaMonAn_id = item.MaMonAn_id;
-                        _db.LichSuGoiMon.Add(history);
-                        _db.LichSuGoiMon.Remove(item);
-                    }
-                    _db.HoaDon.Remove(hoaDonCu);
-                    _db.SaveChanges();
-                    #region Tính lại tổng tiền
-                    if (checkBan.Vip == 1)// Nếu bàn vip
-                    {
-                        //ViewBag.TongTienMonAn = TongTienOrder(hoaDonBanMoi.MaHoaDon, 10, 0, 0, 0);
-                    }
-                    else
-                    {
-                        //ViewBag.TongTienMonAn = TongTienOrder(hoaDonBanMoi.MaHoaDon, 0, 0, 0, 0);
-                    }
-                    #endregion
+                    transaction.Commit();
+
+                    TempData["ToastMessage"] = "success|Chuyển bàn thành công.";
+
+                    return RedirectToAction("ThongTinHoaDon", "HoaDon", new { iMaBan = banMoi });
                 }
-                return RedirectToAction("Index", "Home");
+                catch
+                {
+                    TempData["ToastMessage"] = "error|Chuyển bàn thất bại.";
+                    transaction.Rollback();
+                }
             }
+
+            TempData["ToastMessage"] = "error|Thất bại.";
+
             return RedirectToAction("Index", "Home");
         }
+
+
+
         //Cập nhật lại tên khách hàng
         public async Task<ActionResult> CapNhatTenKhachHang(int iMaHoaDon, string strURL, FormCollection f)
         {
@@ -640,6 +678,19 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         {
             var listKhachHang = await _db.HoaDon.OrderByDescending(n => n.NgayTao).ToListAsync();
             return View(listKhachHang);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetMonAnByLoai(int maLMA)
+        {
+            var danhSachMonAn = await _db.MonAn.Where(m => m.MaLMA_id == maLMA)
+                                                .Select(m => new {
+                                                    m.MaMonAn,
+                                                    m.TenMonAn,
+                                                    m.DonGia,
+                                                    m.HinhAnh})
+                                                .ToListAsync();
+            return Json(danhSachMonAn);
         }
     }
 }

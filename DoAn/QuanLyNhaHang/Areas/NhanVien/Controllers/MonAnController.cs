@@ -100,7 +100,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             var loaiMonAn = await _db.LoaiMonAn.CountAsync();
             if (loaiMonAn == 0)
             {
-                TempData["ToastMessage"] = "error|Bạn phải thêm loại món ăn để tạo món ăn.";
+                TempData["ToastMessage"] = "info|Bạn phải thêm loại món ăn để tạo món ăn.";
                 return RedirectToAction("ThemMoi", "LoaiMonAn");
 
             }

@@ -53,7 +53,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             var tangs = await _db.Tang.Where(n => n.MaDoanhNghiep_id == sMaDoanhNghiep).ToListAsync();
             if (tangs == null || !tangs.Any())
             {
-                TempData["ToastMessage"] = "error|Bạn phải thêm tầng/ khu";
+                TempData["ToastMessage"] = "info|Bạn phải thêm tầng/ khu";
                 return RedirectToAction("ThemTang", "Tang");
             }
 

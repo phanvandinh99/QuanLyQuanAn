@@ -24,6 +24,7 @@
     <script src="~/Assets/js/ListJS/list.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     @{
         var cookie = Request.Cookies["UserLogin"];
         int? iMaDoangNghiep = null;
@@ -210,7 +211,7 @@
                     <ul id="menu" class="menu">
                         <li>
                             <a href="/NhanVien/Home/Index">
-                                <i data-cs-icon="shop" class="icon" data-cs-size="18"></i>
+                                <i data-cs-icon="home" class="icon" data-cs-size="18"></i>
                                 <span class="label">Trang Chủ</span>
                             </a>
                         </li>
@@ -222,19 +223,28 @@
                         </li>
                         <li>
                             <a href="/NhanVien/NhanVien/Index">
-                                <i data-cs-icon="shop" class="icon" data-cs-size="18"></i>
+                                <i data-cs-icon="user" class="icon" data-cs-size="18"></i>
                                 <span class="label">QL Nhân Viên</span>
                             </a>
                         </li>
                         <li>
                             <a href="#products" data-href="Products.html">
                                 <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                                <span class="label">Bàn</span>
+                                <span class="label">Bàn Hóa Đơn</span>
                             </a>
                             <ul id="products">
                                 @Html.Action("Par_Tang", "Home")
                             </ul>
                         </li>
+
+
+                        <li>
+                            <a href="/NhanVien/MonAn/DanhSachMonAn">
+                                <i data-cs-icon="cupcake" class="icon" data-cs-size="18"></i>
+                                <span class="label">Món Ăn</span>
+                            </a>
+                        </li>
+
                         <li>
                             <a href="#orders" data-href="Orders.html">
                                 <i data-cs-icon="cupcake" class="icon" data-cs-size="18"></i>
@@ -253,73 +263,51 @@
                                 </li>
                             </ul>
                         </li>
+
                         <li>
                             <a href="/NhanVien/HoaDon/DanhSachHoaDon">
-                                <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
+                                <i data-cs-icon="file-text" class="icon" data-cs-size="18"></i>
                                 <span class="label">Hóa Đơn</span>
                             </a>
                         </li>
                         <li>
                             <a href="/NhanVien/ThongKe/Index">
-                                <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
+                                <i data-cs-icon="invoice" class="icon" data-cs-size="18"></i>
                                 <span class="label">Thống Kê</span>
                             </a>
                         </li>
-                        @*<li>
-                            <a href="/NhanVien/HoaDon/DanhSachHoaDon">
-                                <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
-                                <span class="label">Nhập Xuất</span>
-                            </a>
-                        </li>*@
                         <li>
-                            <a href="#storefront" data-href="Storefront.html">
+                            <a href="/NhanVien/Tang/DanhSachTang">
                                 <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                                <span class="label">Nhiều Hơn</span>
+                                <span class="label">Tầng</span>
                             </a>
-                            <ul id="storefront">
-                                <li>
-                                    <a href="/NhanVien/Tang/DanhSachTang">
-                                        <span class="label">Tầng</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/NhanVien/Ban/DanhSachBan">
-                                        <span class="label">Bàn</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/NhanVien/HoaDon/KhachHang">
-                                        <span class="label">Khách Hàng</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/NhanVien/LoaiMonAn/Index">
-                                        <span class="label">Loại Món Ăn</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/NhanVien/NguyenLieu/Index">
-                                        <span class="label">Nguyên Liệu</span>
-                                    </a>
-                                </li>
-
-                            </ul>
                         </li>
-                        @*<li>
-                                <a href="Shipping.html">
-                                    <i data-cs-icon="shipping" class="icon" data-cs-size="18"></i>
-                                    <span class="label">Shipping</span>
-                                </a>
-                            </li>*@
-
-                        @*<li>
-                                <a href="Settings.html">
-                                    <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
-                                    <span class="label">Đăn Xuất</span>
-                                </a>
-                            </li>*@
+                        <li>
+                            <a href="/NhanVien/Ban/DanhSachBan">
+                                <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                                <span class="label">Bàn</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/NhanVien/LoaiMonAn/Index">
+                                <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
+                                <span class="label">Loại Món Ăn</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/NhanVien/NguyenLieu/Index">
+                                <i data-cs-icon="help" class="icon" data-cs-size="18"></i>
+                                <span class="label">Nguyên Liệu</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/NhanVien/DangNhap/DangXuat">
+                                <i data-cs-icon="logout" class="icon" data-cs-size="18"></i>
+                                <span class="label">Đăng Xuất</span>
+                            </a>
+                        </li>
                     </ul>
-                    <!-- #endregion -->
+
                 </div>
                 <div class="mobile-buttons-container">
                     <a href="#" id="mobileMenuButton" class="menu-button">
@@ -337,7 +325,7 @@
         <div class="modal-dialog modal-dialog-scrollable full" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Theme Settings</h5>
+                    <h5 class="modal-title">Màu Sắc</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
