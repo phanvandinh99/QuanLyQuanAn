@@ -13981,7 +13981,7 @@ html[data-color=dark-purple][data-navcolor=dark] .logo .img, html[data-color=lig
 }
 
 .menu-container .label, .user-container .name {
-    font-family: var(--font-heading);
+    font-family: Tahoma;
     font-size: 13px
 }
 

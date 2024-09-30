@@ -78,7 +78,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     TaiKhoanNV = "Admin",
                     MatKhauNV = "Abc123",
                     TenNhanVien = "Ban Quản Trị",
-                    MaQuyen_id = Const.SupperAdmin,
+                    MaQuyen_id = Const.Admin,
                     MaDoanhNghiep_id = model.MaDoanhNghiep
                 };
                 _db.NhanVien.Add(nhanVien);

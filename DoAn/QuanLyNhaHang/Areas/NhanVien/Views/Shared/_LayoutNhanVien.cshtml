@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using QuanLyNhaHang.Common
+<!DOCTYPE html>
 <html lang="en" data-footer="true" data-override='{"attributes": {"placement": "vertical", "layout": "boxed" }, "storagePrefix": "ecommerce-platform"}'>
 <head>
     <meta charset="UTF-8">
@@ -59,58 +60,20 @@
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-3 ms-0 me-0">
                             <div class="col-12 ps-1 mb-2">
-                                <div class="text-extra-small text-primary">ACCOUNT</div>
+                                <div class="text-extra-small text-primary">Thông Tin Cá Nhân</div>
                             </div>
-                            <div class="col-6 ps-1 pe-1">
+                            <div class="col-12 ps-1 pe-1">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">User Info</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Preferences</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Calendar</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6 pe-1 ps-1">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">Security</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Billing</a>
+                                        <a href="~/NhanVien/DangNhap/DangXuat">
+                                            <i data-cs-icon="logout" class="me-2" data-cs-size="17"></i>
+                                            <span class="align-middle">Đăng Xuất</span>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="row mb-1 ms-0 me-0">
-                            <div class="col-12 p-1 mb-2 pt-2">
-                                <div class="text-extra-small text-primary">APPLICATION</div>
-                            </div>
-                            <div class="col-6 ps-1 pe-1">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">Themes</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Language</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-6 pe-1 ps-1">
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="#">Devices</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Storage</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row mb-1 ms-0 me-0">
+                        <div class="row mb-1 ms-0 me-0" style="display:none">
                             <div class="col-12 p-1 mb-3 pt-3">
                                 <div class="separator-light"></div>
                             </div>
@@ -180,25 +143,25 @@
                                     <li class="mb-3 pb-3 border-bottom border-separator-light d-flex">
                                         <img src="img/profile/profile-1.webp" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="...">
                                         <div class="align-self-center">
-                                            <a href="#">Joisse Kaycee just sent a new comment!</a>
+                                            <a href="#">Thông Báo 1</a>
                                         </div>
                                     </li>
                                     <li class="mb-3 pb-3 border-bottom border-separator-light d-flex">
                                         <img src="img/profile/profile-2.webp" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="...">
                                         <div class="align-self-center">
-                                            <a href="#">New order received! It is total $147,20.</a>
+                                            <a href="#">Thông Báo 2</a>
                                         </div>
                                     </li>
                                     <li class="mb-3 pb-3 border-bottom border-separator-light d-flex">
                                         <img src="img/profile/profile-3.webp" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="...">
                                         <div class="align-self-center">
-                                            <a href="#">3 items just added to wish list by a user!</a>
+                                            <a href="#">Thông Báo 3</a>
                                         </div>
                                     </li>
                                     <li class="pb-3 pb-3 border-bottom border-separator-light d-flex">
                                         <img src="img/profile/profile-6.webp" class="me-3 sw-4 sh-4 rounded-xl align-self-center" alt="...">
                                         <div class="align-self-center">
-                                            <a href="#">Kirby Peters just sent a new message!</a>
+                                            <a href="#">Thông Báo 4</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -215,97 +178,7 @@
                                 <span class="label">Trang Chủ</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="/NhanVien/DoanhNghiep/Index">
-                                <i data-cs-icon="shop" class="icon" data-cs-size="18"></i>
-                                <span class="label">QL Nhà Hàng</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/NhanVien/Index">
-                                <i data-cs-icon="user" class="icon" data-cs-size="18"></i>
-                                <span class="label">QL Nhân Viên</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#products" data-href="Products.html">
-                                <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                                <span class="label">Bàn Hóa Đơn</span>
-                            </a>
-                            <ul id="products">
-                                @Html.Action("Par_Tang", "Home")
-                            </ul>
-                        </li>
-
-
-                        <li>
-                            <a href="/NhanVien/MonAn/DanhSachMonAn">
-                                <i data-cs-icon="cupcake" class="icon" data-cs-size="18"></i>
-                                <span class="label">Món Ăn</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#orders" data-href="Orders.html">
-                                <i data-cs-icon="cupcake" class="icon" data-cs-size="18"></i>
-                                <span class="label">Món Ăn</span>
-                            </a>
-                            <ul id="orders">
-                                <li>
-                                    <a href="/NhanVien/MonAn/DanhSachMonAn">
-                                        <span class="label">Danh Sách Món Ăn</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/NhanVien/MonAn/DanhSachMonAnBanChay">
-                                        <span class="label">Món Ăn Bán Chạy</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
-                            <a href="/NhanVien/HoaDon/DanhSachHoaDon">
-                                <i data-cs-icon="file-text" class="icon" data-cs-size="18"></i>
-                                <span class="label">Hóa Đơn</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/ThongKe/Index">
-                                <i data-cs-icon="invoice" class="icon" data-cs-size="18"></i>
-                                <span class="label">Thống Kê</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/Tang/DanhSachTang">
-                                <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                                <span class="label">Tầng</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/Ban/DanhSachBan">
-                                <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
-                                <span class="label">Bàn</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/LoaiMonAn/Index">
-                                <i data-cs-icon="tag" class="icon" data-cs-size="18"></i>
-                                <span class="label">Loại Món Ăn</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/NguyenLieu/Index">
-                                <i data-cs-icon="help" class="icon" data-cs-size="18"></i>
-                                <span class="label">Nguyên Liệu</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/NhanVien/DangNhap/DangXuat">
-                                <i data-cs-icon="logout" class="icon" data-cs-size="18"></i>
-                                <span class="label">Đăng Xuất</span>
-                            </a>
-                        </li>
+                        @Html.Action("Par_DanhMuc", "Home")
                     </ul>
 
                 </div>

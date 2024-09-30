@@ -13935,7 +13935,7 @@ tbody tr:last-child {
   position: relative;
 }
 .bootstrap-touchspin .input-group {
-  font-family: "Montserrat", sans-serif;
+  font-family: Tahoma, sans-serif;
 }
 .bootstrap-touchspin .input-group .btn {
   border-radius: 0 !important;

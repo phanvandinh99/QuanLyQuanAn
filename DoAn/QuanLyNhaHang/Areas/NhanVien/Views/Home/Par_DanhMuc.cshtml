@@ -1,0 +1,94 @@
+﻿@using QuanLyNhaHang.Models
+
+@{
+    IEnumerable<DanhMuc> listDanhMuc = ViewBag.DanhMuc as IEnumerable<DanhMuc>;
+    IEnumerable<PhanQuyen> listPhanQuyen = ViewBag.PhanQuyen as IEnumerable<PhanQuyen>;
+
+    IEnumerable<Tang> listTang = ViewBag.listTang as IEnumerable<Tang>;
+    int MaQuyen;
+    if (ViewBag.MaQuyen != null && int.TryParse(ViewBag.MaQuyen.ToString(), out MaQuyen))
+    {
+    }
+    else
+    {
+        MaQuyen = QuanLyNhaHang.Common.Const.Const.Employee;
+    }
+}
+
+
+
+@if (listDanhMuc != null)
+{
+    foreach (var item in listDanhMuc)
+    {
+        if (item.MaDanhMuc == QuanLyNhaHang.Common.Const.Const.BanHoaDon)
+        {
+            <li>
+                <a href="#products" data-href="Products.html">
+                    <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                    <span class="label">Bàn Hóa Đơn</span>
+                </a>
+                @if (listTang != null)
+                {
+                    <ul id="products">
+                        @foreach (var tang in listTang)
+                        {
+                            <li>
+                                <a href="/NhanVien/Home/Ban?iMaTang=@tang.MaTang">
+                                    <span class="label">@tang.TenTang</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@item.Url">
+                    <i data-cs-icon="@item.Icon" class="icon" data-cs-size="18"></i>
+                    <span class="label">@item.TenChucNang</span>
+                </a>
+            </li>
+        }
+    }
+}
+else
+{
+    foreach (var item in listPhanQuyen)
+    {
+        if (item.DanhMuc.MaDanhMuc == QuanLyNhaHang.Common.Const.Const.BanHoaDon)
+        {
+            <li>
+                <a href="#products" data-href="Products.html">
+                    <i data-cs-icon="screen" class="icon" data-cs-size="18"></i>
+                    <span class="label">Bàn Hóa Đơn</span>
+                </a>
+                @if (listTang != null)
+                {
+                    <ul id="products">
+                        @foreach (var tang in listTang)
+                        {
+                            <li>
+                                <a href="/NhanVien/Home/Ban?iMaTang=@tang.MaTang">
+                                    <span class="label">@tang.TenTang</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@item.DanhMuc.Url">
+                    <i data-cs-icon="@item.DanhMuc.Icon" class="icon" data-cs-size="18"></i>
+                    <span class="label">@item.DanhMuc.TenChucNang</span>
+                </a>
+            </li>
+        }
+    }
+}
+

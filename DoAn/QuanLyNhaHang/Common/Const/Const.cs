@@ -19,6 +19,10 @@
         public const int Admin = 2;
         public const int Employee = 3;
 
+        public const int BanHoaDon = 3;
+
+        public const int QuanLyNhaHang = 1;
+
         public const string MaDoanhNghiep = "AnhTran";
 
 

@@ -68,7 +68,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         // Thêm Nhan Vien
         public async Task<ActionResult> ThemMoi()
         {
-            var danhMuc = await _db.DanhMuc.ToListAsync();
+            var danhMuc = await _db.DanhMuc.Where(n=>n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
             ViewBag.DanhMuc = danhMuc;
 
             return View();
@@ -119,7 +119,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 return RedirectToAction("Index", "NhanVien");
             }
 
-            var danhMuc = await _db.DanhMuc.ToListAsync();
+            var danhMuc = await _db.DanhMuc.Where(n => n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
             ViewBag.DanhMuc = danhMuc;
 
             return View(nhanVien);
@@ -152,17 +152,21 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 _db.PhanQuyen.RemoveRange(quyenHienTai);
                 await _db.SaveChangesAsync();
 
-                // Thêm các quyền mới từ danh sách danhMucIds
-                var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                // Kiểm tra xem danhMucIds có null hoặc không có phần tử nào không
+                if (danhMucIds != null && danhMucIds.Length > 0)
                 {
-                    MaNhanVien_id = Model.MaNhanVien,
-                    MaDanhMuc_id = id
-                }).ToList();
+                    // Thêm các quyền mới từ danh sách danhMucIds
+                    var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                    {
+                        MaNhanVien_id = Model.MaNhanVien,
+                        MaDanhMuc_id = id
+                    }).ToList();
 
-                if (phanQuyens.Any())
-                {
-                    _db.PhanQuyen.AddRange(phanQuyens);
-                    await _db.SaveChangesAsync();
+                    if (phanQuyens.Any())
+                    {
+                        _db.PhanQuyen.AddRange(phanQuyens);
+                        await _db.SaveChangesAsync();
+                    }
                 }
 
                 TempData["ToastMessage"] = "success|Cập nhật nhân viên thành công.";
@@ -174,6 +178,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 return RedirectToAction("Index", "NhanVien");
             }
         }
+
 
         public async Task<ActionResult> Xoa(int iMaNhanVien)
         {

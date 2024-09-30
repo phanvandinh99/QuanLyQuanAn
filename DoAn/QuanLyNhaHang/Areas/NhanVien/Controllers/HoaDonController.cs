@@ -679,18 +679,5 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             var listKhachHang = await _db.HoaDon.OrderByDescending(n => n.NgayTao).ToListAsync();
             return View(listKhachHang);
         }
-
-        [HttpGet]
-        public async Task<ActionResult> GetMonAnByLoai(int maLMA)
-        {
-            var danhSachMonAn = await _db.MonAn.Where(m => m.MaLMA_id == maLMA)
-                                                .Select(m => new {
-                                                    m.MaMonAn,
-                                                    m.TenMonAn,
-                                                    m.DonGia,
-                                                    m.HinhAnh})
-                                                .ToListAsync();
-            return Json(danhSachMonAn);
-        }
     }
 }
