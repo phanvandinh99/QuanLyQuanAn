@@ -1,12 +1,10 @@
-﻿using QuanLyNhaHang.Models;
-using System.Linq;
-using System.Web.Mvc;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using QuanLyNhaHang.Common.Const;
-using System.Web.UI;
+﻿using QuanLyNhaHang.Common.Const;
+using QuanLyNhaHang.Models;
 using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
