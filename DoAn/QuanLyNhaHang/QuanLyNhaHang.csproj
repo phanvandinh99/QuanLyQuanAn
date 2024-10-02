@@ -259,7 +259,6 @@
     <Content Include="Assets\js\base\init.js" />
     <Content Include="Assets\js\base\loader.js" />
     <Content Include="Assets\js\base\nav.js" />
-    <Content Include="Assets\js\base\search.js" />
     <Content Include="Assets\js\base\settings.js" />
     <Content Include="Assets\js\common.js" />
     <Content Include="Assets\js\cs\charts.extend.js" />
