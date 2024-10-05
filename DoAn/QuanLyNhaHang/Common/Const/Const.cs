@@ -25,6 +25,9 @@
 
         public const string MaDoanhNghiep = "AnhTran";
 
+        public const bool DoiMatKhau = true;
+        public const bool KhongDoiMatKhau = false;
+
 
     }
 }

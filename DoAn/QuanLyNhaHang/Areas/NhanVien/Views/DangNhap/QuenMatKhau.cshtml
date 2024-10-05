@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Quên Mật Khẩu";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutDangNhap.cshtml";
+}
+
+
+@using (Ajax.BeginForm("QuenMatKhau", "DangNhap", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }, new { @class = "theme-form" }))
+{
+    <div>
+        <h4>Quên mật khẩu</h4>
+        <p>Nhập email để lấy lại mật khẩu</p>
+        <div class="form-group">
+            <label class="col-form-label">Email<span class="text-danger">*</span></label>
+            <input class="form-control" type="email" required placeholder="Nhập email" name="sEmail">
+        </div>
+        <div class="form-group mb-0">
+            <div class="text-end mt-3">
+                <button class="btn btn-primary btn-block w-100" type="submit">Xác Nhận</button>
+            </div>
+        </div>
+        <div class="ThongBao" id="ThongBao">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+        </div>
+        <div class="form-group">
+            <a class="link" href="/NhanVien/DangNhap/DangNhap">ĐĂNG NHẬP</a>
+        </div>
+    </div>
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}
+
+
+
+

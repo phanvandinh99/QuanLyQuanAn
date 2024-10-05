@@ -26,24 +26,24 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tên Bàn</label>
+                                    <label class="form-label">Tên Bàn<span class="text-danger">*</span></label>
                                     <input class="form-control" name="TenBan" placeholder="Bàn 1" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Số Ghế</label>
+                                    <label class="form-label">Số Ghế<span class="text-danger">*</span></label>
                                     <input class="form-control" type="number" min="1" max="100" name="SoGhe" placeholder="6 ghế" required>
                                 </div>
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Loại Bàn</label>
+                                    <label class="form-label">Loại Bàn<span class="text-danger">*</span></label>
                                     <select class="form-select" name="Vip">
                                         <option value="0">Thường</option>
                                         <option value="1">Vip</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tầng</label>
+                                    <label class="form-label">Tầng<span class="text-danger">*</span></label>
                                     <select class="form-select" name="MaTang_id">
                                         @foreach (var item in listTang)
                                         {

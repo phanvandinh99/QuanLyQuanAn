@@ -25,6 +25,8 @@ namespace QuanLyNhaHang.Models
         [StringLength(50)]
         public string MatKhauNV { get; set; }
 
+        public bool? DoiMatKhau { get; set; }
+
         [Required]
         [StringLength(100)]
         public string TenNhanVien { get; set; }
@@ -32,8 +34,11 @@ namespace QuanLyNhaHang.Models
         [Column(TypeName = "date")]
         public DateTime? NgaySinh { get; set; }
 
-        [StringLength(10)]
+        [StringLength(12)]
         public string SoDienThoai { get; set; }
+
+        [StringLength(200)]
+        public string Email { get; set; }
 
         public int? MaQuyen_id { get; set; }
 

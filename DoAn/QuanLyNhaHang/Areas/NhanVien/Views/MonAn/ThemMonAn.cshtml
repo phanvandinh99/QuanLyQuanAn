@@ -89,4 +89,23 @@
         <input type="submit" value="Thêm Món Ăn" class="btn btn-primary" id="btnThemMoiMonAn">
     }
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('donGia').addEventListener('input', function (event) {
+            let inputVal = event.target.value.replace(/,/g, ''); // Xóa dấu phẩy
+            if (!isNaN(inputVal) && inputVal !== '') {
+                event.target.value = formatCurrency(inputVal);
+            }
+        });
+
+        function formatCurrency(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            let input = document.getElementById('donGia');
+            input.value = input.value.replace(/,/g, '');
+        });
+    });
+</script>
 

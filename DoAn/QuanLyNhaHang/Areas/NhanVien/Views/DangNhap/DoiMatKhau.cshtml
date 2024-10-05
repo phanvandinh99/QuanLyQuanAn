@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Đổi Mật Khẩu";
+    Layout = "~/Areas/NhanVien/Views/Shared/_LayoutDangNhap.cshtml";
+}
+
+@using (Ajax.BeginForm("DoiMatKhau", "DangNhap", new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao" }, new { @class = "theme-form" }))
+{
+
+    <h4>Đổi mật khẩu</h4>
+    <p>Bạn cần đổi mật khẩu</p>
+    <input type="hidden" value="@ViewBag.TaiKhoan" name="sTaiKhoan" />
+    <div class="form-group">
+        <label class="col-form-label">Mật Khẩu Củ<span class="text-danger">*</span></label>
+        <div class="form-input position-relative">
+            <input class="form-control" type="password" required placeholder="*********" value="@ViewBag.MatKhauCu" name="sMatKhau">
+            <div class="show-hide"><span class="show"> </span></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Mật Khẩu Mới<span class="text-danger">*</span></label>
+        <div class="form-input position-relative">
+            <input class="form-control" type="password" required placeholder="*********" value="@ViewBag.MatKhauMoi" name="sMatKhauMoi">
+            <div class="show-hide"><span class="show"> </span></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Nhập Lại Mật Khẩu Mới<span class="text-danger">*</span></label>
+        <div class="form-input position-relative">
+            <input class="form-control" type="password" required placeholder="*********" name="sNhapLaiMatKhau">
+            <div class="show-hide"><span class="show"> </span></div>
+        </div>
+    </div>
+    <div class="form-group mb-0">
+        <div class="text-end mt-3">
+            <button class="btn btn-primary btn-block w-100" type="submit">Xác Nhận</button>
+        </div>
+    </div>
+    <div class="ThongBao" id="ThongBao">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+    </div>
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}
+
+
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var form = document.querySelector('.theme-form');
+            form.addEventListener('submit', function (event) {
+                var matKhauMoi = form.querySelector('input[name="sMatKhauMoi"]').value;
+                var nhapLaiMatKhau = form.querySelector('input[name="sNhapLaiMatKhau"]').value;
+
+                if (matKhauMoi !== nhapLaiMatKhau) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    alert('Mật khẩu mới không đúng.');
+                }
+            }, false);
+        }, false);
+    })();
+</script>

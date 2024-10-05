@@ -31,24 +31,24 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tài Khoản Đăng Nhập</label>
+                                    <label class="form-label">Tài Khoản Đăng Nhập<span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="TaiKhoanNV" value="@Model.TaiKhoanNV" required>
                                     <input class="form-control" type="hidden" name="MaNhanVien" value="@Model.MaNhanVien" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Mật Khẩu</label>
-                                    <input class="form-control" type="password" name="MatKhauNV" value="@Model.MatKhauNV" required>
+                                    <label class="form-label">Họ Tên<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" name="TenNhanVien" value="@Model.TenNhanVien" required>
                                 </div>
                             </div>
 
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Họ Tên</label>
-                                    <input class="form-control" type="text" name="TenNhanVien" value="@Model.TenNhanVien" required>
+                                    <label class="form-label">Mật Khẩu<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="password" name="MatKhauNV" value="@Model.MatKhauNV" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Số Điện Thoại</label>
-                                    <input class="form-control" type="number" name="SoDienThoai" value="@Model.SoDienThoai" required>
+                                    <label class="form-label">Số Điện Thoại<span class="text-danger">*</span></label>
+                                    <input class="form-control" type="number" name="SoDienThoai"  pattern="[0-9]{10}" value="@Model.SoDienThoai" required>
                                 </div>
                             </div>
                         </div>

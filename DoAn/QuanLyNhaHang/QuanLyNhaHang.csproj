@@ -215,19 +215,6 @@
     <Content Include="Assets\img\AnhMonAn\TómuNuong.jpeg" />
     <Content Include="Assets\img\AnhMonAn\VangBerry.jpg" />
     <Content Include="Assets\img\AnhMonAn\VangRamirana.jpg" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-114x114.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-120x120.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-144x144.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-152x152.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-57x57.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-60x60.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-72x72.png" />
-    <Content Include="Assets\img\favicon\apple-touch-icon-76x76.png" />
-    <Content Include="Assets\img\favicon\favicon-128.png" />
-    <Content Include="Assets\img\favicon\favicon-16x16.png" />
-    <Content Include="Assets\img\favicon\favicon-196x196.png" />
-    <Content Include="Assets\img\favicon\favicon-32x32.png" />
-    <Content Include="Assets\img\favicon\favicon-96x96.png" />
     <Content Include="Assets\img\logo - Copy\logo-blue-dark.svg" />
     <Content Include="Assets\img\logo - Copy\logo-blue-light.svg" />
     <Content Include="Assets\img\logo - Copy\logo-green-dark.svg" />
@@ -318,7 +305,6 @@
     <Content Include="Areas\NhanVien\Views\HoaDon\ThongTinHoaDonMonAn.cshtml" />
     <Content Include="Areas\NhanVien\Views\HoaDon\KhachHang.cshtml" />
     <Content Include="Areas\NhanVien\Views\NhanVien\DSNhanVien.cshtml" />
-    <Content Include="Areas\NhanVien\Views\NhanVien\ThemNhanVien.cshtml" />
     <Content Include="Areas\NhanVien\Views\Error\MonAn.cshtml" />
     <Content Include="Areas\NhanVien\Views\MonAn\ThemMonAn.cshtml" />
     <Content Include="Areas\NhanVien\Views\MonAn\DanhSachMonAnBanChay.cshtml" />
@@ -339,7 +325,6 @@
     <Content Include="Areas\NhanVien\Views\NhanVien\DSNhanVienKho.cshtml" />
     <Content Include="Areas\NhanVien\Views\Error\ThanhCong.cshtml" />
     <Content Include="Areas\NhanVien\Views\HoaDon\XoaHoaDons.cshtml" />
-    <Content Include="Areas\NhanVien\Views\DangNhap\DangNhap.cshtml" />
     <Content Include="Areas\NhanVien\Views\Tang\CapNhatTang.cshtml" />
     <Content Include="Areas\NhanVien\Views\Tang\ThemTang.cshtml" />
     <Content Include="Areas\NhanVien\Views\LoaiMonAn\Index.cshtml" />
@@ -361,6 +346,10 @@
     <Content Include="Areas\NhanVien\Views\NhanVien\XemChiTiet.cshtml" />
     <Content Include="Areas\NhanVien\Views\ThongKe\Index.cshtml" />
     <Content Include="Areas\NhanVien\Views\Home\Par_DanhMuc.cshtml" />
+    <Content Include="Areas\NhanVien\Views\Shared\_LayoutDangNhap.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DangNhap\DangNhap.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DangNhap\DoiMatKhau.cshtml" />
+    <Content Include="Areas\NhanVien\Views\DangNhap\QuenMatKhau.cshtml" />
     <None Include="Assets\js\Ajax\jquery-1.8.0.intellisense.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.js" />
     <Content Include="Assets\js\Ajax\jquery-1.8.0.min.js" />
@@ -392,6 +381,8 @@
     <Compile Include="Common\Const\Const.cs" />
     <Compile Include="Common\DangNhapService.cs" />
     <Compile Include="Common\AuthAttribute.cs" />
+    <Compile Include="Common\GeneratePassword.cs" />
+    <Compile Include="Common\SendMail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -442,6 +433,7 @@
   <ItemGroup>
     <Folder Include="Areas\NhanVien\Views\HoanTra\" />
     <Folder Include="Areas\NhanVien\Views\XuatKho\" />
+    <Folder Include="Assets\img\favicon\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

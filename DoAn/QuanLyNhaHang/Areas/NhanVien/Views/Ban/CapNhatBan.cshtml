@@ -27,25 +27,25 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tên Bàn</label>
+                                    <label class="form-label">Tên Bàn<span class="text-danger">*</span></label>
                                     <input class="form-control" name="TenBan" value="@Model.TenBan" required>
                                     <input type="hidden" class="form-control" name="MaBan" value="@Model.MaBan" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Số Ghế</label>
+                                    <label class="form-label">Số Ghế<span class="text-danger">*</span></label>
                                     <input class="form-control" type="number" min="1" max="100" name="SoGhe" value="@Model.SoGhe" required>
                                 </div>
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Loại Bàn</label>
+                                    <label class="form-label">Loại Bàn<span class="text-danger">*</span></label>
                                     @Html.DropDownListFor(x => x.Vip, new SelectListItem[]{
                 new SelectListItem() {Text = "Thường", Value="0"},
                 new SelectListItem() {Text = "Vip", Value="1"}}, new { @class = "form-select" })
 
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Tầng</label>
+                                    <label class="form-label">Tầng<span class="text-danger">*</span></label>
                                     @Html.DropDownListFor(x => x.MaTang_id, new SelectList(listTang, "MaTang", "TenTang"), new { @class = "form-select" })
                                 </div>
                             </div>

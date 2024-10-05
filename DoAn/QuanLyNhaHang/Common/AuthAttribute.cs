@@ -8,8 +8,10 @@ namespace QuanLyNhaHang.Common
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var requestUrl = filterContext.HttpContext.Request.Url.AbsolutePath;
+
             // Bỏ qua các trang không yêu cầu xác thực
-            if (requestUrl.Equals("/NhanVien/DangNhap/DangNhap", StringComparison.OrdinalIgnoreCase))
+            if (requestUrl.Equals("/NhanVien/DangNhap/DangNhap", StringComparison.OrdinalIgnoreCase) ||
+                requestUrl.Equals("/NhanVien/DangNhap/QuenMatKhau", StringComparison.OrdinalIgnoreCase))
             {
                 base.OnActionExecuting(filterContext);
                 return;
