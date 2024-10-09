@@ -1,9 +1,10 @@
-﻿@using QuanLyNhaHang.Common
+﻿@using QuanLyNhaHang.Models
+@using QuanLyNhaHang.Common
+@using System.Text;
 <!DOCTYPE html>
 <html lang="en" data-footer="true" data-override='{"attributes": {"placement": "vertical", "layout": "boxed" }, "storagePrefix": "ecommerce-platform"}'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <title>@ViewBag.title</title>
     <meta name="description" content="Hệ thống bán hàng">
     <meta name="application-name" content="&nbsp;">
@@ -27,7 +28,7 @@
 
         if (cookie != null)
         {
-            sTenNhanVien = cookie["TenNhanVien"];
+            sTenNhanVien = HttpUtility.UrlDecode(cookie["TenNhanVien"], Encoding.UTF8);
             sTaiKhoanNV = cookie["TaiKhoanNV"];
         }
 
@@ -36,6 +37,7 @@
         ViewBag.TaiKhoanNV = sTaiKhoanNV;
     }
 </head>
+
 <body>
     <div id="root">
         <div id="nav" class="nav-container d-flex">
@@ -48,7 +50,7 @@
                 <div class="user-container d-flex">
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profile" alt="profile" src="~/Assets/img/logo/iconEmployee.jpg">
-                        <div class="name">@Html.Raw(sTenNhanVien)</div>
+                        <div class="name">@sTenNhanVien</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-3 ms-0 me-0">

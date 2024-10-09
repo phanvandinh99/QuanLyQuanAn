@@ -76,17 +76,6 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-6 col-md-4 col-lg-2">
-                            <div class="card h-100 hover-scale-up cursor-pointer">
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <div class="sw-6 sh-6 rounded-xl d-flex justify-content-center align-items-center border border-primary mb-4">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-arrow-top-left text-primary"><path d="M7 12L2.35355 7.35355C2.15829 7.15829 2.15829 6.84171 2.35355 6.64645L7 2"></path><path d="M18 18V11C18 9.93913 17.5786 8.92172 16.8284 8.17157C16.0783 7.42143 15.0609 7 14 7H2.5"></path></svg>
-                                    </div>
-                                    <div class="mb-1 d-flex align-items-center text-alternate text-small lh-1-25">RETURNS</div>
-                                    <div class="text-primary cta-4">2</div>
-                                </div>
-                            </div>
-                        </div>*@
                     <div class="col-6 col-md-4 col-lg-2">
                         <a href="/NhanVien/Home/Ban?iMaTang=1">
                             <div class="card h-100 hover-scale-up cursor-pointer">
@@ -106,16 +95,16 @@
     </div>
     <div class="row">
         <div class="col-xl-6 mb-5">
-            <h2 class="small-title">Hóa Đơn Gần Đây</h2>
-            <div class="mb-n2 scroll-out">
-                <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="6" style="height: 336px; margin-bottom: -8px;">
-                    <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
-                        <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
-                            <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
-                                <!-- #region Hóa Đơn Gần Đây -->
-                                @if (listHoaDon != null)
-                                {
-                                    foreach (var item in listHoaDon)
+            @if (listHoaDon.Any())
+            {
+                <h2 class="small-title">Hóa Đơn Gần Đây</h2>
+                <div class="mb-n2 scroll-out">
+                    <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="6" style="height: 336px; margin-bottom: -8px;">
+                        <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
+                            <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                                <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
+                                    <!-- #region Hóa Đơn Gần Đây -->
+                                    @foreach (var item in listHoaDon)
                                     {
                                         <div class="card mb-2 sh-15 sh-md-6">
                                             <div class="card-body pt-0 pb-0 h-100">
@@ -153,55 +142,58 @@
                                             </div>
                                         </div>
                                     }
-                                }
-                                <!-- #endregion -->
+                                    <!-- #endregion -->
+                                </div>
                             </div>
                         </div>
+                        <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+                            <div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div>
+                        </div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 67.7419%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
                     </div>
-                    <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
-                        <div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div>
-                    </div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 67.7419%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
                 </div>
-            </div>
+            }
         </div>
         <div class="col-xl-6 mb-5">
-            <h2 class="small-title">Sản Phẩm Bán Chạy</h2>
-            <div class="scroll-out mb-n2">
-                <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="4" style="height: 352px; margin-bottom: -8px;">
-                    <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
-                        <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
-                            <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
-                                @foreach (var item in listMonAn)
-                                {
-                                    <!-- #region Sản Phẩm Bán Chạy -->
-                                    <div class="card mb-2">
-                                        <div class="row g-0 sh-14 sh-md-10">
-                                            <div class="col-auto">
-                                                <a href="Products.Detail.html">
-                                                    <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" style="height:80px" alt="alternate text" class="card-img card-img-horizontal sw-11">
-                                                </a>
-                                            </div>
-                                            <div class="col">
-                                                <div class="card-body pt-0 pb-0 h-100">
-                                                    <div class="row g-0 h-100 align-content-center">
-                                                        <div class="col-12 col-md-8 d-flex align-items-center mb-2 mb-md-0">
-                                                            <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn">@item.TenMonAn</a>
+            @if (listMonAn.Any())
+            {
+                <h2 class="small-title">Sản Phẩm Bán Chạy</h2>
+                <div class="scroll-out mb-n2">
+                    <div class="scroll-by-count os-host os-theme-dark os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition" data-count="4" style="height: 352px; margin-bottom: -8px;">
+                        <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -15px;"></div><div class="os-padding">
+                            <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                                <div class="os-content" style="padding: 0px 15px; height: 100%; width: 100%;">
+                                    @foreach (var item in listMonAn)
+                                    {
+                                        <!-- #region Sản Phẩm Bán Chạy -->
+                                        <div class="card mb-2">
+                                            <div class="row g-0 sh-14 sh-md-10">
+                                                <div class="col-auto">
+                                                    <a href="Products.Detail.html">
+                                                        <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" style="height:80px" alt="alternate text" class="card-img card-img-horizontal sw-11">
+                                                    </a>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="card-body pt-0 pb-0 h-100">
+                                                        <div class="row g-0 h-100 align-content-center">
+                                                            <div class="col-12 col-md-8 d-flex align-items-center mb-2 mb-md-0">
+                                                                <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn">@item.TenMonAn</a>
+                                                            </div>
+                                                            <div class="col-12 col-md-2 d-flex align-items-center text-muted text-medium">@item.LoaiMonAn.TenLMA</div>
+                                                            <div class="col-12 col-md-2 d-flex align-items-center justify-content-md-end text-muted text-medium">@item.SoLuongDaBan</div>
                                                         </div>
-                                                        <div class="col-12 col-md-2 d-flex align-items-center text-muted text-medium">@item.LoaiMonAn.TenLMA</div>
-                                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-md-end text-muted text-medium">@item.SoLuongDaBan</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!-- #endregion -->
+                                        <!-- #endregion -->
 
-                                }
+                                    }
+                                </div>
                             </div>
-                        </div>
-                    </div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 81.4815%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
+                        </div><div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar os-scrollbar-vertical os-scrollbar-auto-hidden" style="height: calc(100% - 8px);"><div class="os-scrollbar-track os-scrollbar-track-off"><div class="os-scrollbar-handle" style="height: 81.4815%; transform: translate(0px, 0px);"></div></div></div><div class="os-scrollbar-corner"></div>
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>

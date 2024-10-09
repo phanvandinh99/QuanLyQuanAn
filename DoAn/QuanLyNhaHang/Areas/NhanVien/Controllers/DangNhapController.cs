@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using QuanLyNhaHang.Common.Const;
 using QuanLyNhaHang.Common;
+using System.Text;
 
 namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 {
@@ -62,7 +63,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                             Values = {
                             ["MaNhanVien"] = nhanVien.MaNhanVien.ToString(),
                             ["TaiKhoanNV"] = nhanVien.TaiKhoanNV,
-                            ["TenNhanVien"] = nhanVien.TenNhanVien,
+                            ["TenNhanVien"] = HttpUtility.UrlEncode( nhanVien.TenNhanVien, Encoding.UTF8),
                             ["MaQuyen_id"] = nhanVien.MaQuyen_id.ToString(),
                             ["MaDoanhNghiep"] = nhanVien.MaDoanhNghiep_id.ToString()
                         },
