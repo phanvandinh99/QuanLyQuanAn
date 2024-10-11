@@ -43,7 +43,7 @@
         <ul id="QLMonAn" class="collapse">
             @foreach (var item in listDanhMuc)
             {
-                if (item.MaDanhMuc >= Const.LoaiMonAn || item.MaDanhMuc <= Const.NguyenLieu)
+                if (item.MaDanhMuc >= Const.LoaiMonAn && item.MaDanhMuc <= Const.NguyenLieu)
                 {
                     <li>
                         <a href="@item.Url">
@@ -129,7 +129,7 @@
 
 else
 {
-    @if (listPhanQuyen.Any())
+    if (listPhanQuyen.Any())
     {
         // Nhóm Bàn Hóa Đơn
         <li>
@@ -161,7 +161,7 @@ else
             <ul id="QLMonAn" class="collapse">
                 @foreach (var item in listPhanQuyen)
                 {
-                    if (item.MaDanhMuc_id >= Const.LoaiMonAn || item.MaDanhMuc_id <= Const.NguyenLieu)
+                    if (item.MaDanhMuc_id >= Const.LoaiMonAn & item.MaDanhMuc_id <= Const.NguyenLieu)
                     {
                         <li>
                             <a href="@item.DanhMuc.Url">
