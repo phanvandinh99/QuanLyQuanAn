@@ -177,13 +177,16 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
                     string password = Common.GeneratePassword.NewPassword();
 
-                    bool result = await Common.SendMail.SendEmailAsync(
-                        "Hệ thống quản lý quán ăn",
-                        "Bạn vừa xác nhận yêu cầu lấy lại mật khẩu:\n" +
-                        "Mật khẩu của bạn là: " + password,
-                        sEmail);
+                    bool emailSent = await Common.SendMail.SendEmailAsync(
+                       "Cập nhật mật khẩu",
+                       "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> đã được cập nhật</p>" +
+                       $"<p><strong>Mã doanh nghiệp:</strong> {nhanVien.MaDoanhNghiep_id}</p>" +
+                       $"<p><strong>Tài khoản:</strong> {nhanVien.TaiKhoanNV}</p>" +
+                       $"<p><strong>Mật khẩu:</strong> {password}</p>",
+                       sEmail
+                   );
 
-                    if (result == false)
+                    if (emailSent == false)
                     {
                         TempData["ToastMessage"] = "error|Lỗi khi gửi mail.";
                         return View();
@@ -192,7 +195,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     nhanVien.DoiMatKhau = Const.DoiMatKhau;
                     await _db.SaveChangesAsync();
 
-                    TempData["ToastMessage"] = "infor|Kiểm tra email để lấy mật khẩu.";
+                    TempData["ToastMessage"] = "info|Kiểm tra email để lấy mật khẩu.";
                     return RedirectToAction("DangNhap", "DangNhap");
                 }
             }
