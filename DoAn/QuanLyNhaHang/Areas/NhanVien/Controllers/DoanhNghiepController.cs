@@ -82,6 +82,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 // Sử dụng transaction để đảm bảo rollback khi có lỗi
                 using (var transaction = _db.Database.BeginTransaction())
                 {
+                    // Thêm doanh nghiệp
                     _db.DoanhNghiep.Add(model);
                     await _db.SaveChangesAsync();
 
@@ -102,21 +103,23 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     };
                     _db.NhanVien.Add(nhanVien);
 
+                    // Gửi email
                     bool emailSent = await Common.SendMail.SendEmailAsync(
                         "HỆ THỐNG QUẢN LÝ CỬA HÀNG",
                         $"<p>Chào mừng: <strong>{model.TenDoanhNghiep}</strong> đến với hệ thống quản lý cửa hàng/quán ăn của chúng tôi</p>" +
                         "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> là</p>" +
                         $"<p><strong>Mã doanh nghiệp:</strong> {model.MaDoanhNghiep}</p>" +
                         "<p><strong>Tài khoản:</strong> Admin</p>" +
-                        $"<p><strong>Mật khẩu:</strong> {password}</p>",
+                        $"<p><strong>Mật khẩu:</strong> {password}</p>" +
+                        $"<p><strong>Thời hạn:</strong> {model.ThoiGianBatDau.ToString("dd-MM-yyyy HH")} đến {model.ThoiGianKetThuc.ToString("dd-MM-yyyy HH")}</p>",
                         model.Email
                     );
-
 
                     if (!emailSent)
                     {
                         TempData["ToastMessage"] = "error|Lỗi khi gửi mail.";
-                        return View();
+                        transaction.Rollback();
+                        return RedirectToAction("Index", "DoanhNghiep");
                     }
 
                     // Thêm mới tầng
@@ -126,6 +129,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                         MaDoanhNghiep_id = model.MaDoanhNghiep
                     };
                     _db.Tang.Add(tang);
+                    await _db.SaveChangesAsync();
 
                     // Thêm mới bàn
                     var ban = new Ban
@@ -133,7 +137,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                         TenBan = "Mang Đi",
                         TinhTrang = Const.MangDi,
                         MangDi = Const.boolMangDi,
-                        MaTang_id = tang.MaTang, // Lưu ý: MaTang_id sẽ cần được gán sau khi thêm tầng
+                        MaTang_id = tang.MaTang,
                         MaDoanhNghiep_id = model.MaDoanhNghiep
                     };
                     _db.Ban.Add(ban);
@@ -150,11 +154,10 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
             catch (Exception ex)
             {
                 // Log exception if necessary
-                TempData["ToastMessage"] = "error|Thêm doanh nghiệp thất bại";
+                TempData["ToastMessage"] = "error|Thêm doanh nghiệp thất bại.";
                 return RedirectToAction("Index", "DoanhNghiep");
             }
         }
-
 
         //Cập Nhật Doanh Nghiệp
         public async Task<ActionResult> CapNhat(string sMaDoanhNghiep)

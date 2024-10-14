@@ -66,7 +66,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         // Thêm Nhan Vien
         public async Task<ActionResult> ThemMoi()
         {
-            var danhMuc = await _db.DanhMuc.Where(n=>n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
+            var danhMuc = await _db.DanhMuc.Where(n => n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
             ViewBag.DanhMuc = danhMuc;
 
             return View();
@@ -194,6 +194,13 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                         model.MatKhauNV = Common.GeneratePassword.NewPassword();
                     }
 
+                    // Kiểm tra xem có thay đổi TaiKhoanNV hoặc MatKhauNV không
+                    bool hasChanged = false;
+                    if (nhanVien.TaiKhoanNV != model.TaiKhoanNV || nhanVien.MatKhauNV != model.MatKhauNV)
+                    {
+                        hasChanged = true;
+                    }
+
                     // Cập nhật thông tin cơ bản của nhân viên
                     nhanVien.TaiKhoanNV = model.TaiKhoanNV;
                     nhanVien.MatKhauNV = model.MatKhauNV;
@@ -202,14 +209,17 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                     nhanVien.SoDienThoai = model.SoDienThoai;
                     await _db.SaveChangesAsync();
 
-                    bool emailSent = await Common.SendMail.SendEmailAsync(
-                        "Cập nhật tài khoản",
-                        "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> đã được cập nhật</p>" +
-                        $"<p><strong>Mã doanh nghiệp:</strong> {sMaDoanhNghiep}</p>" +
-                        $"<p><strong>Tài khoản:</strong> {model.TaiKhoanNV}</p>" +
-                        $"<p><strong>Mật khẩu:</strong> {model.MatKhauNV}</p>",
-                        model.Email
-                    );
+                    if (hasChanged)
+                    {
+                        bool emailSent = await Common.SendMail.SendEmailAsync(
+                            "Cập nhật tài khoản",
+                            "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> đã được cập nhật</p>" +
+                            $"<p><strong>Mã doanh nghiệp:</strong> {sMaDoanhNghiep}</p>" +
+                            $"<p><strong>Tài khoản:</strong> {model.TaiKhoanNV}</p>" +
+                            $"<p><strong>Mật khẩu:</strong> {model.MatKhauNV}</p>",
+                            model.Email
+                        );
+                    }
 
                     // Xóa tất cả các quyền cũ của nhân viên
                     var quyenHienTai = _db.PhanQuyen.Where(pq => pq.MaNhanVien_id == model.MaNhanVien);
