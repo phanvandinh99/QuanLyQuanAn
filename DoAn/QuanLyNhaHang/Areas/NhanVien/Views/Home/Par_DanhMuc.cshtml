@@ -11,7 +11,7 @@
     }
 }
 
-@if (listDanhMuc.Any())
+@if (listDanhMuc?.Any() == true)
 {
     // Nhóm Bàn Hóa Đơn
     <li>
@@ -129,7 +129,7 @@
 
 else
 {
-    if (listPhanQuyen.Any())
+    if (listPhanQuyen?.Any() == true)
     {
         // Nhóm Bàn Hóa Đơn
         <li>

@@ -69,51 +69,91 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
 
             try
             {
-                _db.DoanhNghiep.Add(model);
-                await _db.SaveChangesAsync();
+                // Kiểm tra mã doanh nghiệp và email đã tồn tại
+                bool maDoanhNghiepExists = await _db.DoanhNghiep.AnyAsync(n => n.MaDoanhNghiep == model.MaDoanhNghiep);
+                bool emailExists = await _db.DoanhNghiep.AnyAsync(n => n.Email == model.Email);
 
-                // Thêm mới nhân viên
-                var nhanVien = new QuanLyNhaHang.Models.NhanVien
+                if (maDoanhNghiepExists || emailExists)
                 {
-                    TaiKhoanNV = "Admin",
-                    MatKhauNV = "Abc123",
-                    TenNhanVien = "Ban Quản Trị",
-                    MaQuyen_id = Const.Admin,
-                    MaDoanhNghiep_id = model.MaDoanhNghiep
-                };
-                _db.NhanVien.Add(nhanVien);
+                    TempData["ToastMessage"] = maDoanhNghiepExists ? "error|Mã doanh nghiệp đã tồn tại." : "error|Email đã tồn tại.";
+                    return View();
+                }
 
-                // Thêm mới tầng
-                var tang = new Tang
+                // Sử dụng transaction để đảm bảo rollback khi có lỗi
+                using (var transaction = _db.Database.BeginTransaction())
                 {
-                    TenTang = "Tầng 1",
-                    MaDoanhNghiep_id = model.MaDoanhNghiep
-                };
-                _db.Tang.Add(tang);
+                    _db.DoanhNghiep.Add(model);
+                    await _db.SaveChangesAsync();
 
-                // Thêm mới bàn
-                var ban = new Ban
-                {
-                    TenBan = "Mang Đi",
-                    TinhTrang = Const.MangDi,
-                    MangDi = Const.boolMangDi,
-                    MaTang_id = tang.MaTang,
-                    MaDoanhNghiep_id = model.MaDoanhNghiep
-                };
-                _db.Ban.Add(ban);
+                    // Thay đổi mật khẩu
+                    string password = Common.GeneratePassword.NewPassword();
 
-                await _db.SaveChangesAsync();
+                    // Thêm mới nhân viên
+                    var nhanVien = new Models.NhanVien
+                    {
+                        TaiKhoanNV = "Admin",
+                        MatKhauNV = password,
+                        DoiMatKhau = Const.DoiMatKhau,
+                        TenNhanVien = "Admin " + model.TenDoanhNghiep,
+                        SoDienThoai = model.SoDienThoai,
+                        Email = model.Email,
+                        MaQuyen_id = Const.Admin,
+                        MaDoanhNghiep_id = model.MaDoanhNghiep
+                    };
+                    _db.NhanVien.Add(nhanVien);
 
-                TempData["ToastMessage"] = "success|Thêm Doanh nghiệp thành công.";
-                return RedirectToAction("Index", "DoanhNghiep");
+                    bool emailSent = await Common.SendMail.SendEmailAsync(
+                        "HỆ THỐNG QUẢN LÝ CỬA HÀNG",
+                        $"<p>Chào mừng: <strong>{model.TenDoanhNghiep}</strong> đến với hệ thống quản lý cửa hàng/quán ăn của chúng tôi</p>" +
+                        "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> là</p>" +
+                        $"<p><strong>Mã doanh nghiệp:</strong> {model.MaDoanhNghiep}</p>" +
+                        "<p><strong>Tài khoản:</strong> Admin</p>" +
+                        $"<p><strong>Mật khẩu:</strong> {password}</p>",
+                        model.Email
+                    );
+
+
+                    if (!emailSent)
+                    {
+                        TempData["ToastMessage"] = "error|Lỗi khi gửi mail.";
+                        return View();
+                    }
+
+                    // Thêm mới tầng
+                    var tang = new Tang
+                    {
+                        TenTang = "Tầng 1",
+                        MaDoanhNghiep_id = model.MaDoanhNghiep
+                    };
+                    _db.Tang.Add(tang);
+
+                    // Thêm mới bàn
+                    var ban = new Ban
+                    {
+                        TenBan = "Mang Đi",
+                        TinhTrang = Const.MangDi,
+                        MangDi = Const.boolMangDi,
+                        MaTang_id = tang.MaTang, // Lưu ý: MaTang_id sẽ cần được gán sau khi thêm tầng
+                        MaDoanhNghiep_id = model.MaDoanhNghiep
+                    };
+                    _db.Ban.Add(ban);
+
+                    await _db.SaveChangesAsync();
+
+                    // Commit transaction
+                    transaction.Commit();
+
+                    TempData["ToastMessage"] = "success|Thêm Doanh nghiệp thành công.";
+                    return RedirectToAction("Index", "DoanhNghiep");
+                }
             }
             catch (Exception ex)
             {
-                TempData["ToastMessage"] = $"error|Thêm doanh nghiệp thất bại";
+                // Log exception if necessary
+                TempData["ToastMessage"] = "error|Thêm doanh nghiệp thất bại";
                 return RedirectToAction("Index", "DoanhNghiep");
             }
         }
-
 
 
         //Cập Nhật Doanh Nghiệp

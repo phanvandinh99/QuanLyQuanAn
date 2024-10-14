@@ -74,6 +74,7 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                         // Kiểm tra có cần thay đổi mật khẩu hay không
                         if (nhanVien.DoiMatKhau == Const.DoiMatKhau)
                         {
+                            TempData["ToastMessage"] = "info|Bạn cần thay đổi mật khẩu.";
                             return RedirectToAction("DoiMatKhau", "DangNhap", new { @sTaiKhoan = sTaiKhoan });
                         }
 

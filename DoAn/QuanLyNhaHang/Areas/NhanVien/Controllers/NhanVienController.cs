@@ -73,39 +73,75 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> ThemMoi(QuanLyNhaHang.Models.NhanVien Model, int[] danhMucIds)
+        public async Task<ActionResult> ThemMoi(QuanLyNhaHang.Models.NhanVien model, int[] danhMucIds)
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            try
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                Model.MaQuyen_id = Const.Employee;
-                Model.MaDoanhNghiep_id = sMaDoanhNghiep;
-
-                _db.NhanVien.Add(Model);
-                await _db.SaveChangesAsync();
-
-                var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                try
                 {
-                    MaNhanVien_id = Model.MaNhanVien,
-                    MaDanhMuc_id = id
-                }).ToList();
+                    // Kiểm tra mã doanh nghiệp và email đã tồn tại
+                    bool emailExists = await _db.NhanVien.AnyAsync(n => n.Email == model.Email && n.MaDoanhNghiep_id == sMaDoanhNghiep);
 
-                if (phanQuyens.Any())
-                {
-                    _db.PhanQuyen.AddRange(phanQuyens);
+                    if (emailExists)
+                    {
+                        var danhMuc = await _db.DanhMuc.Where(n => n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
+                        ViewBag.DanhMuc = danhMuc;
+
+                        TempData["ToastMessage"] = "error|Email đã tồn tại.";
+                        return View();
+                    }
+
+                    if (string.IsNullOrEmpty(model.MatKhauNV))
+                    {
+                        model.MatKhauNV = Common.GeneratePassword.NewPassword();
+                    }
+
+                    model.DoiMatKhau = Const.DoiMatKhau;
+                    model.MaQuyen_id = Const.Employee;
+                    model.MaDoanhNghiep_id = sMaDoanhNghiep;
+
+                    _db.NhanVien.Add(model);
                     await _db.SaveChangesAsync();
-                }
 
-                TempData["ToastMessage"] = "success|Thêm nhân viên thành công.";
-                return RedirectToAction("Index", "NhanVien");
-            }
-            catch (Exception ex)
-            {
-                TempData["ToastMessage"] = "error|Thêm nhân viên thất bại.";
-                return RedirectToAction("Index", "NhanVien");
+                    bool emailSent = await Common.SendMail.SendEmailAsync(
+                        "Tài khoản nhân viên tại cửa hàng",
+                        $"<p>Chào mừng nhân viên: <strong>{model.TenNhanVien}</strong></p>" +
+                        "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> là</p>" +
+                        $"<p><strong>Mã doanh nghiệp:</strong> {sMaDoanhNghiep}</p>" +
+                        $"<p><strong>Tài khoản:</strong> {model.TaiKhoanNV}</p>" +
+                        $"<p><strong>Mật khẩu:</strong> {model.MatKhauNV}</p>",
+                        model.Email
+                    );
+
+                    if (danhMucIds != null && danhMucIds.Any())
+                    {
+                        var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                        {
+                            MaNhanVien_id = model.MaNhanVien,
+                            MaDanhMuc_id = id
+                        }).ToList();
+
+                        _db.PhanQuyen.AddRange(phanQuyens);
+                        await _db.SaveChangesAsync();
+                    }
+
+                    // Commit transaction if everything is successful
+                    transaction.Commit();
+                    TempData["ToastMessage"] = "success|Thêm nhân viên thành công.";
+                    return RedirectToAction("Index", "NhanVien");
+                }
+                catch (Exception ex)
+                {
+                    // Rollback transaction if an error occurs
+                    transaction.Rollback();
+                    TempData["ToastMessage"] = "error|Thêm nhân viên thất bại.";
+                    return RedirectToAction("Index", "NhanVien");
+                }
             }
         }
+
 
         // Cập nhật Nhan Vien
         public async Task<ActionResult> CapNhat(int iMaNhanVien)
@@ -124,58 +160,94 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CapNhat(QuanLyNhaHang.Models.NhanVien Model, int[] danhMucIds)
+        public async Task<ActionResult> CapNhat(QuanLyNhaHang.Models.NhanVien model, int[] danhMucIds)
         {
             string sMaDoanhNghiep = GetMaDoanhNghiepFromCookie();
 
-            try
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                var nhanVien = await _db.NhanVien.FindAsync(Model.MaNhanVien);
-                if (nhanVien == null)
+                try
                 {
-                    TempData["ToastMessage"] = "error|Không tìm thấy nhân viên.";
+                    var nhanVien = await _db.NhanVien.FindAsync(model.MaNhanVien);
+                    if (nhanVien == null)
+                    {
+                        TempData["ToastMessage"] = "error|Không tìm thấy nhân viên.";
+                        return RedirectToAction("Index", "NhanVien");
+                    }
+
+                    // Kiểm tra mã doanh nghiệp và email đã tồn tại
+                    bool emailExists = await _db.NhanVien.AnyAsync(n => n.Email == model.Email &&
+                                                                        n.MaDoanhNghiep_id == sMaDoanhNghiep &&
+                                                                        n.MaNhanVien != model.MaNhanVien);
+
+                    if (emailExists)
+                    {
+                        var danhMuc = await _db.DanhMuc.Where(n => n.MaDanhMuc != Const.QuanLyNhaHang).ToListAsync();
+                        ViewBag.DanhMuc = danhMuc;
+
+                        TempData["ToastMessage"] = "error|Email đã tồn tại.";
+                        return View();
+                    }
+
+                    if (string.IsNullOrEmpty(model.MatKhauNV))
+                    {
+                        model.MatKhauNV = Common.GeneratePassword.NewPassword();
+                    }
+
+                    // Cập nhật thông tin cơ bản của nhân viên
+                    nhanVien.TaiKhoanNV = model.TaiKhoanNV;
+                    nhanVien.MatKhauNV = model.MatKhauNV;
+                    nhanVien.TenNhanVien = model.TenNhanVien;
+                    nhanVien.DoiMatKhau = Const.DoiMatKhau;
+                    nhanVien.SoDienThoai = model.SoDienThoai;
+                    await _db.SaveChangesAsync();
+
+                    bool emailSent = await Common.SendMail.SendEmailAsync(
+                        "Cập nhật tài khoản",
+                        "<p>Tài khoản đăng nhập của bạn <a href=\"https://QLQuanAn.com.vn\">https://QLQuanAn.com.vn</a> đã được cập nhật</p>" +
+                        $"<p><strong>Mã doanh nghiệp:</strong> {sMaDoanhNghiep}</p>" +
+                        $"<p><strong>Tài khoản:</strong> {model.TaiKhoanNV}</p>" +
+                        $"<p><strong>Mật khẩu:</strong> {model.MatKhauNV}</p>",
+                        model.Email
+                    );
+
+                    // Xóa tất cả các quyền cũ của nhân viên
+                    var quyenHienTai = _db.PhanQuyen.Where(pq => pq.MaNhanVien_id == model.MaNhanVien);
+                    _db.PhanQuyen.RemoveRange(quyenHienTai);
+                    await _db.SaveChangesAsync();
+
+                    // Kiểm tra xem danhMucIds có null hoặc không có phần tử nào không
+                    if (danhMucIds != null && danhMucIds.Length > 0)
+                    {
+                        // Thêm các quyền mới từ danh sách danhMucIds
+                        var phanQuyens = danhMucIds.Select(id => new PhanQuyen
+                        {
+                            MaNhanVien_id = model.MaNhanVien,
+                            MaDanhMuc_id = id
+                        }).ToList();
+
+                        if (phanQuyens.Any())
+                        {
+                            _db.PhanQuyen.AddRange(phanQuyens);
+                            await _db.SaveChangesAsync();
+                        }
+                    }
+
+                    // Commit transaction if everything is successful
+                    transaction.Commit();
+                    TempData["ToastMessage"] = "success|Cập nhật nhân viên thành công.";
                     return RedirectToAction("Index", "NhanVien");
                 }
-
-                // Cập nhật thông tin cơ bản của nhân viên
-                nhanVien.TaiKhoanNV = Model.TaiKhoanNV;
-                nhanVien.MatKhauNV = Model.MatKhauNV;
-                nhanVien.TenNhanVien = Model.TenNhanVien;
-                nhanVien.SoDienThoai = Model.SoDienThoai;
-
-                await _db.SaveChangesAsync();
-
-                // Xóa tất cả các quyền cũ của nhân viên
-                var quyenHienTai = _db.PhanQuyen.Where(pq => pq.MaNhanVien_id == Model.MaNhanVien);
-                _db.PhanQuyen.RemoveRange(quyenHienTai);
-                await _db.SaveChangesAsync();
-
-                // Kiểm tra xem danhMucIds có null hoặc không có phần tử nào không
-                if (danhMucIds != null && danhMucIds.Length > 0)
+                catch (Exception ex)
                 {
-                    // Thêm các quyền mới từ danh sách danhMucIds
-                    var phanQuyens = danhMucIds.Select(id => new PhanQuyen
-                    {
-                        MaNhanVien_id = Model.MaNhanVien,
-                        MaDanhMuc_id = id
-                    }).ToList();
-
-                    if (phanQuyens.Any())
-                    {
-                        _db.PhanQuyen.AddRange(phanQuyens);
-                        await _db.SaveChangesAsync();
-                    }
+                    // Rollback transaction if an error occurs
+                    transaction.Rollback();
+                    TempData["ToastMessage"] = "error|Cập nhật nhân viên thất bại.";
+                    return RedirectToAction("Index", "NhanVien");
                 }
-
-                TempData["ToastMessage"] = "success|Cập nhật nhân viên thành công.";
-                return RedirectToAction("Index", "NhanVien");
-            }
-            catch (Exception ex)
-            {
-                TempData["ToastMessage"] = "error|Cập nhật nhân viên thất bại.";
-                return RedirectToAction("Index", "NhanVien");
             }
         }
+
 
 
         public async Task<ActionResult> Xoa(int iMaNhanVien)
