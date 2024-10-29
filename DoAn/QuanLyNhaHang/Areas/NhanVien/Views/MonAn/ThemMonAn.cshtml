@@ -11,7 +11,7 @@
 }
 
 <div class="container">
-    @using (Html.BeginForm("ThemMonAn", "MonAn", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("ThemMonAn", "MonAn", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "MonAn" }))
     {
         <div class="page-title-container">
             <div class="row">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-lg order-1 order-lg-0">
+            <div class="col-12 col-lg order-0 order-lg-0">
                 <h2 class="small-title">Thông tin món ăn</h2>
                 <div id="addressForm" class="tooltip-label-end" novalidate="">
                     <div class="card mb-5">
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Đơn Giá<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="number" name="DonGia" min="1" required>
+                                    <input class="form-control" type="text" id="donGia" name="DonGia" min="1" required>
                                 </div>
                             </div>
                             <div class="row g-3">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-auto order-0 order-lg-1">
+            <div class="col-12 col-lg-auto order-1 order-lg-1">
                 <h2 class="small-title">Chuyển Đổi Đơn vị</h2>
                 <div class="card mb-5 w-100 sw-lg-35">
                     <div class="card-body mb-n5">
@@ -90,22 +90,25 @@
     }
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('donGia').addEventListener('input', function (event) {
-            let inputVal = event.target.value.replace(/,/g, ''); // Xóa dấu phẩy
-            if (!isNaN(inputVal) && inputVal !== '') {
-                event.target.value = formatCurrency(inputVal);
-            }
-        });
+    document.getElementById('donGia').addEventListener('input', function (e) {
+        let value = e.target.value;
 
-        function formatCurrency(value) {
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
+        // Loại bỏ ký tự không phải số
+        value = value.replace(/[^\d]/g, '');
 
-        document.querySelector('form').addEventListener('submit', function (event) {
-            let input = document.getElementById('donGia');
-            input.value = input.value.replace(/,/g, '');
-        });
+        // Định dạng lại với dấu phẩy
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Gán lại giá trị đã format vào input
+        e.target.value = value;
+    });
+
+    // Trước khi gửi form, loại bỏ dấu phẩy khỏi giá trị input
+    document.getElementById('MonAn').addEventListener('submit', function (e) {
+        let input = document.getElementById('donGia');
+
+        // Loại bỏ dấu phẩy trước khi gửi đi
+        input.value = input.value.replace(/[^\d]/g, '');
     });
 </script>
 

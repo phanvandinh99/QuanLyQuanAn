@@ -106,8 +106,8 @@ namespace QuanLyNhaHang.Areas.NhanVien.Controllers
                 TempData["ToastMessage"] = "error|Lỗi khi cập nhật bàn.";
                 return RedirectToAction("DanhSachBan", "Ban");
             }
-
         }
+
         [HttpPost]
         public async Task<ActionResult> CapNhatBan(Ban Model)
         {

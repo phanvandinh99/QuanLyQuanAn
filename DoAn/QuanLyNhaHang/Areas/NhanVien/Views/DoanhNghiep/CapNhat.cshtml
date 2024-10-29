@@ -6,7 +6,7 @@
     Layout = "~/Areas/NhanVien/Views/Shared/_LayoutNhanVien.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("CapNhat", "DoanhNghiep", FormMethod.Post, new { id = "DoanhNghiep", @enctype = "multipart/form-data" }))
 {
     <div class="container">
         <div class="page-title-container">
@@ -67,7 +67,7 @@
                             <div class="row g-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Thành Tiền<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="number" name="TongTien" value="@Model.TongTien" required>
+                                    <input class="form-control" type="text" id="tongTien" name="TongTien" value="@Model.TongTien" required>
                                 </div>
                             </div>
                         </div>
@@ -93,5 +93,27 @@
             document.getElementById('ThoiGianKetThuc').value = '';
         }
     }
+</script>
 
+<script>
+    document.getElementById('tongTien').addEventListener('input', function (e) {
+        let value = e.target.value;
+
+        // Loại bỏ ký tự không phải số
+        value = value.replace(/[^\d]/g, '');
+
+        // Định dạng lại với dấu phẩy
+        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Gán lại giá trị đã format vào input
+        e.target.value = value;
+    });
+
+    // Trước khi gửi form, loại bỏ dấu phẩy khỏi giá trị input
+    document.getElementById('DoanhNghiep').addEventListener('submit', function (e) {
+        let input = document.getElementById('tongTien');
+
+        // Loại bỏ dấu phẩy trước khi gửi đi
+        input.value = input.value.replace(/[^\d]/g, '');
+    });
 </script>

@@ -198,14 +198,14 @@
                                 {
                                     <div class="mb-2">
                                         <label class="text-alternate text-muted mb-1">Phí Vận Chuyển (vnđ)</label>
-                                        <input type="number" min="0" class="form-control mask-currency" value="0" name="txtPhiShip" id="txtPhiShip">
+                                        <input type="text" min="0" class="form-control mask-currency" value="0" name="txtPhiShip" id="txtPhiShip">
                                     </div>
                                 }
 
                                 <!-- Giảm Giá (vnđ) -->
                                 <div class="mb-2">
                                     <label class="text-alternate text-muted mb-1">Giảm Giá (vnđ)</label>
-                                    <input type="number" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGiaVND">
+                                    <input type="text" min="0" class="form-control mask-currency" value="0" name="txtGiamGiaVND" id="txtGiamGiaVND">
                                 </div>
 
                                 <!-- Giảm Giá (%) -->
@@ -461,16 +461,28 @@
     $(document).ready(function () {
         var tongTienGoc = parseFloat($('#TongTienMonAnHidden').val());
 
+        // Format currency for display
+        function formatCurrency(value) {
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Unformat currency (remove commas) for calculation
+        function unformatCurrency(value) {
+            return parseFloat(value.replace(/,/g, '') || 0);
+        }
+
         // Khi nhập giá trị vào trường Giảm Giá VNĐ
         $('#txtGiamGiaVND').on('input', function () {
-            var giamGiaVND = parseFloat($(this).val()) || 0;
+            var giamGiaVND = unformatCurrency($(this).val());
 
             // Kiểm tra nếu giá trị vượt quá tổng tiền gốc
             if (giamGiaVND > tongTienGoc) {
-                $(this).val(tongTienGoc); // Đặt lại giá trị về tổng tiền gốc
+                giamGiaVND = tongTienGoc;
             }
 
-            if ($(this).val() > 0) {
+            $(this).val(giamGiaVND ? formatCurrency(giamGiaVND) : ''); // Hiển thị giá trị đã format
+
+            if (giamGiaVND > 0) {
                 $('#txtGiamGiaPhanTram').prop('disabled', true); // Vô hiệu hóa giảm giá %
             } else {
                 $('#txtGiamGiaPhanTram').prop('disabled', false); // Kích hoạt lại giảm giá %
@@ -485,10 +497,12 @@
 
             // Giới hạn giá trị không được vượt quá 100%
             if (giamGiaPhanTram > 100) {
-                $(this).val(100); // Đặt lại giá trị về 100%
+                giamGiaPhanTram = 100;
             }
 
-            if ($(this).val() > 0) {
+            $(this).val(giamGiaPhanTram); // Hiển thị giá trị không quá 100%
+
+            if (giamGiaPhanTram > 0) {
                 $('#txtGiamGiaVND').prop('disabled', true); // Vô hiệu hóa giảm giá VNĐ
             } else {
                 $('#txtGiamGiaVND').prop('disabled', false); // Kích hoạt lại giảm giá VNĐ
@@ -499,15 +513,17 @@
 
         // Khi nhập giá trị vào trường PhiShip
         $('#txtPhiShip').on('input', function () {
-            var PhiShip = parseFloat($(this).val()) || 0;
+            var PhiShip = unformatCurrency($(this).val());
+
+            $(this).val(PhiShip ? formatCurrency(PhiShip) : ''); // Hiển thị giá trị đã format
 
             tinhTongTien(); // Tính lại tổng tiền
         });
 
         // Hàm tính tổng tiền dựa trên giảm giá và cập nhật trực tiếp
         function tinhTongTien() {
-            var phiShipVND = parseFloat($('#txtPhiShip').val()) || 0;
-            var giamGiaVND = parseFloat($('#txtGiamGiaVND').val()) || 0;
+            var phiShipVND = unformatCurrency($('#txtPhiShip').val());
+            var giamGiaVND = unformatCurrency($('#txtGiamGiaVND').val());
             var giamGiaPhanTram = parseFloat($('#txtGiamGiaPhanTram').val()) || 0;
             var tongTien = tongTienGoc - giamGiaVND - (tongTienGoc * giamGiaPhanTram / 100) + phiShipVND;
 
@@ -517,8 +533,9 @@
             }
 
             // Cập nhật tổng tiền trên giao diện
-            $('#TongTienMonAn').text(tongTien.toLocaleString() + ' vnđ');
+            $('#TongTienMonAn').text(formatCurrency(tongTien) + ' vnđ');
         }
     });
 </script>
+
 
