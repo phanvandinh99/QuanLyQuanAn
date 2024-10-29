@@ -124,15 +124,17 @@
                         <div class="card">
                             <div class="row g-0 sh-16 sh-sm-17">
                                 <div class="col-auto h-100 position-relative">
-                                    <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" alt="@item.TenMonAn" class="card-img card-img-horizontal h-100 sw-11 sw-sm-16 sw-lg-20">
+                                    <img src="~/Assets/img/AnhMonAn/@item.HinhAnh" alt="@item.TenMonAn" class="card-img card-img-horizontal h-100 sw-11 sw-sm-16 sw-lg-20 d-none d-sm-block">
                                 </div>
                                 <div class="col p-0">
                                     <div class="card-body d-flex align-items-center h-100 py-3">
                                         <div class="mb-0 h6">
                                             @using (Html.BeginForm("Order", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @iMaMonAn = item.MaMonAn, @strURL = Request.Url.ToString() }))
                                             {
-                                                <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn" target="_blank">
-                                                    <div class="clamp-line sh-3 lh-1-5 TenMonAn" data-line="1" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1;">@item.TenMonAn</div>
+                                                <a href="/NhanVien/MonAn/XemChiTiet?iMaMonAn=@item.MaMonAn" target="_blank" title="adsd ádas">
+                                                    <div class="clamp-line sh-3 lh-1-5 TenMonAn" data-line="1" style="overflow: hidden; text-overflow: ellipsis; -webkit-box-orient: vertical; display: -webkit-box; -webkit-line-clamp: 1;">
+                                                        @item.TenMonAn
+                                                    </div>
                                                 </a>
                                                 <div class="card-text mb-2 GiaBan">
                                                     <div> @string.Format("{0:0,0}", item.DonGia) vnđ</div>
@@ -347,7 +349,7 @@
                         <div class="card mb-2">
                             <div class="row g-0 sh-18 sh-md-14">
                                 <div class="col-auto">
-                                    <img src="~/Assets/img/AnhMonAn/@item.MonAn.HinhAnh" style="height:112px" class="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15" alt="@item.MonAn.TenMonAn">
+                                    <img src="~/Assets/img/AnhMonAn/@item.MonAn.HinhAnh" style="height:112px" class="card-img card-img-horizontal h-100 sw-9 sw-sm-13 sw-md-15 d-none d-md-block" alt="@item.MonAn.TenMonAn">
                                 </div>
                                 <div class="col position-relative h-100">
                                     <div class="card-body">
@@ -366,13 +368,19 @@
                                             <div class="col-6 col-md-3 pe-0 d-flex align-items-center">
                                                 @using (Html.BeginForm("CapNhatSoLuong", "HoaDon", new { @iMaHoaDon = Model.MaHoaDon, @iMaMonAn = item.MaMonAn_id, @strURL = Request.Url.ToString() }))
                                                 {
-                                                    <div class="input-group" data-trigger="spinner">
-                                                        <input value="@item.SoLuongMua" type="number" min="0" style="width: 50px; border: 1px solid #ed6789; text-align: center" name="txtSoLuongMua" />
-                                                        &nbsp;
-                                                        <input class="btn btn-primary" type="submit" value="cập nhật">
+                                                    <div class="row g-1">
+                                                        <div class="col-4 col-md-4 pe-0">
+                                                            <!-- Thay đổi kích thước cột cho input -->
+                                                            <input value="@item.SoLuongMua" type="number" min="0" class="form-control" name="txtSoLuongMua" style="border: 1px solid #ed6789; text-align: center;" />
+                                                        </div>
+                                                        <div class="col-8 col-md-8 ps-0">
+                                                            <!-- Thay đổi kích thước cột cho button -->
+                                                            <button class="btn btn-primary w-100" type="submit">Cập nhật</button>
+                                                        </div>
                                                     </div>
                                                 }
                                             </div>
+
                                             <div class="col-6 col-md-3 d-flex justify-content-end justify-content-md-start align-items-center">
                                                 <div class="h6 mb-0">@string.Format("{0:0,0}", item.ThanhTien) vnđ</div>
                                             </div>
@@ -387,7 +395,6 @@
                                 </div>
                             </div>
                         </div>
-
                     }
                 }
                 else

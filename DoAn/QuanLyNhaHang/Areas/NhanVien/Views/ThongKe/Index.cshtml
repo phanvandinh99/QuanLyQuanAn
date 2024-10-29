@@ -31,12 +31,12 @@
     @using (Html.BeginForm())
     {
         <div class="row mb-2">
-            <div class="col-sm-12 col-lg-6 mb-1">
-                <div class="d-flex align-items-center shadow bg-foreground p-2 rounded">
+            <div class="col-12 col-lg-6 mb-1">
+                <div class="d-flex flex-column flex-md-row align-items-center shadow bg-foreground p-2 rounded">
                     <!-- Input Thời Gian Bắt Đầu -->
-                    <input type="date" id="startOfMonth" name="startOfMonth" class="form-control me-2" placeholder="Thời Gian Bắt Đầu">
+                    <input type="date" id="startOfMonth" name="startOfMonth" class="form-control me-2 mb-2 mb-md-0" placeholder="Thời Gian Bắt Đầu">
                     <!-- Input Thời Gian Kết Thúc -->
-                    <input type="date" id="endOfMonth" name="endOfMonth" class="form-control me-2" placeholder="Thời Gian Kết Thúc">
+                    <input type="date" id="endOfMonth" name="endOfMonth" class="form-control me-2 mb-2 mb-md-0" placeholder="Thời Gian Kết Thúc">
                     <!-- Nút Tìm Kiếm -->
                     <button type="submit" class="btn btn-outline-primary btn-icon btn-icon-start">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="cs-icon cs-icon-plus">
@@ -47,6 +47,7 @@
                 </div>
             </div>
         </div>
+
     }
 
     <div class="row mb-4">
@@ -99,7 +100,7 @@
                                     <div class="ps-5 pe-4 h-100">
                                         <div class="row g-0 h-100 align-content-center">
                                             <a href="#" class="col-12 col-lg-2 d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center TenKhachHang">
-                                                @item.TenKhachHang
+                                                @(!string.IsNullOrEmpty(item.TenKhachHang) ? item.TenKhachHang : "Khách vãng lai")
                                                 <div class="text-small text-muted text-truncate position MaHoaDon">#@item.MaHoaDon - @item.SDTKhachHang</div>
                                             </a>
                                             <div class="col-12 col-lg-2 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">
