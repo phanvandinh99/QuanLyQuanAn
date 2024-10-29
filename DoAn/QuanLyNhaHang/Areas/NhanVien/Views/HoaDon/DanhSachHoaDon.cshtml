@@ -69,7 +69,7 @@
                                     <div class="ps-5 pe-4 h-100">
                                         <div class="row g-0 h-100 align-content-center">
                                             <a href="#" class="col-12 col-lg-2 d-flex flex-column mb-lg-0 mb-3 pe-3 d-flex order-1 h-lg-100 justify-content-center TenKhachHang">
-                                                @item.TenKhachHang
+                                                @(!string.IsNullOrEmpty(item.TenKhachHang) ? item.TenKhachHang : "Khách vãng lai")
                                                 <div class="text-small text-muted text-truncate position MaHoaDon">#@item.MaHoaDon - @item.SDTKhachHang</div>
                                             </a>
                                             <div class="col-12 col-lg-2 d-flex flex-column pe-1 mb-2 mb-lg-0 justify-content-center order-3">

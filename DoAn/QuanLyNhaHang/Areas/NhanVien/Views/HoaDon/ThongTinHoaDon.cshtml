@@ -11,6 +11,29 @@
     var listMonAnKhachChon = ViewBag.MonAnKhachChon as IEnumerable<ChiTietHoaDon> ?? Enumerable.Empty<ChiTietHoaDon>();
     var listBan = ViewBag.Ban as IEnumerable<Ban> ?? Enumerable.Empty<Ban>();
 }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmSubmit() {
+        // Prevent default form submission
+        event.preventDefault();
+
+        // Use SweetAlert2 for the confirmation prompt
+        Swal.fire({
+            title: "Bạn muốn thanh toán hóa đơn này không?",
+            showCancelButton: true,
+            confirmButtonText: "Có",
+            cancelButtonText: "Không",
+        }).then((result) => {
+             if (result.isConfirmed) {
+                // Call the ThanhToan action in HoaDon controller directly
+                document.forms[0].action = '@Url.Action("ThanhToan", "HoaDon", new { iMaHoaDon = Model.MaHoaDon })';
+                document.forms[0].submit();
+            }
+        });
+    }
+</script>
+
+
 <!-- #endregion -->
 <div class="container" id="DanhSachMonAn">
     <div class="page-title-container">

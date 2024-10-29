@@ -110,7 +110,9 @@
                                             <div class="card-body pt-0 pb-0 h-100">
                                                 <div class="row g-0 h-100 align-content-center">
                                                     <div class="col-10 col-md-4 d-flex align-items-center mb-3 mb-md-0 h-md-100">
-                                                        <a href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@item.MaHoaDon" class="body-link stretched-link">@item.TenKhachHang</a>
+                                                        <a href="/NhanVien/HoaDon/ChiTietHoaDon?iMaHoaDon=@item.MaHoaDon" class="body-link stretched-link">
+                                                            @(!string.IsNullOrEmpty(item.TenKhachHang) ? item.TenKhachHang : "Khách vãng lai")
+                                                        </a>
                                                     </div>
                                                     <div class="col-2 col-md-3 d-flex align-items-center text-muted mb-1 mb-md-0 justify-content-end justify-content-md-start">
                                                         @if (item.MaBan_id == 1)
@@ -128,7 +130,7 @@
 
                                                         @if (item.TrangThai == 0)
                                                         {
-                                                            <span>@string.Format("{0:0,0}", item.TongTien) đ</span>
+                                                            <span>@string.Format("{0:0,0}", item.TongTien) vnđ</span>
                                                         }
                                                         else
                                                         {
